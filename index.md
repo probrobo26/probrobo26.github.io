@@ -21,7 +21,7 @@ feature_row_robot_localization:
     alt: "The Neato robot in the simulated Guantlet world with a small number of laser scans collected to localize."
     excerpt: "Students will learn the fundamentals of localization and mapping from first principles.
 
-    ### Core Activities
+    ### Core Activities\n
     * Filtering, Kalman Filtering, and Localization\n
     * SLAM (EKF-SLAM, Pose-Graph SLAM) and Optimization\n
     * Deep Dive on a topic of choice\n"
@@ -31,7 +31,7 @@ feature_row_robot_planning:
     alt: "A series of 3 images, moving clockwise starting on the top left, two Neatos coordinating paths around one another, an RViz diagram for a Neato moving quickly through unknown space, and a 6DOF manipulator playing chess."
     excerpt: "Students will learn about planning under uncertainty, covering decision processes, belief representations, and policy search.
 
-    ### Core Activities
+    ### Core Activities\n
     * Markov Devision Processes, Value Iteration, and Policy Iteration\n
     * Partially-Observable Markov Decision Processes\n
     * Belief Representations\n
@@ -43,7 +43,7 @@ feature_row_robot_implications:
     alt: "A collage of robots including AUV Sentry, Asimo, Waymo car, a coffee maker, factory assembly arms, and a Boston Dynamics Spot."
     excerpt: "By virtue of being embodied, robots can literally change the world. We will develop a definition for intelligent robots, and discuss implications in current and future society.
 
-    ### Core Activities
+    ### Core Activities\n
     * Discussions on Theory, Practice, and Implications\n
     * What, Why, and How of Embodied Intelligence\n
     * Review of modern markets for and research on intelligent robots\n"
