@@ -24,7 +24,7 @@ feature_row_robot_localization:
     ### Core Activities
     * Filtering, Kalman Filtering, and Localization\n
     * SLAM (EKF-SLAM, Pose-Graph SLAM) and Optimization\n
-    * Deep Dive on a topic of choice"
+    * Deep Dive on a topic of choice\n"
 
 feature_row_robot_planning:
   - image_path: website_graphics/final_projects_collage_2024.png
@@ -35,8 +35,8 @@ feature_row_robot_planning:
     * Markov Devision Processes, Value Iteration, and Policy Iteration\n
     * Partially-Observable Markov Decision Processes\n
     * Belief Representations\n
-    * Bounded, Heuristic, and Sampling-Based Search\n"
-    * Deep Dive on a topic of choice
+    * Bounded, Heuristic, and Sampling-Based Search\n
+    * Deep Dive on a topic of choice\n"
 
 feature_row_robot_implications:
   - image_path: website_graphics/real_robots.png
@@ -46,11 +46,12 @@ feature_row_robot_implications:
     ### Core Activities
     * Discussions on Theory, Practice, and Implications\n
     * What, Why, and How of Embodied Intelligence\n
-    * Review of modern markets for and research on intelligent robots"
+    * Review of modern markets for and research on intelligent robots\n"
 
 ---
 
-The Olin College course "Probabilistic Robotics" (ProbRobo) serves as an advanced algorithms and computational course that explores the intersection of probability, statistics, and robotics for perception and decision-making. 
+This class is all about the intersection of robotics and probabilistic reasoning. Robots, by virtue of being embodied, interact with the world -- and as it turns out, the world is an incredibly complex and uncertain place. For robots to perform what we might consider "intelligent" or complex tasks, such as navigating previously unseen terrain in search of a nebulous goal (e.g., planetary exploration, search and rescue) or collaborating with people in dynamic environments (e.g., factory floors, households), those robots need a way of representing the world, and leveraging that representation to plan out actions and action sequences. This is the essence of _Probabilistic Robotics_: the fundamentals needed to create and use representations (abstractions) of the world for a robot. 
+
 
 <!-- {% include feature_row %}-->
 
@@ -109,5 +110,4 @@ Note: Subject to change as the semester unfolds!
 * [Day 25: A Conceptual Roadmap for Probabilistic Robotics](in-class/day25)
 * [Day 26: Final Class: Summary, Implications, and Reflection](in-class/day26)
 
-## Conclusion and Learning More
-ProbRobo serves as a fun, hands-on introduction to key ideas in robotics algorithms and toolsets.  Despite the fact that the course is successful at Olin, we realize that everyone's institutional context is different. To connect with folks at Olin College to learn more about this module or determine how you might build off of this at your own institution, e-mail <a href="mailto:oepp@olin.edu">Olin's External Programs and Partnerships</a> to start the conversation.
+
