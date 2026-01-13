@@ -53,16 +53,24 @@ Callback to ModSim: probability and statistics are fields related to abstracting
 **Event**: a specific outcome of an experiment.
 Example: Take our door-opening robot again; an event would be "door closed" following an attempt at door-opening.
 
-**Partition**: a way of dividing the sample space (and/or event). Partitions express subsets of a sampling space. Example: Imagine our door-opening robot once again. We might partition the sampling space into "closed" and "open" subsets, with the closed partition including the "door closed" event, and the open partition including the "door open" and "door ajar" events.
+**Partition**: a way of dividing the sample space (and/or event). Partitions express subsets of a sampling space. Importantly, partitions are typically defined to be non-overlapping. Example: Imagine our door-opening robot once again. We might partition the sampling space into "closed" and "open" subsets, with the closed partition including the "door closed" event, and the open partition including the "door open" and "door ajar" events. 
 
-In a classical probabilty class, you might learn about these topics with respect to a population, since this is easy to conceptualize. Let's try that here:
+In a classical probability class, you might learn about these topics with respect to a population, since this is easy to conceptualize. Let's try that here:
 
 * **Exercise**: Imagine the whole Olin student population; draw partitions representing class years. Then represent the event "taking ProbRobo this semester."
-* **Exercise**: Imagine the whole Olin student population; draw partitions representing involvement in extracurriculars. Then represent the event "will study away next fall."
 
-Of course, we're not a normal class, so let's think about a robotics scenario and how we might define a sampling space, partition, and event:
+Of course, we're not a classical probability class, so let's think about a robotics scenario and how we might define a sampling space, partition, and event:
 
 * **Exercise**: Imagine a robot manipulator affixed to a table with 3 blocks, 2 apples, and a bin in front of it. Assume it knows that these objects exist in the world, but not exactly where they are. Assume the robot is equipped with a camera and a machine vision algorithm that can classify objects and roughly determine their pose in the world (but that is a noisy measurement). Further, assume that the robot is equipped with a sufficient controller to move the arm to intended locations, but it is imperfect. The robot is tasked with picking up an object and placing it in the bin. For this task, what are some possible sampling spaces we could be operating in? Pick one of those sampling spaces, and define a useful partition over that space (you may argue that there is not a useful partition for the sampling space you chose, but it must be justified). Where might an event in your sampling space appear amongst your partitions?  
+
+Some further properties and aspects on notation:
+
+* A sample space in probability theory may be referred to as $$S$$, $$\Omega$$, or $$U$$ (the latter representing the universal set). Importantly for this class, the sample space should be represented by a capital letter, and should always be defined as the variable representing the sample space when expressing your formalisms.
+* An event is a sample of a sample space, such that $$E \in \Omega$$. All events contained in a sample space must be _mutually exclusive_ -- that is, an event must be distinct.
+* Partitions are subsets of the sampling space, such that $$A \subset \Omega$$. They have the following properties:
+* * $$A_i \neq 0 \forall i$$
+* * They are pairwise disjoint (mutually exclusive)
+* * All partitions together form the sampling space, $$\Omega$$
 
 
 ### Set Theory
