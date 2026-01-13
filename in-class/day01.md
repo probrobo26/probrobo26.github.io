@@ -86,11 +86,15 @@ In _set theory_ we can treat a set as a variable, and perform operations on the 
 * Complement: $$\neg A = \Omega - A$$ where $$\Omega$$ expresses all elements in a sampling space at the exclusion of set $$A$$.
 * Mutual Exclusion: $$A \cap B = \{\mathbf{0}\}$$. This is when two sets have no intersecting elements. 
 
-[Insert illustrative graphic for the operations here]
+<p align="center">
+<img alt="A diagram illustrating set operations." src="../website_graphics/set_operations.png"/>
+</p>
 
 As we've basically already seen, we can think of our sample space as a set $$\Omega$$, and elements within this set are events. Partitions are sub-sets of our sample space. 
 
-[Insert illustrative graphic for sampling spaces, partitions, and events here]
+<p align="center">
+<img alt="A diagram illustrating partitions in a sample space." src="../website_graphics/set_partitions.png"/>
+</p>
 
 **Set Functions** In addition to the standard operators, functions can be applied on sets as well. _Set functions_ follow specific rules, the understanding of which could be several lectures in itself, but suffice to say the following: set functions yield a real-valued number, representing a _measure_, over a set. In math-speak, a measure is a notional attribute, such as volume, area, magnitude, mass, or (spoilers) probability. So a set function is a way of "measuring" a set with respect to an attribute. You might see set functions noted as $$\mu(E)$$ in textbooks or online resources.
 
