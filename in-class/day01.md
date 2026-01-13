@@ -72,11 +72,11 @@ If we're going to be using this notation to describe the world, we would like it
 * Mutual Exclusion
 * Equal Set
 
-Another aspect that sets support is the notion of applying functions over a set. For instance, if I express $f(\Omega)$ then I am performing function $f(\cdot)$ over the elements that compose the set $\Omega$. So, if I define $\Omega = \{0, 1, 2, 3\}$ and set $f(x) = x^2$, then $f(\Omega) = \{0, 1, 4, 9\}$. Do note that the operation of the function and the elements inside of the set must be compatible (I could not square a list of strings, for instance). 
+Another aspect that sets support is the notion of applying functions over a set. For instance, if I express $$f(\Omega)$$ then I am performing function $$f(\cdot)$$ over the elements that compose the set $\Omega$. So, if I define $$\Omega = \{0, 1, 2, 3\}$$ and set $$f(x) = x^2$$, then $$f(\Omega) = \{0, 1, 4, 9\}$$. Do note that the operation of the function and the elements inside of the set must be compatible (I could not square a list of strings, for instance). 
 
 
 ### Defining Probability
-Sets are statements about the world; how do we evaluate their truth or their ability to come to pass? Enter probability. Formally, probability is a set function whose outcome is a numerical indicator of how likely (probable) the input set of events is to occur.Notationally, we might denote taking a probability as $\mathbb{P}(\Omega)$, which can be read as "the probability of events in $\Omega$". 
+Sets are statements about the world; how do we evaluate their truth or their ability to come to pass? Enter probability. Formally, probability is a set function whose outcome is a numerical indicator of how likely (probable) the input set of events is to occur.Notationally, we might denote taking a probability as $$\mathbb{P}(\Omega)$$, which can be read as "the probability of events in $$\Omega$$". 
 
 You can find classic examples for understanding probability in discrete mathematics. For instance: what is the probability of a fair die rolling a 5? 
 
@@ -89,11 +89,11 @@ We're going to get there, but first, we need to start to set some ground rules a
 ### Probability Axioms
 For probability to provide a meaningful numeric measurement about how probable a given event is to occur, the function must be bounded. There are three common axioms used to define the valid space for probabilities (initially developed by Kolmogorov, with some modern adjustments):
 
-Axiom 1 (Non-Negativity): $\mathbb{P}(A) \geq 0 \forall A \subset \Omega$
+Axiom 1 (Non-Negativity): $$\mathbb{P}(A) \geq 0 \forall A \subset \Omega$$
 
-Axiom 2 (Normalizaton): $\mathbb{P}(\Omega) = 1$ 
+Axiom 2 (Normalizaton): $$\mathbb{P}(\Omega) = 1$$
 
-Axiom 3 (Countable Additivity): $\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) \text{ if } A \cap B = 0$ 
+Axiom 3 (Countable Additivity): $$\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) \text{ if } A \cap B = 0$$
 
 With these axioms, we can make the following observations:
 
