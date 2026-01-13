@@ -74,21 +74,23 @@ Some further properties and aspects on notation:
 
 
 ### Set Theory
-Now we have a way of expressing some environment/robot, what can we _do_ with this formalism (asked another way, what does expressing the world like this afford us)? In this case, at least one useful thing is unlocked for us: set theory (callback to Discrete).
+Now we have a way of expressing some environment/robot, what can we _do_ with this formalism (asked another way, what does expressing the world like this afford us)? In this case, at least one useful thing is unlocked for us: set theory (for those of you who have taken Discrete this might be a review).
 
-#### A Set
-Definition:
-Example:
+**A Set** is simply a well-defined collection of elements (called members). Examples: $$\{0, 1, 2, 3\}$$ is a finite set of integers, $$\{hello, greetings, howdy\}$$ is a finite set of strings (that semantically refer to salutations). Sets are the mathematical generalization for lists or tuples; they are more generic than vectors in that they can encode pieces of data that are not strictly numeric.
 
-#### Set Operations (for ProbStats)
-If we're going to be using this notation to describe the world, we would like it to be able to express some of the complexities about that world -- that's where the notion of set operations comes into play. Some common ones we might encounter include:
+In _set theory_ we can treat a set as a variable, and perform operations on the set itself, and elements within the set. Operations can be logical or algebraic in nature. Indeed, this is good news, because if we're going to be using this notation to describe the world, we would like it to be able to express some of the complexities about that world -- that's where operations come in. Some common ones we might encounter include:
 
-* Union
-* Intersection
-* Mutual Exclusion
-* Equal Set
+* Union: $$A \cup B$$ expresses elements that are in both $$A$$ and $$B$$ sets. Example: $$\{0, 1, 2\} \cup \{2, 3, 4\} = \{0, 1, 2, 3, 4\}$$. Notice that elements are not duplicated if shared.
+* Intersection: $$A \cap B$$ expresses elements that are shared between both $$A$$ and $$B$$ sets. Example: $$\{0, 1, 2\} \cap \{2, 3, 4\} = \{2\}$$. In the event of no intersection, the result is the _null_ set (an empty set).
+* Difference:
+* Complement: 
+* Mutual Exclusion: This is when two sets have no intersecting elements. 
 
-Another aspect that sets support is the notion of applying functions over a set. For instance, if I express $$f(\Omega)$$ then I am performing function $$f(\cdot)$$ over the elements that compose the set $\Omega$. So, if I define $$\Omega = \{0, 1, 2, 3\}$$ and set $$f(x) = x^2$$, then $$f(\Omega) = \{0, 1, 4, 9\}$$. Do note that the operation of the function and the elements inside of the set must be compatible (I could not square a list of strings, for instance). 
+As we've basically already seen, we can think of our sample space as a set $$\Omega$$, and elements within this set are events. Partitions are sub-sets of our sample space. 
+
+
+
+**Functions on Sets** Another aspect that sets support is the notion of applying functions over a set. For instance, if I express $$f(\Omega)$$ then I am performing function $$f(\cdot)$$ over the elements that compose the set $\Omega$. So, if I define $$\Omega = \{0, 1, 2, 3\}$$ and set $$f(x) = x^2$$, then $$f(\Omega) = \{0, 1, 4, 9\}$$. Do note that the operation of the function and the elements inside of the set must be compatible (I could not square a list of strings, for instance). 
 
 
 ### Defining Probability
