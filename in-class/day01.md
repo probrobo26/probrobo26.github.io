@@ -82,36 +82,53 @@ In _set theory_ we can treat a set as a variable, and perform operations on the 
 
 * Union: $$A \cup B$$ expresses elements that are in both $$A$$ and $$B$$ sets. Example: $$\{0, 1, 2\} \cup \{2, 3, 4\} = \{0, 1, 2, 3, 4\}$$. Notice that elements are not duplicated if shared.
 * Intersection: $$A \cap B$$ expresses elements that are shared between both $$A$$ and $$B$$ sets. Example: $$\{0, 1, 2\} \cap \{2, 3, 4\} = \{2\}$$. In the event of no intersection, the result is the _null_ set (an empty set).
-* Difference:
-* Complement: 
-* Mutual Exclusion: This is when two sets have no intersecting elements. 
+* Difference: $$A - B$$ expresses elements that are _only_ in $$A$$. Example: Example: $$\{0, 1, 2\} - \{2, 3, 4\} = \{0, 1\}$$.
+* Complement: $$\neg A = \Omega - A$$ where $$\Omega$$ expresses all elements in a sampling space at the exclusion of set $$A$$.
+* Mutual Exclusion: $$A \cap B = \{\mathbf{0}\}$$. This is when two sets have no intersecting elements. 
+
+[Insert illustrative graphic for the operations here]
 
 As we've basically already seen, we can think of our sample space as a set $$\Omega$$, and elements within this set are events. Partitions are sub-sets of our sample space. 
 
+[Insert illustrative graphic for sampling spaces, partitions, and events here]
 
-
-**Functions on Sets** Another aspect that sets support is the notion of applying functions over a set. For instance, if I express $$f(\Omega)$$ then I am performing function $$f(\cdot)$$ over the elements that compose the set $\Omega$. So, if I define $$\Omega = \{0, 1, 2, 3\}$$ and set $$f(x) = x^2$$, then $$f(\Omega) = \{0, 1, 4, 9\}$$. Do note that the operation of the function and the elements inside of the set must be compatible (I could not square a list of strings, for instance). 
+**Set Functions** In addition to the standard operators, functions can be applied on sets as well. _Set functions_ follow specific rules, the understanding of which could be several lectures in itself, but suffice to say the following: set functions yield a real-valued number, representing a _measure_, over a set. In math-speak, a measure is a notional attribute, such as volume, area, magnitude, mass, or (spoilers) probability. So a set function is a way of "measuring" a set with respect to an attribute. You might see set functions noted as $$\mu(E)$$ in textbooks or online resources.
 
 
 ### Defining Probability
-Sets are statements about the world; how do we evaluate their truth or their ability to come to pass? Enter probability. Formally, probability is a set function whose outcome is a numerical indicator of how likely (probable) the input set of events is to occur.Notationally, we might denote taking a probability as $$\mathbb{P}(\Omega)$$, which can be read as "the probability of events in $$\Omega$$". 
+Sets are statements about the world; how do we evaluate their truth or their ability to come to pass? Enter probability. Formally, probability is a set function whose outcome is a numerical indicator of how likely (probable) the input set of events is to occur. We will denote taking a probability as $$\mathcal{P}(\Omega)$$, which can be read as "the probability of events in $$\Omega$$". 
 
-You can find classic examples for understanding probability in discrete mathematics. For instance: what is the probability of a fair die rolling a 5? 
+You have almost certainly encountered probability for discrete events before. For instance, how would you express the probability of a fair die rolling a 5? 
 
-By treating probability as a function, we can express more complicated ideas mathematically: what is the probability that on 10 rolls of a fair die, the outcome is 5 every time? What is the probability that a fair die rolls a 6 and a fair coin flip lands on tails? 
+* Sampling Space: $$\Omega = \{1, 2, 3, 4, 5, 6\}$$ representing the space of all valid rolls of a die
+* Event: $$E=5$$ representing the outcome of rolling a five
+* Probability: $$\mathcal{P}(E) = 1/6$$ representing that there is a 1 in 6 chance of rolling a 5 on a fair die.
 
-But of course, we're ultimately interested in expressing very, very complicated ideas in the language of probability: what is the probability that there is a deadend around this corner of a building? What is the probability that this is the right place to grab an object to successfully lift it off the table? 
+By treating probability as a function, we can express more complicated ideas mathematically: what is the probability that on 10 rolls of a fair die, the outcome is 5 every time? What is the probability that a fair die rolls a 6 and a fair coin flip at the same time lands on tails? 
+
+To do this, it is useful to keep in mind the following rules:
+
+* Probability of independent events: if $$A \cap B = \{\mathbf{0}\}$$ and these events can happen at the same time, then $$\mathcal{P}(A \cap B) = \mathcal{P}(A)\mathcal{P}(B)$$. 
+* Probability of complements: $$\mathcal{P}(A) = 1-\mathcal{P}(\neg A)$$
+* Probability of mutually exclusive events: if $$A \cap B = \{\mathbf{0}\}$$ and these events cannot happen at the same time, then $$\mathcal{P}(A \cap B) = 0$$ and $$\mathcal{P}(A \cup B) = \mathcal{P}(A) + \mathcal{P}(B)$$.
+* Probability of not (necessarily) mutually exclusive events: $$\mathcal{P}(A \cup B) = \mathcal{P}(A) + \mathcal{P}(B) - \mathcal{P}(A \cap B)$$ 
+
+As an exercise in the day activity you'll be asked to examine these claims more closely. 
+
+* **Exercise**: Answer those seemingly rhetorical questions above (i.e., what is the probability that on 10 rolls of a fair die, the outcome is 5 every time? What is the probability that a fair die rolls a 6 and a fair coin flip at the same time lands on tails?). What rules are you using, and why? What do you notice about the outcomes? 
+
+Of course, we're ultimately interested in expressing very, very complicated ideas in the language of probability: what is the probability that there is a dead-end around this corner of a building? What is the probability that this is the right place to grab an object to successfully lift it off the table? 
 
 We're going to get there, but first, we need to start to set some ground rules about how probabilities work. Cue the _axioms of probability_.
 
 ### Probability Axioms
-For probability to provide a meaningful numeric measurement about how probable a given event is to occur, the function must be bounded. There are three common axioms used to define the valid space for probabilities (initially developed by Kolmogorov, with some modern interpretation of the third):
+For probability to provide a meaningful numeric measurement about how probable a given event is to occur, the function must be bounded and characterized. There are three common axioms used to define the valid space for probabilities (initially developed by Andrey Kolmogorov in the 1930s, with some modern interpretation of the third):
 
-Axiom 1 (Non-Negativity): $$\mathbb{P}(A) \geq 0 \forall A \subset \Omega$$
+**Axiom 1 (Non-Negativity)**: $$\mathcal{P}(A) \geq 0 \forall A \subset \Omega$$
 
-Axiom 2 (Normalizaton): $$\mathbb{P}(\Omega) = 1$$
+**Axiom 2 (Normalizaton)**: $$\mathbb{P}(\Omega) = 1$$
 
-Axiom 3 (Countable Additivity): $$\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) \text{ if } A \cap B = 0$$
+**Axiom 3 (Countable Additivity)**: $$\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) \text{ if } A \cap B = 0$$
 
 With these axioms, we can make the following observations:
 
@@ -119,18 +136,28 @@ With these axioms, we can make the following observations:
 * In a given sampling space, the probability of discrete events needs to sum to one. This also implies that events have reciprocal events to balance them (the probability of "A" and the probability of "not A" must sum to 1).
 * The probability of the null (or empty) set is 0; it is impossible that nothing occurs. 
 
-**Why this Matters** So, what does this mean for us? Well, we can rely on probability to be a _measure_ (this is a formal mathematical idea; a measure is...) which means that wherever we can define our sampling and event spaces, our probability will be meaningful. The upshot of this: as a robot, we can use probabilities to help us make decisions about actions to take or places to go. Probabilities are _informative_ (another formal mathematical idea related to information theory...we'll come back to this later in the class. For now, assume the colloquial definition holds), and thus can allow us to distinguish between all the options laid out in front of us for how the world might work or how successful our interactions with the world might be.
-
 ### Wait...what about Statistics?
 We've talked a lot about probability, but what about this whole statistics thing? 
 
+Statistics is the science of collecting, organizing, analyzing, interpreting, and presenting of data. As the description implies, statistics is a far-ranging field. Where statistics and probability intersect is in the analysis and interpretation phases. Often, our data is imperfect in some way -- on a robot, a sensor is never noiseless, for instance. If we were to use the data directly, without accounting for the fact that there is noise, we might draw misleading or biased conclusions. We can use _probabilistic models_ of the behavior of our sensors to account for this, and _infer_ the answer to our particular queries.
+
+For instance, say we're looking at wheel encoder data to guess how far the robot has moved. If we just naively aggregate these measurements, without considering noise, we will have a potentially large over-estimate of the distance the robot has travelled. Using a model of our noisy wheel encoder measurements to guess how much each measurement was corrupted, we can estimate the true distance the robot traveled under perfect-sensing conditions.
+
+We'll be talking about this a lot more in coming classes -- stay tuned!
+
+### Today's "So What"
+So, what does the fact that a probability is a set function with certain properties mean for us? 
+
+Well, we can rely on probability to be a _measure_ over events in a sampling space; which means that wherever we can define our sampling and event spaces, our probability will be meaningful. The upshot of this: **as a robot, we can use probabilities to help us make decisions about actions to take or places to go; probabilities are _informative_, and can allow us to distinguish between all the options laid out in front of us for how the world might work or how successful our interactions with the world might be**.
+
+
 ### Going Beyond
 To learn more about the topics that we discussed today, you are invited to use our class resources. The following books and chapters are applicable:
-* A (Chap A)
-* B (Chap B)
+* Chapter 1 of _Probabilistic Robotics_ by Thrun, Burgard, and Fox for motivation of prob-stats use in robotics
+* Chapter 13 of _Principles of Artificial Intelligence_ by Russell and Norvig for a treatment of probability with respect to intelligent systems.
 
 ## Day Activity
-For today's activity, we'll be practicing with and exploring the probstats axioms we just discussed. Please submit a typeset response to all questions provided here. While everyone will turn-in an individual assignment, collaboration is encouraged! Please note down who you worked with during this assignment to practice appropriate attribution and acknowledgement.
+For today's activity, we'll be practicing with and exploring the concepts we just discussed. Please submit a neatly handwritten response (please scan it!) to all questions provided here. While everyone will turn-in an individual assignment, collaboration is encouraged! Please note down who you worked with during this assignment to practice appropriate attribution and acknowledgement.
 
 ### Problem 1
 Practice with identifying state spaces, events, partitions for a given scenario. 
@@ -139,18 +166,19 @@ Practice with identifying state spaces, events, partitions for a given scenario.
 Practice with set theory.
 
 ### Problem 3
-Practice with probability axioms.
+Practice with probability rules.
 
 ### Problem 4
-Practice setting probabilities from word problems (set-up for the robot door-opening scenario)
+Practice with probability axioms.
 
 ### Problem 5
-Practice with probability axioms.
+Practice setting probabilities from word problems (set-up for the robot door-opening scenario)
 
 ### Problem 6
 Identifying independent and conditional variables; a preview for what's to come.
 
 ### Reflection / Looking Ahead / Implications
+As we get further along in our studies, we'll start to refer to probability as a "belief" and events as "propositions" about the world...
 
 
 
