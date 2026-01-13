@@ -24,6 +24,6 @@ toc_data:
 ## Simulators in Robotics
 
 ## Axioms Continued
-* Independence
+* Independence and Conditioning
 * Laws of Total Probability 
 * Distributions and Random Variables
