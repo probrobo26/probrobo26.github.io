@@ -55,10 +55,6 @@ This class is all about the intersection of robotics and probabilistic reasoning
 
 <!-- {% include feature_row %}-->
 
-## <a name="robot-details"/> Environment Details and Documentation
-
-{% include feature_row id="feature_row_setup" type="left" %}
-
 ## <a name="module-details"/> Robot Localization and Mapping
 
 {% include feature_row id="feature_row_robot_localization" type="left" %}
@@ -77,7 +73,7 @@ Note: see [Site-wide TOC for an easy to navigate outline of each day's activitie
 Note: Subject to change as the semester unfolds!
 
 ### A Primer On Probability and Bayesian Estimation
-* [Day 1: Welcome! And Statistical Axioms](in-class/day01)
+* [Day 1: Welcome! And Probability Axioms](in-class/day01)
 * [Day 2: Axioms Continued](in-class/day02)
 * [Day 3: An Introduction to Bayesian Estimation](in-class/day03)
 * [Day 4: Bayesian Estimation, with Noise and Covariance](in-class/day04)

@@ -44,6 +44,17 @@ For instance, imagine a robot moving around a building. It is equipped with an i
 
 Probability and statistics work very closely together in the field of robotics, especially as tasks for robots becoming increasingly complex compared to the sensing information a robot might have available to it to accomplish that tasks. For instance, let's take that same robot from earlier and give it a camera. We ask the robot to navigate to the mailroom on Olin's campus. Given IMU and visual information (pictures) alone, how does the robot conceptualize what a "mailroom" is? How does it plan a trajectory through the space it is in, given that it's never mapped the campus before? How does it know when it is on the right track? These are the types of questions we will explore through the lens of probstats in this class.
 
+### The State-Action-Sense Framework for Intelligent Robots
+When thinking about "smart" or "intelligent" robots and the sensory-motor loop, we will often invoke the idea of *states, actions, and perception (sensing)* to describe different conceptual features of how a robot "thinks" about the world and itself within that world.
+
+**State** describes the state of the world and the robot in it. Example: imagine a mobile robot in a warehouse; state can describe the valid accessible areas of the warehouse to the robot, and the robot's location within that warehouse.
+
+**Action** describes the abilities of the robot to affect change to state. Example: imagine that same warehouse robot; it can take actions like going forward, backward, turning, etc. (and if it is fancy, perhaps it has an arm, and it can pick and place objects).
+
+**Sense** or perception describes the abilities of the robot to measure state and actions. Example: that same warehouse robot might have encoders on its wheels or a camera to see QR codes posted on the floor or other robots/people.
+
+This framework is a useful _conceptual model_ for our robot's reasoning space; in this class, we're going to use probstats to also turn this into a useful _computational model_. 
+
 
 ### Sample Spaces, Events, and Partitions
 Callback to ModSim: probability and statistics are fields related to abstracting the world around us into atomic forms that we can perform work over (i.e., computation). Thus, we first need to become acquainted with the language we'll be using to express the world (or robot, or actions):
@@ -68,9 +79,9 @@ Some further properties and aspects on notation:
 * A sample space in probability theory may be referred to as $$S$$, $$\Omega$$, or $$U$$ (the latter representing the universal set). Importantly for this class, the sample space should be represented by a capital letter, and should always be defined as the variable representing the sample space when expressing your formalisms.
 * An event is a sample of a sample space, such that $$E \in \Omega$$. All events contained in a sample space must be _mutually exclusive_ -- that is, an event must be distinct.
 * Partitions are subsets of the sampling space, such that $$A \subset \Omega$$. They have the following properties:
-* * $$A_i \neq 0 \forall i$$
-* * They are pairwise disjoint (mutually exclusive)
-* * All partitions together form the sampling space, $$\Omega$$
+  * $$A_i \neq 0 \forall i$$
+  * They are pairwise disjoint (mutually exclusive)
+  * All partitions together form the sampling space, $$\Omega$$
 
 
 ### Set Theory
@@ -163,26 +174,36 @@ To learn more about the topics that we discussed today, you are invited to use o
 ## Day Activity
 For today's activity, we'll be practicing with and exploring the concepts we just discussed. Please submit a neatly handwritten response (please scan it!) to all questions provided here. While everyone will turn-in an individual assignment, collaboration is encouraged! Please note down who you worked with during this assignment to practice appropriate attribution and acknowledgement.
 
-### Problem 1
-Practice with identifying state spaces, events, partitions for a given scenario. 
+### Problem 1: Recap of Today's Notes
+Go back through today's written notes on this page and work through each of the exercises / be sure to document your answers to the exercises discussed in class (there should be a total of 3 exercises in today's notes).
 
-### Problem 2
-Practice with set theory.
+### Problem 2: State-Action-Sense
+Pick a robot that you've encountered in the real-world -- a self-driving car, a warehouse robot, a roomba, an automated HVAC system, etc. (feel free to be creative!). Please be specific when working through this problem, you may need to do some research about your robot (please cite your sources). We're going to define (in plain language) the state-action-sense framework for your robot. 
+* **Part 1 Scenario/Task Set-up**: Describe a scenario your robot may find itself in or a task it might be assigned. We're aiming to set the context for your state-action-sense framework in the next parts of this problem.
+* **Part 2 State Definition**: Define/Describe the environment that the robot is in (the "world state"). You might approach this problem by defining the whole of the natural world first, and identifying the relevant elements of the natural world to your robot's context (callback to Tenchi Diagrams in ModSim). Define where in this world your robot is situated (the "robot state").
+* **Part 3 Action Definition**: Define/Describe the actions that the robot can take. Start atomically -- what actuators/manipulators does the robot possess? With what parts of the world can/do those actuators interact with? End generally -- what are high-level actions that the robot can take within the world (e.g., pick up a block, drive down a hallway)? 
+* **Part 4 Sense Definition**: Define/Describe the senses that the robot has. What sensors does the robot possess? What parts of the world or robot do those sensors measure? Be sure to define the type of data that the measurements are (scalar numbers, discrete values, images). 
+* **Part 5 Evaluating Scenario/Task Challenges**: Given your state-action-sense definition for your robot, consider the original scenario/task context that you provided, and answer the following:
+  * Does your robot possess "complete" or "incomplete" sensing for your task/scenario? Complete sensing means that the robot, through its sensors, can measure every relevant aspect of the world/itself in order to execute its task. If it is incomplete, what aspects are "unseen" by the robot?
+  * What elements of your robot might be impacted by noise? How might this impact task performance?
 
-### Problem 3
-Practice with probability rules.
+### Problem 3: Sample Spaces and Events for Robots
+For the robot and state-action-sense framework you just developed, map the concepts of sample spaces, events, and partitions. 
+* **Part 1**: Break down the task/scenario definition -- what is a sampling space that the robot may encounter? You might find it useful to think about a sampling space as an "outcome" space attached to actions that the robot can take. When the robot takes an action in this task/scenario, what is the list of all possible outcomes?
+* **Part 2**: Part 1 suggests this next part: list the "events" associated with this sampling space -- relate this to the actions of the robot. Do actions and outcomes map one-to-one in your scenario, can different actions lead to the same outcome, or can different outcomes come from the same action? Pay attention to the assumptions you might be making when performing your event-action mapping and list this explicitly.
+* **Part 3**: Finally, how does your robot assess the outcome that results from an event? Develop a map of outcome-sensing for your robot. What are the consequences of imperfect, noisy, or incomplete sensing for outcome assessment?
 
-### Problem 4
-Practice with probability axioms.
+### Problem 4: Utilizing the Probability Axioms
+(Problem Inspired from Frank Daellart's _Robotics Book_) Let's imagine a robot tasked with sorting salvage for recycling. It is set up to recieve objects on a conveyor belt and exists as a large manipulator arm with a camera and joint encoders. When a piece of salvage arrives on the conveyor belt, the robot must sort the salvage accordingly: metal, plastic, organic, composite, and toxic. 
 
-### Problem 5
-Practice setting probabilities from word problems (set-up for the robot door-opening scenario)
+On a representative day, the robot encountered the following:
+* 100 pieces of metal
+* 230 pieces of plastic
+* 73 organics
+* 20 composites
+* 5 toxic materials
 
-### Problem 6
-Identifying independent and conditional variables; a preview for what's to come.
-
-### Reflection / Looking Ahead / Implications
-As we get further along in our studies, we'll start to refer to probability as a "belief" and events as "propositions" about the world...
-
+Define the state-action-sense framework for this robot (basic description is OK!). The sampling/outcome space for this robot is defined by the type of salvage that the robot encounters for any particular sorting event. Define the _probability distribution_ 
+over this outcome space (hint: you'll want to use the representative quantities provided for this...). Show that your probability distribution is valid (by using the probability axioms). 
 
 
