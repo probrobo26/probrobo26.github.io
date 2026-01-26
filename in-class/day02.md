@@ -173,8 +173,11 @@ Whenever the robot makes a wrong sorting decision, it costs the salvage company 
 
 * **Part 1: Sense and Act** Given the set-up for our system, state/compute the following (note: you might find this easiest to express in tables).
   * The probability of encountering any particular category of salvage, e.g., $$\mathcal{P}(Category)$$
+
   * The probability of each label given each category (e.g., probability that an object is labelled metal when it is metal, labelled metal when it is plastic, etc.), also known as the classification accuracy, e.g., $$\mathcal{P}(Label|Category)$$
+
   * The probabiilty of a particular type of salvage given a label e.g., $$\mathcal{P}(Category | Label)$$ (Note: this is a tough one! You might want to visit the Robotics Book for more details, or work with friends to justify your approach)
+  
 * **Part 2: Evaluation** Given the probabilities that you just computed, what is the _expected_ (estimated) cost to the company for wrong sorts? Where is the biggest room for improvement for our robot?
 
 
