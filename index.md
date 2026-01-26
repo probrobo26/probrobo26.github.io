@@ -74,7 +74,7 @@ Note: Subject to change as the semester unfolds!
 
 ### A Primer On Probability and Bayesian Estimation
 * [Day 1: Welcome! And Probability Axioms](in-class/day01)
-* [Day 2: Axioms Continued](in-class/day02)
+* [Day 2: Independence, Conditional Independence, and Distributions](in-class/day02)
 * [Day 3: An Introduction to Bayesian Estimation](in-class/day03)
 * [Day 4: Bayesian Estimation, with Noise and Covariance](in-class/day04)
 

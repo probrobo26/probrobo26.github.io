@@ -1,5 +1,5 @@
 ---
-title: "Day 2: Axioms Continued"
+title: "Day 2: Independence, Conditional Independence, and Distributions"
 toc_sticky: true
 toc_data:
   - title: Today
@@ -8,18 +8,22 @@ toc_data:
     link: in-class/day02/#for-next-time
   - title: Simulators in Robotics
     link: in-class/day02/#simulators-in-robotics
-  - title: Axioms Continued
-    link: in-class/day02/#statistical-axioms
+  - title: Independence, Conditional Independence, and Distributions
+    link: in-class/day02/#independence-distributions
 ---
 
 ## Today
 * Simulators in Robotics
-* Axioms Continued
+* Independence, Conditional Independence, and Distributions
 * Day Activity
 
 ## For Next Time
-* Complete the day activity for today's topics (Due Monday at 7PM): [Canvas Submission]()
-* Start to work on the out-of-class simulation assignment (Due Monday at 7PM): [Canvas Submission]()
+* Due Today
+  * Last Week's Day Activity: [Canvas Submission](https://canvas.olin.edu/courses/1002/assignments/17542)
+  * YOGA: Initialization Assignment: [Canvas Submission](https://canvas.olin.edu/courses/1002/assignments/17537)
+* Due In The Future
+  * Complete the day activity for today's topics (Due Monday at 7PM): [Canvas Submission]()
+  * Start to work on the out-of-class simulation assignment (Due Monday at 7PM): [Canvas Submission]()
 
 ## Simulators in Robotics
 

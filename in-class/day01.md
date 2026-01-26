@@ -95,7 +95,7 @@ In _set theory_ we can treat a set as a variable, and perform operations on the 
 * Intersection: $$A \cap B$$ expresses elements that are shared between both $$A$$ and $$B$$ sets. Example: $$\{0, 1, 2\} \cap \{2, 3, 4\} = \{2\}$$. In the event of no intersection, the result is the _null_ set (an empty set).
 * Difference: $$A - B$$ expresses elements that are _only_ in $$A$$. Example: Example: $$\{0, 1, 2\} - \{2, 3, 4\} = \{0, 1\}$$.
 * Complement: $$\neg A = \Omega - A$$ where $$\Omega$$ expresses all elements in a sampling space at the exclusion of set $$A$$.
-* Mutual Exclusion: $$A \cap B = \{\mathbf{0}\}$$. This is when two sets have no intersecting elements. 
+* Mutual Exclusion: $$A \cap B = \{\mathbf{\emptyset\}}$$. This is when two sets have no intersecting elements. 
 
 <p align="center">
 <img alt="A diagram illustrating set operations." src="../website_graphics/set_operations.png"/>
@@ -123,9 +123,9 @@ By treating probability as a function, we can express more complicated ideas mat
 
 To do this, it is useful to keep in mind the following rules:
 
-* Probability of independent events: if $$A \cap B = \{\mathbf{0}\}$$ and these events can happen at the same time, then $$\mathcal{P}(A \cap B) = \mathcal{P}(A)\mathcal{P}(B)$$. 
+* Probability of independent events: if $$A \cap B \neq \{\mathbf{\emptyset}\}$$ and these events can happen at the same time, then $$\mathcal{P}(A \cap B) = \mathcal{P}(A)\mathcal{P}(B)$$. 
 * Probability of complements: $$\mathcal{P}(A) = 1-\mathcal{P}(\neg A)$$
-* Probability of mutually exclusive events: if $$A \cap B = \{\mathbf{0}\}$$ and these events cannot happen at the same time, then $$\mathcal{P}(A \cap B) = 0$$ and $$\mathcal{P}(A \cup B) = \mathcal{P}(A) + \mathcal{P}(B)$$.
+* Probability of mutually exclusive events: if $$A \cap B = \{\mathbf{\emptyset}\}$$ and these events cannot happen at the same time, then $$\mathcal{P}(A \cap B) = 0$$ and $$\mathcal{P}(A \cup B) = \mathcal{P}(A) + \mathcal{P}(B)$$.
 * Probability of not (necessarily) mutually exclusive events: $$\mathcal{P}(A \cup B) = \mathcal{P}(A) + \mathcal{P}(B) - \mathcal{P}(A \cap B)$$ 
 
 As an exercise in the day activity you'll be asked to examine these claims more closely. 
@@ -139,11 +139,11 @@ We're going to get there, but first, we need to start to set some ground rules a
 ### Probability Axioms
 For probability to provide a meaningful numeric measurement about how probable a given event is to occur, the function must be bounded and characterized. There are three common axioms used to define the valid space for probabilities (initially developed by Andrey Kolmogorov in the 1930s, with some modern interpretation of the third):
 
-**Axiom 1 (Non-Negativity)**: $$\mathcal{P}(A) \geq 0 \forall A \subset \Omega$$
+**Axiom 1 (Non-Negativity)**: $$\mathcal{P}(A) \geq 0 \text{ }\forall \text{ } A \subset \Omega$$
 
-**Axiom 2 (Normalizaton)**: $$\mathbb{P}(\Omega) = 1$$
+**Axiom 2 (Normalizaton)**: $$\mathcal{P}(\Omega) = 1$$
 
-**Axiom 3 (Countable Additivity)**: $$\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) \text{ if } A \cap B = 0$$
+**Axiom 3 (Countable Additivity)**: $$\mathcal{P}(A \cup B) = \mathcal{P}(A) + \mathcal{P}(B) \text{ if } A \cap B = \{\mathbf{\emptyset}\}$$
 
 With these axioms, we can make the following observations:
 
