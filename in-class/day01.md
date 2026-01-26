@@ -203,7 +203,6 @@ On a representative day, the robot encountered the following:
 * 20 composites
 * 5 toxic materials
 
-Define the state-action-sense framework for this robot (basic description is OK!). The sampling/outcome space for this robot is defined by the type of salvage that the robot encounters for any particular sorting event. Define the _probability distribution_ 
-over this outcome space (hint: you'll want to use the representative quantities provided for this...). Show that your probability distribution is valid (by using the probability axioms). 
+Define the state-action-sense framework for this robot (basic description is OK!). The sampling/outcome space for this robot is defined by the type of salvage that the robot encounters for any particular sorting event. Define the _probability distribution_ over this outcome space (hint: you'll want to use the representative quantities provided for this...). Show that your probability distribution is valid (by using the probability axioms). 
 
 
