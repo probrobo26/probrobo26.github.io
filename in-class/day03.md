@@ -80,14 +80,14 @@ The basic idea here is that we want to ensure that for the observation we've tak
 ### Practicalities
 As you might suspect, computing the denominator (the normalization term) can get challenging pretty quickly in even relatively small, discrete worlds. Thus, it is typical that when Bayes Rule is invoked, we simply compute the numerator:
 
-$$\mathcal{P}(A|B)\propto \mathcal{P}(B|A)\mathcal{P}(A)$$
+$$\mathcal{P}(A \vert B)\propto \mathcal{P}(B \vert A)\mathcal{P}(A)$$
 
 But beware! When we make this simplifying assumption for the sake of computation, _we are no longer dealing with valid probability measures_. We can still use these measures to distinguish between probable and improbable outcomes, but we should not conflate this measure as a probability itself.
 
 ### Applying Bayes Rule to A Door Opening Robot
 Ok, let's try this out on a robotics problem with sensing and action commands. For those who would like, there is a [slide deck version of this discussion that can be viewed here](https://docs.google.com/presentation/d/1lS9RCEloLIBdDwG-l4k-tIiAbqZ6GUvaNGOhXD-9p9o/edit?usp=sharing). To do this, there is one extension of Bayes Rule I want to present (which will allow us to incorporate both our Sense and Action spaces):
 
-$$\mathcal{P}(A|B,C) = \frac{\mathcal{P}(B|A,C)\mathcal{P}(A|C)}{\mathcal{P}(B|C)}$$
+$$\mathcal{P}(A \vert B,C) = \frac{\mathcal{P}(B \vert A,C)\mathcal{P}(A \vert C)}{\mathcal{P}(B \vert C)}$$
 
 **Philosophy and Simplifying Assumption**
 <p align="center">
@@ -107,11 +107,13 @@ A robot is typically interacting _sequentially_ with the world, iteratively taki
 Imagine that we have a robot that can (attempt) to open doors, and (attempt) to measure the state of a particular door. In this world, the door is either closed or open, and we don't have any particular idea where this world starts:
 
 $$x_t = \{0 \text{ or } 1\} \text{ is our state space}$$
+
 $$\mathcal{P}(x_0) = 1/2 \text{ is our prior probability}$$
 
 Naturally, our robot can't directly or perfectly sense the state of the world, but it does have a noisy sensor and a noisy actuator it can use to guess the state of the world. Our robot's sensor (determined from experimentation) has the following properties:
 
 $$\mathcal{P}(z_t = 1 \vert x_t = 1) = 3/5 $$
+
 $$\mathcal{P}(z_t = 1 \vert x_t = 0) = 1/5 $$
 
 Note: there are two other terms to our sensor model that aren't written down here...what are they?
@@ -119,8 +121,11 @@ Note: there are two other terms to our sensor model that aren't written down her
 Our robot's actuator has the following characteristics:
 
 $$\mathcal{P}(x_t = 1 \vert x_{t-1} = 0, u_t = 0) = 0 $$
+
 $$\mathcal{P}(x_t = 1 \vert x_{t-1} = 1, u_t = 0) = 1 $$
+
 $$\mathcal{P}(x_t = 1 \vert x_{t-1} = 0, u_t = 1) = 4/5 $$
+
 $$\mathcal{P}(x_t = 1 \vert x_{t-1} = 1, u_t = 1) = 1 $$
 
 Note: there are four other terms in our actuator model that aren't written down here...what are they?
@@ -135,24 +140,28 @@ $$\mathcal{P}(x_1 = 1 \vert z_1 = 1, u_1 = 0) = \frac{\mathcal{P}(z_1 = 1 \vert 
 
 Now, let's take this one piece at a time, and substitute in what we know, starting with our _observation model_ or _likelihood_:
 
-$$\mathcal{P}(z_1 = 1 \vert x_1 = 1, u_1 = 0) = \mathcal{P}(z_1 = 1 | x_1 = 1) = 3/5$$
+$$\mathcal{P}(z_1 = 1 \vert x_1 = 1, u_1 = 0) = \mathcal{P}(z_1 = 1 |\vert x_1 = 1) = 3/5$$
 
 This portion of our system is pretty straightforward -- we can nearly read it off our starting conditions! But there is one key thing we did here to help us: we realized that our observation was independent of our action; our action has no bearing on what is observed, allowing us to completely ignore that term in our conditional probability statement.
 
 Now, let's pay attention to our _action model_ or _prior_:
 
-$$\mathcal{P}(x_1 = 1 \vert u_1 = 0) = $$
-$$\text{apply Markov assumption: } \mathcal{P}(x_1 = 1, x_0 = 1 \vert u_1 = 0) + \mathcal{P}(x_1 = 1, x_0 = 1 \vert u_1 = 0) = $$
-$$\text{rearrange with conditional rules: } \mathcal{P}(x_0 = 0 \vert u_1 = 0)\mathcal{P}(x_1 = 1 \vert x_0 = 0, u_1 = 0) + \mathcal{P}(x_0 = 1 \vert u_1 = 0)\mathcal{P}(x_1 = 1 \vert x_0 = 1, u_1 = 0) = $$
-$$\text{plug in from our model: } 1/2 \times 0 + 1/2 \times 1 = $$
-$$\text{solve: } 1/2 $$
+$$\mathcal{P}(x_1 = 1 \vert u_1 = 0)$$
+
+$$\text{apply Markov assumption: } \mathcal{P}(x_1 = 1, x_0 = 1 \vert u_1 = 0) + \mathcal{P}(x_1 = 1, x_0 = 1 \vert u_1 = 0)$$
+
+$$\text{rearrange: } \mathcal{P}(x_0 = 0 \vert u_1 = 0)\mathcal{P}(x_1 = 1 \vert x_0 = 0, u_1 = 0) + \mathcal{P}(x_0 = 1 \vert u_1 = 0)\mathcal{P}(x_1 = 1 \vert x_0 = 1, u_1 = 0)$$
+
+$$\text{plug in from our model: } 1/2 \times 0 + 1/2 \times 1$$
+
+$$\text{solve: } 1/2$$
 
 This portion is a little trickier, but we can use the Markov assumption to help us out and add back in our prior state -- since our current state is going to be contingent on our action and what the state of the world _was_ when we started. We expand our probability statement to include what our prior state could have been. From there, we just re-arrange the terms until we get something that we can plug in directly: our prior probability on state and our action model.
 
 And so, our final probability (with some normalizing factor $$\mu$$) is simply:
 
 $$\mathcal{P}(x_1 = 1 \vert z_1 = 1, u_1 = 0) = \mu \times 3/10$$
-or 
+ 
 $$\mathcal{P}(x_1 = 1 \vert z_1 = 1, u_1 = 0) \propto  3/10$$
 
 **Exercise:** what is our normalizing constant $$\mu$$? Hint: the probability of $$x_1 = 1$$ and $$x_1 = 0$$ needs to sum to 1.
