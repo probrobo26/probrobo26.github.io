@@ -56,7 +56,7 @@ Bayes Theorem is a method for computing a conditional probability: the probabili
 
 Take for example our warehouse robot localization problem again:
 * _What is the probability that our warehouse robot is in aisle 17?_ This statement is known as our _prior_, and is expressed as $$\mathcal{P}(A)$$. In this scenario, assuming we know nothing, we might simply give this the probability of 1 over the total number of aisles in the warehouse (fun fact: this is known as the uninformative or uniform prior).
-* _What is the probability that our robot sees a sign with the marker "17" in it, given that it is in Aisle 17?_ This statement is known as our _likelihood_ and is expressed as $$\mathcal{P}(B \vert A)$$. This statement forces us to consider how reliable our sensor model is. In this case, our "event B" is "observing a sign with a "17" in it" and out event A remains "being in Aisle 17". In general, knowing how well our sensor works under different conditions is accessible to us through testing and data collection.
+* _What is the probability that our robot sees a sign with the marker "17" in it, given that it is in Aisle 17?_ This statement is known as our _likelihood_ and is expressed as $$\mathcal{P}(B \vert A)$$. This statement forces us to consider how reliable our sensor model is. In this case, our "event B" is "observing a sign with a "17" in it" and our event A remains "being in Aisle 17". In general, knowing how well our sensor works under different conditions is accessible to us through testing and data collection.
 * _What is the probability that our warehouse robot is in aisle 17, given that it sees a sign with the marker "17" in it?_ This is ultimately what we're trying to find; it is known as the posterior and is expressed as $$\mathcal{P}(A \vert B)$$. Since we have information from our sensor, and we know how well our sensor works, the aim is that our posterior estimate is _more informative_ than our prior estimate (which is typically uninformed). Thus, Bayes Rule gives us the ability to _update_ the belief about our state from sensor observations!
 * _What is the probability of any given sensor observation?_ This statement is our _normalizing factor_ in Bayes Rule, expressed $$\mathcal{P}(B)$$ and simply ensures that whatever probabilities we compute follow our probability rules (that they normalize to 1).
 
@@ -152,7 +152,7 @@ Now, let's pay attention to our _action model_ or _prior_:
 
 $$\mathcal{P}(x_1 = 1 \vert u_1 = 0)$$
 
-$$\text{apply Markov assumption: } \mathcal{P}(x_1 = 1, x_0 = 1 \vert u_1 = 0) + \mathcal{P}(x_1 = 1, x_0 = 1 \vert u_1 = 0)$$
+$$\text{apply Markov assumption: } \mathcal{P}(x_1 = 1, x_0 = 0 \vert u_1 = 0) + \mathcal{P}(x_1 = 1, x_0 = 1 \vert u_1 = 0)$$
 
 $$\text{rearrange: } \mathcal{P}(x_0 = 0 \vert u_1 = 0)\mathcal{P}(x_1 = 1 \vert x_0 = 0, u_1 = 0) + \mathcal{P}(x_0 = 1 \vert u_1 = 0)\mathcal{P}(x_1 = 1 \vert x_0 = 1, u_1 = 0)$$
 
