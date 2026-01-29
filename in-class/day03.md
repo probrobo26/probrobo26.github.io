@@ -50,6 +50,10 @@ This section of notes is going to breakdown each section of this rule and provid
 ### Conditional Probabilities (Revisited)
 Bayes Theorem is a method for computing a conditional probability: the probability of event A given event B. In many situations, this conditional probability is not necessarily obvious to compute; and this Bayes Rule gives us a way to compute this probabilty given knowledge of event B (which is typically more accessible to us) and an estimate for the probability of A without any context (something that is also typically more accessible to us, in a naive way). 
 
+<p align="center">
+<img alt="Bayes Rule, with different components of the formula labelled." src="../website_graphics/bayes_rule.png"/>
+</p>
+
 Take for example our warehouse robot localization problem again:
 * _What is the probability that our warehouse robot is in aisle 17?_ This statement is known as our _prior_, and is expressed as $$\mathcal{P}(A)$$. In this scenario, assuming we know nothing, we might simply give this the probability of 1 over the total number of aisles in the warehouse (fun fact: this is known as the uninformative or uniform prior).
 * _What is the probability that our robot sees a sign with the marker "17" in it, given that it is in Aisle 17?_ This statement is known as our _likelihood_ and is expressed as $$\mathcal{P}(B \vert A)$$. This statement forces us to consider how reliable our sensor model is. In this case, our "event B" is "observing a sign with a "17" in it" and out event A remains "being in Aisle 17". In general, knowing how well our sensor works under different conditions is accessible to us through testing and data collection.
@@ -140,7 +144,7 @@ $$\mathcal{P}(x_1 = 1 \vert z_1 = 1, u_1 = 0) = \frac{\mathcal{P}(z_1 = 1 \vert 
 
 Now, let's take this one piece at a time, and substitute in what we know, starting with our _observation model_ or _likelihood_:
 
-$$\mathcal{P}(z_1 = 1 \vert x_1 = 1, u_1 = 0) = \mathcal{P}(z_1 = 1 |\vert x_1 = 1) = 3/5$$
+$$\mathcal{P}(z_1 = 1 \vert x_1 = 1, u_1 = 0) = \mathcal{P}(z_1 = 1 \vert x_1 = 1) = 3/5$$
 
 This portion of our system is pretty straightforward -- we can nearly read it off our starting conditions! But there is one key thing we did here to help us: we realized that our observation was independent of our action; our action has no bearing on what is observed, allowing us to completely ignore that term in our conditional probability statement.
 
