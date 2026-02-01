@@ -97,6 +97,7 @@ where $$\text{Cov}(X,X) = \text{Var}(X)$$, or the covariance of a vector and its
 $$\text{Cov}(X,Y) = \frac{1}{N-1}\sum_i^N(X_i - \text{mean}(X))(Y_i - \text{mean}(Y))$$
 
 or equivalently, using _expectation_ as the definition for mean:
+
 $$\text{Cov}(X,Y) = \frac{1}{N-1}\sum_i^N(X_i - \mathbb{E}(X))(Y_i - \mathbb{E}(Y))$$
 
 The covariance matrix will tell us how much the control inputs varied from each other, how much the measured responses varied from each other, and how much the actuator inputs and outputs varied with respect to one another. We would say that the "on-diagonal" elements capture intra-variable variance, and the "off-diagonal" elements capture inter-variable variance.
@@ -117,18 +118,18 @@ Covariance can be a useful model to us because it can allow us to do the followi
 ### Residuals, Model Fit, and Noise
 So how does this relate back to noise explicitly? 
 
-Covariance so far has been used to examine the _relationships_ between measurements and "ground truth" inputs, but we can also use covariance to examine the _model fit_ between measurements and some prior model (either ideal or derived from data). To address model fit, we can compute the variance over the _residuals_ between the measured values and true values. 
+Covariance so far has been used to examine the _relationships_ between measurements and "ground truth" inputs, but we can also use covariance to examine the _model fit_ between measurements and some prior model (either ideal or derived from data). To address model fit, we can compute the variance over the _residuals_ between the measured values and true values. A residual is simply the difference between the measured value and true value.
 
-**Model Fit Case** If variance is close to 0, then the model is a good approximation for the real system; if variance is large, then the model is simply not a good approximation (perhaps there is something that was left unmodeled that is actually important). Here, variance over residuals gives us a proxy for how much we should trust _our model_.
+**Model Fit Case** If residual variance is close to 0, then the model is a good approximation for the real system; if residual variance is large, then the model is simply not a good approximation (perhaps there is something that was left unmodeled that is actually important). Here, variance over residuals gives us a proxy for how much we should trust _our model_.
 
-**Noise Case** In a world where we have real ground truth, the magnitude of our variance in our residuals tells us something about the noise of our measurements. This case is what we will be thinking about when we go to seed a covariance matrix on Thursday as we start working with _Kalman Filters_.
+**Noise Case** In a world where we have real ground truth, the magnitude of our variance over our residuals tells us something about the noise of our measurements. This case is what we will be thinking about when we go to seed a covariance matrix on Thursday as we start working with _Kalman Filters_.
 
 As a final word on this for now, residual variance is how we compute single sensor noise. If we have multiple sensors, then residual _covariance_ is used to model multiple sensors' noise. And this is where it all comes together! Note that when we have multiple sensors on a robot, some may be fully independent; in that case, our off-diagonal elements will simply be 0 and our on-diagonal elements will just describe the per-sensor residual variance.
 
 
 
 ## Day Activity
-Today's activity focuses on practicing computing covariance and analyzing the properties of a Bayes Filter. 
+Today's activity focuses on practicing computing covariance, correlation coefficients, and residuals. 
 
 ### Problem 1: Recap of Today's Notes
 Go back through today's written notes on this page and work through each of the exercises / be sure to document your answers to the exercises discussed in class (there should be a total of 3 exercises in today's notes).
@@ -140,7 +141,7 @@ Researchers Changhao Chen, Chris Xiaoxuan Lu, Andrew Markham, and Niki Trigoni h
 
 A small, lightly modified subset (modification: took only the "running" subset, added header files to the raw data product, performed time alignment, added roll, pitch, and yaw columns to the vicon file) of their dataset for use in this problem has been created and made accessible to you [via this link to Canvas](https://canvas.olin.edu/courses/1002/files/folder/day04_covariance). Please download these files locally onto your machine or wherever you might want to perform some light computation in python.
 
-Using ``pandas`` or ``numpy``, read in the data from imu1 and vicon1 -- these are the corresponding sensor and ground truth datasets for the same trajectory. 
+Using ``pandas`` or ``numpy``, read in the data from ``imu1.csv`` and ``vi1.csv`` -- these are the corresponding sensor and ground truth datasets for the same trajectory of a person running. 
 
 ```python
 import numpy as np
@@ -166,7 +167,7 @@ Let's start computing some relational covariances and correlation coefficients a
 * rate of rotation and acceleration for each of the three axes (x, y, z)
 
 **Part C: Comparing IMU with Vicon Ground Truth**
-Now let's have a look at IMU and Vicon alignment. There are three overlapping measurements taken by the IMU (direct measurement) and the vicon system (derived measurement from rotation, which is a direct measurement): yaw, pitch, and roll. Compute the relational covariance and correlation coefficient matrices between each corresponding axis (e.g., vicon yaw vs imu yaw). 
+Now let's have a look at IMU and Vicon alignment. There are three overlapping measurements taken by the IMU (direct measurement) and the vicon system (derived measurement from rotation, which is a direct measurement): yaw, pitch, and roll. Compute the relational covariance and correlation coefficient matrices between each corresponding axis (e.g., vicon yaw vs imu yaw, vicon roll vs imu roll, etc.). 
 
 Please also generate a residual plot (IMU measurements subtracted from the Vicon data), and compute a mean and variance over the residuals. Comment on the relationship between the residual mean and variance, and the relational covariances. What different information is captured in these analyses?
 
@@ -175,6 +176,6 @@ Please also generate a residual plot (IMU measurements subtracted from the Vicon
 **Part D: Today's So What**
 For your last prompt, please consider the following:
   * In Part B, you were using covariance and correlation coefficients to examine the _relationships_ between different sensors. Comment on relationships that may (or may not) be surprising based on the data that you're seeing. Feel free to make additional plots or diagrams to help visualize the data.
-  * In Part C, you were analyzing relationships and thinking about model fit by computing residuals. What do your results tell you about the _noise_ of the IMU? Consider: the linearity of the noise, the magnitude of the relational covariance, the sign of relational covariance, the magnitude of the residual variance, and the mean of the residuals. Is covariance a good model of the sensor error? Why or why not?
+  * In Part C, you were analyzing relationships and thinking about model fit by computing residuals. What do your results tell you about the _noise_ of the IMU? Consider: the linearity of the noise, the magnitude of the relational covariance, the sign of relational covariance, the magnitude of the residual variance, and the mean of the residuals. Is variance/covariance a good model of the sensor error? Why or why not?
   * Comment on how much we should trust the IMU when performing an inference update over the odometry of a robot. Are there axes that we can trust more than others? 
 
