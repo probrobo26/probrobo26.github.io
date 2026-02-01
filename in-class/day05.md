@@ -29,4 +29,12 @@ toc_data:
 * Rejection and outliers
 * Forwards and backwards steps
 * The Bayes Filter
+* What Can and Can't Be "Learned"
+
+## Bayesian Estimation, Continued: Bayes Filters
+In our door-opening robot example from last time, we...
+
+### A Bayesian Filter (Standard Algorithm)
+### Assumptions and Limitations to Bayes Filters
+### Operationalizing Bayes Filters
 

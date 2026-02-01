@@ -76,7 +76,7 @@ Note: Subject to change as the semester unfolds!
 * [Day 1: Welcome! And Probability Axioms](in-class/day01)
 * [Day 2: Independence, Conditional Independence, and Distributions](in-class/day02)
 * [Day 3: An Introduction to Bayesian Estimation](in-class/day03)
-* [Day 4: Bayesian Estimation, with Noise and Covariance](in-class/day04)
+* [Day 4: Noise and Covariance](in-class/day04)
 
 ### State Estimation, Localization, and Mapping (Kalman Filtering and SLAM)
 * [Day 5: Smoothing and Filtering](in-class/day05)
