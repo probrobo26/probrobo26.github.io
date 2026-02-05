@@ -92,12 +92,12 @@ We've already gone ahead and derived this earlier in the notes, but to restate, 
 
 Mathematically, we want to find the probability of any state $$s \in \mathbf{X}$$ at time $$k$$. We can express this as:
 
+<!-- 
+$$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}$$ -->
 
-$$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}$$
 
 
-
-### Bayesian Prediction
+<!-- ### Bayesian Prediction
 Prediction asks us to estimate a future state of the world, to which we do not have a complete historical record (thus we have to make naive updates). 
 
 Mathematically, we want to find the probability of any state $$s \in \mathbf{X}$$ at time $$k > N$$ where $$N$$ is time at which we stop receiving measurement or action updates. 
@@ -125,19 +125,19 @@ $$ = \frac{\mathcal{P}(z_{k+1:N} \vert x_k = s, u_{k+1:N}) \mathcal{P}(x_k = s, 
 
 In the final derived expression here, the first term in the numerator encodes the information of future measurements, and we can think of this as the "backwards" look in our smoother (very literally, this term computes the probability of future observations given that the current state estimate is what we think it is). The second term should look familiar -- this is just forward filtering (un-normalized)! 
 
-Note that computing the backward step can be a little tricky. This is going to end up being a recursive trick, where you will want to start at the last possible timestep and assume a probability of 1 for any of the last states, and then repeat the following:
+Note that computing the backward step can be a little tricky. This is going to end up being a recursive trick, where you will want to start at the last possible timestep, assume a probability of 1 for any of the last states, and then repeat the following: 
 
 $$\beta_k(s \in \mathbf{X}) = \sum_{q \in \mathbf{X}}\beta_{k+1}(q)\mathcal{P}(x_k = s \vert x_{k+1} = q)\mathcal{P}(z_{k+1} \vert x_{k+1} = q)$$
 
 where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
 
-**Exercise:** (Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1, $$\mathcal{P}(x_1 = 1) = 1$$, since the game always initializes there. 
+**Exercise:** (Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1, $$\mathcal{P}(x_1 = 1) = 1$$, since the game always initializes there.  -->
 
 
 <center>
 
 |     |     |     |     |     
-| --- | --- | --- | --- |
+|---|---|---|---|
 | Robot is in  &#8594; | Room 1 | Room 2 | Room 3 |
 | Robot transitions to &#8595; | | | |
 | Room 1| 0.0   | 0.0    | 0.0     |
