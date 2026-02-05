@@ -45,9 +45,11 @@ When we operationalize an equation, we're implementing an algorithm. We can writ
 > Algorithm 1: A Bayes Filter
 >> bayes_filter($$bel(x_{t-1}), u_t, z_t$$)
 >>> for all $$x_t$$ do
->>>> $$\bar{bel(x_t)} = \int \mathcal{P}(x_t \vert u_t, x_{t-1})bel(x_{t-1})dx_{t-1}$$
->>>> $$bel(x_t) = \mu \mathcal{P}(z_t \vert x_t) \bar{bel(x_t)}$$
+>>>> $$\overline{bel(x_t)} = \int \mathcal{P}(x_t \vert u_t, x_{t-1})bel(x_{t-1})dx_{t-1}$$
+>>>> $$bel(x_t) = \mu \mathcal{P}(z_t \vert x_t) \overline{bel(x_t)}$$
+
 >>> end for
+
 >>> return $$bel(x_t)$$
 
 
@@ -55,7 +57,7 @@ where $$bel(\cdot)$$ represents the _belief_ that the robot holds (which isn't n
 
 As we observed in the door-opening robot example, Bayes Rule can be used _recursively_ , where the posterior at t=1 can become the prior for t=2 (and so on). In a recursive algorithm, the `bayes_filter` function would be nested in a for-loop, with the previous belief and latest action/measurements supplied at each iteration.
 
-**Exercise:** (Problem inspired by Chapter 2.8 Exercise 1 from the _Probabilistic Robotics_textbook) Let's say we have a robot with a scalar range sensor with bounds from 0 to 3 meters, with actual ranges in the world distributed uniformly in this interval. This sensor is imperfect, and when it faults, it consistently outputs a range reading below 1 meter, regardless of the true range in the world. The prior probability that the sensor is faulty is $$\mathcal{P}(x_0 = \text{faulty}) = 0.015$$. The robot queries its sensor $$N$$ times, and every measurement is below 1 meter. What is the posterior probability that the sensor is faulting, for $$N = 1, 2, ..., 10$$? Formulate the corresponding probabilistic model and solve using an implemented Bayes Filter.  
+**Exercise:** (Problem inspired by Chapter 2.8 Exercise 1 from the _Probabilistic Robotics_ textbook) Let's say we have a robot with a scalar range sensor with bounds from 0 to 3 meters, with actual ranges in the world distributed uniformly in this interval. This sensor is imperfect, and when it faults, it consistently outputs a range reading below 1 meter, regardless of the true range in the world. The prior probability that the sensor is faulty is $$\mathcal{P}(x_0 = \text{faulty}) = 0.015$$. The robot queries its sensor $$N$$ times, and every measurement is below 1 meter. What is the posterior probability that the sensor is faulting, for $$N = 1, 2, ..., 10$$? Formulate the corresponding probabilistic model and solve using an implemented Bayes Filter.  
 
 ### Assumptions and Considerations for Bayes Filters
 
@@ -91,7 +93,7 @@ We've already gone ahead and derived this earlier in the notes, but to restate, 
 
 Mathematically, we want to find the probability of any state $$s \in \mathbf{X}$$ at time $$k$$. We can express this as:
 
-$$\mathcal{P}(x_k = s \vert z_{1:k}, \lambda) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert \lambda)}{\mathcal{P}(z_{1:k}\vert \lambda)}$$
+$$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k}\vert u_{1:k})}$$
 
 
 
@@ -101,7 +103,7 @@ Prediction asks us to estimate a future state of the world, to which we do not h
 
 Mathematically, we want to find the probability of any state $$s \in \mathbf{X}$$ at time $$k > N$$ where $$N$$ is time at which we stop receiving measurement or action updates. 
 
-To perform prediction, we can first use a Bayesian Filter to compute $$\mathcal{P}(x_N = s \vert z_{1:N}, \lambda)$$ to the point at which the observations run out.
+To perform prediction, we can first use a Bayesian Filter to compute $$\mathcal{P}(x_N = s \vert z_{1:N}, u_{1:N})$$ to the point at which the observations run out.
 
 From there, a naive update is performed using only the transition model, for $$k - N$$ steps:
 
@@ -114,17 +116,19 @@ Smoothing allows us to use future information to infer the state of the world at
 
 Mathematically, we want to find the probability of any state $$s \in \mathbf{X}$$ at time $$k < N$$ where $$N$$ is the maximum range of all known observations. We can express this as:
 
-$$\mathcal{P}(x_k = s \vert z_{1:N}, \lambda) = \frac{\mathcal{P}(x_k = s, z_{1:N} \vert \lambda)}{\mathcal{P}(z_{1:N}\vert \lambda)}$$
+$$\mathcal{P}(x_k = s \vert z_{1:N}, u_{1:N}) = \frac{\mathcal{P}(x_k = s, z_{1:N} \vert u_{1:N})}{\mathcal{P}(z_{1:N}\vert u_{1:N})}$$
 
-$$ = \frac{\mathcal{P}(x_k = s, z_{1:k}, z_{k+1:N} \vert \lambda)}{\mathcal{P}(z_{1:N}\vert \lambda)}$$
+$$ = \frac{\mathcal{P}(x_k = s, z_{1:k}, z_{k+1:N} \vert u_{1:k}, u_{k+1:N})}{\mathcal{P}(z_{1:N}\vert u_{1:N})}$$
 
-$$ = \frac{\mathcal{P}(z_{k+1:N} \vert x_k, z_{1:k}, \lambda) \mathcal{P}(x_k = s, z_{1:k} \vert \lambda)}{\mathcal{P}(z_{1:N}\vert \lambda)}$$
+$$ = \frac{\mathcal{P}(z_{k+1:N} \vert x_k, z_{1:k}, u_{1:k}, u_{k+1:N}) \mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k}, u_{k+1:N})}{\mathcal{P}(z_{1:N}\vert u_{1:N})}$$
 
-$$ = \frac{\mathcal{P}(z_{k+1:N} \vert x_k = s, \lambda) \mathcal{P}(x_k = s, z_{1:k} \vert \lambda)}{\mathcal{P}(z_{1:N}\vert \lambda)}$$
+$$ = \frac{\mathcal{P}(z_{k+1:N} \vert x_k = s, u_{k+1:N}) \mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:N}\vert u_{1:N})}$$
 
 In the final derived expression here, the first term in the numerator encodes the information of future measurements, and we can think of this as the "backwards" look in our smoother. The second term should look familiar -- this is just forward filtering! 
 
 **Exercise:** (Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1 ($$\mathcal{P}(x_1 = 1) = 1$$), since the game always initializes there. 
+
+<center>
 
 |     |      | | |    
 | --- | --- | --- | --- |
@@ -134,11 +138,15 @@ In the final derived expression here, the first term in the numerator encodes th
 | Room 2| 0.45   | 0.8    | 0.3     |
 | Room 3| 0.45     | 0.1      | 0.7     |
 
+</center>
+
 We can use Bayesian prediction, filtering, and smoothing to answer the following questions about our scenario:
 
 * In one version of the game, the tagged robot shuts down for a few seconds to give the other robot a chance to run away. Our "it" robot just wakes up after some set time, and would like to estimate where the other robot is in the world. After one world timestep, what is the _probability distribution_ over where the other robot is? Over two timesteps? Continue computing a prediction further into the future -- what do you notice about the distribution? 
 
 * In another version of the game, there is no shutdown period, but our "it" robot can only take very noisy measurements (model in the table below) of where the other robot is according to a measurement model. While our "it" robot is still certain that the other robot started in Room 1, over the next 5 timesteps it observes the other robot in {Room 1, Room 3, Room 3, Room 2, Room 3}. Using filtering, what is the point-wise most likely trajectory of the chased robot? Using smoothing, what is the most likely trajectory of the chased robot?
+
+<center>
 
 |     |      | | |    
 | --- | --- | --- | --- |
@@ -148,6 +156,18 @@ We can use Bayesian prediction, filtering, and smoothing to answer the following
 | Room 2| 0.5   | 0.9    | 0.1     |
 | Room 3| 0.5     | 0.1      | 0.9     |
 
+</center>
+
+Hint: You might find it useful to think about populating a table that keeps track of timesteps and probabilities for each step, such as:
+
+<center>
+
+| Timestep | Room 1 | Room 2 | Room 3 | 
+| --- | --- | --- | --- |
+| 1 | 1 | 0 | 0 |
+| 2 | ... | ... | ...|
+
+</center>
 
 ## The Gaussian Approximation
 In general, straight-up Bayes filters (and smoothers!) are not tractable to compute directly for large discrete spaces or continuous domains. It's also the case that in real scenarios we also don't typically have access to the real transition/action models and measurement models, or the full extent of the state space. So, we need to _approximate_ these things in a principled way. 
@@ -190,7 +210,7 @@ We only touched the surface on these topics today. In fact, there is a whole tex
 
 
 ## Day Activity
-Today's activity focuses on implementing a simple Bayes filter for simple signal processing tasks.
+Today's activity focuses on practicing with the concepts of prediction, smoothing, and filtering.
 
 ### Problem 1: Recap of Today's Notes
 Go back through today's written notes on this page and work through each of the exercises / be sure to document your answers to the exercises discussed in class (there should be a total of 2 exercises in today's notes).
@@ -208,19 +228,24 @@ Let's revisit our door-opening robot, and apply some of the principles of predic
 (Problem inspired by Exercise 3, Section 2.8 in _Probabilistic Robotics_) Indoor comfort is impacted by outdoor weather conditions -- sunny days can cause the greenhouse warming effect, cloudy days can keep things chilly, rainy days modulate the humidity, and so on. You're tasked with building a very simple HVAC system that monitors the weather and adjusts its controls accordingly to maintain comfortable indoor set points. since this is a prototype, the initial sensor you get to measure the weather is pretty noisy, so for more stable control, you decide to implement a state estimator for the weather given your sensor observations.
 
 Through experimentation, you find that your sensor has the following characteristics:
-|     |      | | |    
+
+<center>
+
+|||||    
 | --- | --- | --- | --- |
-| Sensor reads  &#8594;      | Sunny | Cloudy | Rainy |
-| Actual weather &#8595; | | | |
+| Sensor reads &#8594;| Sunny | Cloudy | Rainy |
+| Actual weather &#8595;||||
 | Sunny | 0.6   | 0.4    | 0     |
 | Cloudy| 0.3   | 0.7    | 0     |
 | Rainy | 0     | 0      | 1     |
 
-**Part A** While predicting the weather is always fraught, let's say that you know for a fact that today (day 1) is sunny. What is the weather going to be on day 5?
+</center>
 
-**Part B** Your system is now in use, and you've got your sensor integrated. Today (day 1) it was rainy. In the next several days, your system observes {cloudy, cloudy, rainy, sunny}. What is the probability that the last day (day 5) it was actually sunny?
+* **Part A** While predicting the weather is always fraught, let's say that you know for a fact that today (day 1) is sunny. What is the weather going to be on day 5?
 
-**Part C** What was the most likely weather on each of days 2-4, using the observations from Part B?
+* **Part B** Your system is now in use, and you've got your sensor integrated. Today (day 1) it was rainy. In the next several days, your system observes {cloudy, cloudy, rainy, sunny}. What is the probability that the last day (day 5) it was actually sunny?
 
-**Part D** Given what you're observing about your state estimation capabilities, how would you go about evaluating your prototype HVAC system? What experimental procdure or controls would you want to put in place? What caveats of your empirical performance would you need to communicate to a possible stakeholder?
+* **Part C** What was the most likely weather on each of days 2-4, using the observations from Part B?
+
+* **Part D** Given what you're observing about your state estimation capabilities, how would you go about evaluating your prototype HVAC system? What experimental procdure or controls would you want to put in place? What caveats of your empirical performance would you need to communicate to a possible stakeholder?
 
