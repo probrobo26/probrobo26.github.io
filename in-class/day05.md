@@ -123,7 +123,7 @@ $$ = \frac{\mathcal{P}(z_{k+1:N} \vert x_k, z_{1:k}, u_{1:k}, u_{k+1:N}) \mathca
 
 $$ = \frac{\mathcal{P}(z_{k+1:N} \vert x_k = s, u_{k+1:N}) \mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:N}\vert u_{1:N})}$$
 
-In the final derived expression here, the first term in the numerator encodes the information of future measurements, and we can think of this as the "backwards" look in our smoother (very literally, this term computes the probability of future observations given that the current state estimate is what we think it is). The second term should look familiar -- this is just forward filtering! 
+In the final derived expression here, the first term in the numerator encodes the information of future measurements, and we can think of this as the "backwards" look in our smoother (very literally, this term computes the probability of future observations given that the current state estimate is what we think it is). The second term should look familiar -- this is just forward filtering (un-normalized)! 
 
 Note that computing the backward step can be a little tricky. This is going to end up being a recursive trick, where you will want to start at the last possible timestep and assume a probability of 1 for any of the states, and then repeat the following:
 
@@ -149,7 +149,7 @@ We can use Bayesian prediction, filtering, and smoothing to answer the following
 
 * In one version of the game, the tagged robot shuts down for a few seconds to give the other robot a chance to run away. Our "it" robot just wakes up after some set time, and would like to estimate where the other robot is in the world. After one world timestep, what is the _probability distribution_ over where the other robot is? Over two timesteps? Continue computing a prediction further into the future -- what do you notice about the distribution? 
 
-* In another version of the game, there is no shutdown period, but our "it" robot can only take very noisy measurements (model in the table below) of where the other robot is according to a measurement model. While our "it" robot is still certain that the other robot started in Room 1, over the next 5 timesteps it observes the other robot in {Room 1, Room 3, Room 3, Room 2, Room 3}. Using filtering, what is the point-wise most likely trajectory of the chased robot? Using smoothing, what is the most likely trajectory of the chased robot?
+* In another version of the game, there is no shutdown period, but our "it" robot can only take noisy measurements (model in the table below) of where the other robot is according to a measurement model. While our "it" robot is still certain that the other robot started in Room 1, over the next 5 timesteps it observes the other robot in {Room 2, Room 3, Room 3, Room 2, Room 3}. Using filtering, what is the point-wise most likely trajectory of the chased robot? Using smoothing, what is the most likely trajectory of the chased robot?
 
 <center>
 
@@ -157,9 +157,9 @@ We can use Bayesian prediction, filtering, and smoothing to answer the following
 | --- | --- | --- | --- |
 | Sensor reads  &#8594;      | Room 1 | Room 2 | Room 3 |
 | Actual location &#8595; | | | |
-| Room 1| 0   | 0    | 0     |
-| Room 2| 0.5   | 0.9    | 0.1     |
-| Room 3| 0.5     | 0.1      | 0.9     |
+| Room 1| 0   | 0.5    | 0.5     |
+| Room 2| 0   | 0.9    | 0.1     |
+| Room 3| 0   | 0.1    | 0.9     |
 
 </center>
 
