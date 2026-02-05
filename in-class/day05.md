@@ -135,7 +135,6 @@ where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
 
 **Exercise:** (Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1, $$\mathcal{P}(x_1 = 1) = 1$$, since the game always initializes there. 
 
-<p align="center">
 
 |Transition Matrix             |        |        |        |     
 |---                           |---     |---     |---     |
@@ -145,16 +144,12 @@ where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
 | Room 2                       | 0.5    | 0.8    | 0.3    |
 | Room 3                       | 0.5    | 0.2    | 0.7    |
 
-</p>
 
 We can use Bayesian prediction, filtering, and smoothing to answer the following questions about our scenario:
 
 * In one version of the game, the tagged robot shuts down for a few seconds to give the other robot a chance to run away. Our "it" robot just wakes up after some set time, and would like to estimate where the other robot is in the world. After one world timestep, what is the _probability distribution_ over where the other robot is? Over two timesteps? Continue computing a prediction further into the future -- what do you notice about the distribution? 
 
 * In another version of the game, there is no shutdown period, but our "it" robot can only take noisy measurements (model in the table below) of where the other robot is according to a measurement model. While our "it" robot is still certain that the other robot started in Room 1, over the next 5 timesteps it observes the other robot in {Room 2, Room 3, Room 3, Room 2, Room 3}. Using filtering, what is the point-wise most likely trajectory of the chased robot? Using smoothing, what is the most likely trajectory of the chased robot?
-
-
-<center>
 
 | Measurement Matrix    |      | | |    
 | --- | --- | --- | --- |
@@ -164,20 +159,15 @@ We can use Bayesian prediction, filtering, and smoothing to answer the following
 | Room 2| 0   | 0.9    | 0.1     |
 | Room 3| 0   | 0.1    | 0.9     |
 
-</center>
 
 
 Hint: You might find it useful to think about populating several tables that keep track of timesteps and probabilities for each step, such as:
 
 
-<center>
-
 | Timestep | Room 1 | Room 2 | Room 3 | 
 | --- | --- | --- | --- |
 | 1 | 1 | 0 | 0 |
 | 2 | ... | ... | ...|
-
-</center>
 
 
 Hint 2: Make sure to keep track of your _unnormalized_ forward and backward step values, especially useful when performing smoothing. Your final answer for your filtered output should be a table with normalized probabilities, but if you use these directly in your smoothing step you're going to have a bad time! 
@@ -243,8 +233,6 @@ Let's revisit our door-opening robot, and apply some of the principles of predic
 You pull up historical weather trends in your area, and the transition pattern from day-to-day can be modeled as follows:
 
 
-<center>
-
 |Transition Matrix||||    
 | --- | --- | --- | --- |
 | Tomorrow will be &#8594;| Sunny | Cloudy | Rainy |
@@ -253,13 +241,10 @@ You pull up historical weather trends in your area, and the transition pattern f
 | Cloudy| 0.4   | 0.4    | 0.2     |
 | Rainy | 0.2   | 0.6    | 0.2     |
 
-</center>
-
 
 Then through experimentation, you find that your sensor has the following characteristics:
 
 
-<center>
 
 |Measurement Matrix||||    
 | --- | --- | --- | --- |
@@ -269,7 +254,6 @@ Then through experimentation, you find that your sensor has the following charac
 | Cloudy| 0.3   | 0.7    | 0     |
 | Rainy | 0     | 0      | 1     |
 
-</center>
 
 
 * **Part A** While predicting the weather is always fraught, let's say that you know for a fact that today (day 1) is sunny. What is the weather going to be on day 5?
