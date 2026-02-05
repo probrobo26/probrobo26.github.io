@@ -226,7 +226,21 @@ Let's revisit our door-opening robot, and apply some of the principles of predic
 ### Problem 3: A Simple HVAC System
 (Problem inspired by Exercise 3, Section 2.8 in _Probabilistic Robotics_) Indoor comfort is impacted by outdoor weather conditions -- sunny days can cause the greenhouse warming effect, cloudy days can keep things chilly, rainy days modulate the humidity, and so on. You're tasked with building a very simple HVAC system that monitors the weather and adjusts its controls accordingly to maintain comfortable indoor set points. Since this is a prototype, the initial sensor you get to measure the weather is pretty cost-efficient (aka noisy), so for more stable control, you decide to implement a state estimator for the weather given your sensor observations.
 
-Through experimentation, you find that your sensor has the following characteristics:
+You pull up historical weather trends in your area, and the transition pattern from day-to-day can be modeled as follows:
+
+<center>
+
+|||||    
+| --- | --- | --- | --- |
+| Tomorrow will be &#8594;| Sunny | Cloudy | Rainy |
+| Today is &#8595;||||
+| Sunny | 0.8   | 0.2    | 0     |
+| Cloudy| 0.4   | 0.4    | 0.2     |
+| Rainy | 0.2   | 0.6    | 0.2     |
+
+</center>
+
+Then through experimentation, you find that your sensor has the following characteristics:
 
 <center>
 
