@@ -60,6 +60,7 @@ As we observed in the door-opening robot example, Bayes Rule can be used _recurs
 **Exercise:** (Problem inspired by Chapter 2.8 Exercise 1 from the _Probabilistic Robotics_ textbook) Let's say we have a robot with a scalar range sensor with bounds from 0 to 3 meters, with actual ranges in the world distributed uniformly in this interval. This sensor is imperfect, and when it faults, it consistently outputs a range reading below 1 meter, regardless of the true range in the world. The prior probability that the sensor is faulty is $$\mathcal{P}(x_0 = \text{faulty}) = 0.015$$. The robot queries its sensor $$N$$ times, and every measurement is below 1 meter. What is the posterior probability that the sensor is faulting, for $$N = 1, 2, ..., 10$$? Formulate the corresponding probabilistic model and solve using an implemented Bayes Filter.  
 
 ### Assumptions and Considerations for Bayes Filters
+While Bayes Filters are a very useful tool, they come with some baggage that is worth knowing about.
 
 **Markov Assumption** As we discussed last week, one key assumption of a Bayes Filter is that the world is _Markovian_. This assumption posits that past and future observations/data are independent of one another, given the current state of the world. While this allows for some computational niceties, the real world often violates this assumption:
   * When there are un-modeled, time-varying dynamics (e.g., dynamic obstacles)
@@ -69,15 +70,15 @@ As we observed in the door-opening robot example, Bayes Rule can be used _recurs
 
 Despite the ease with which this assumption is violated; Bayes Filters remain the backbone of most modern estimation systems as they have been shown to be empirically robust to most of these violations. Whenever that has failed to be the case, that's when you might see _learned_ approximators, which attempt to capture the un-modeled, nonlinear, or otherwise complex state dynamics.
 
-**Uninformed/Uninformative Prior** Setting the initial prior for the belief of the world state is important, as it will provide an initial bias for the filter. In practice, it can be hard to access this prior probability, and so a common assumption is to use the _uninformed_ prior, which sets a uniform distribution over all possible outcomes. This is the most conservative assumption to make, and the only down-side is that for very complex systems it may take time for the filter to converge (whereas the number of recursions is often reduced if you make a good first guess at the probability).
+**Uninformed/Noninformative Prior** Setting the initial prior for the belief of the world state is important, as it will provide an initial bias for the filter. In practice, it can be hard to access this prior probability, and so a common assumption is to use the _uninformed_ prior, which sets a uniform distribution over all possible outcomes. This is the most conservative assumption to make, and the only down-side is that for very complex systems it may take time for the filter to converge (whereas the number of recursions is often reduced if you make a good first guess at the probability).
 
 **Computational Time** Implementing a naive Bayes filter can be exponential in the dimension of the state space. Some approximations for the belief distribution (spoiler: we'll be utilizing these in the Kalman Filter) can improve this to polynomial time. But this still isn't great. To improve on time, the Bayes Filter needs to be fully-reimplemented; one type of Bayes Filter, the Particle Filter, is an _any-time_ algorithm, which means it will yield an answer at any point that it is interrupted. 
 
-**Accuracy** Whether an underlying distribution is unimodal or multimodal can make a difference for how quickly and accurately a Bayes Filter can converge on an answer. Since a Bayes Filter is also a system-level approximation operating over numerical approximations, the accuracy of a Bayes Filter should be skeptically considered. The key remains, however, that unless there are many, many un-modeled features and dynamics in a state-space, the Bayes Filter will provide an estimate and uncertainty bounds over that estimate, providing useful distinguishing signal.
+**Accuracy** Whether an underlying distribution is unimodal or multimodal can make a difference for how quickly and accurately a Bayes Filter can converge on an answer. Since a Bayes Filter is also a system-level approximation operating over numerical approximations, the accuracy of a Bayes Filter should be skeptically considered. However, unless there are many, many un-modeled features and dynamics in a state-space, the Bayes Filter will provide a reasonable estimate and uncertainty bounds over that estimate, providing useful distinguishing signal.
 
 
 ## Prediction, Smoothing, and Filtering with Bayesian Methods
-In signal processing, _prediction, smoothing, and filtering_ are common utilities often discussed together for time-varying systems.  
+In signal processing, _prediction, smoothing, and filtering_ are common utilities often discussed together for time-varying systems. We can define these processes under our inference and state estimation framework. 
 
 **Prediction** is the ability to estimate state $$x_t$$ given only the history from $$x_{t-1}$$. Note that this is different from direct filtering, as the latest observation or action is _unknown_ at the prediction step. We can note this as $$\mathcal{P}(x_{k+n} \vert x_{1:k}, z_{1:k}, u_{1:k})$$.
 
@@ -94,8 +95,6 @@ We've already gone ahead and derived this earlier in the notes, but to restate, 
 Mathematically, we want to find the probability of any state $$s \in \mathbf{X}$$ at time $$k$$. We can express this as:
 
 $$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k}\vert u_{1:k})}$$
-
-
 
 
 ### Bayesian Prediction
@@ -124,7 +123,7 @@ $$ = \frac{\mathcal{P}(z_{k+1:N} \vert x_k, z_{1:k}, u_{1:k}, u_{k+1:N}) \mathca
 
 $$ = \frac{\mathcal{P}(z_{k+1:N} \vert x_k = s, u_{k+1:N}) \mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:N}\vert u_{1:N})}$$
 
-In the final derived expression here, the first term in the numerator encodes the information of future measurements, and we can think of this as the "backwards" look in our smoother. The second term should look familiar -- this is just forward filtering! 
+In the final derived expression here, the first term in the numerator encodes the information of future measurements, and we can think of this as the "backwards" look in our smoother (very literally, this term computes the probability of future observations given that the current state estimate is what we think it is). The second term should look familiar -- this is just forward filtering! 
 
 **Exercise:** (Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1 ($$\mathcal{P}(x_1 = 1) = 1$$), since the game always initializes there. 
 
@@ -183,25 +182,25 @@ where $$\mu$$ is the mean of the distribution, and $$\Sigma$$ is the covariance 
 ### Implications
 So, what makes this family of approximators so popular? 
 
-First, the normal distribution is relatively easy to define -- just a mean and a covariance; which as we saw last class, can potentially be computed trivially from recorded data, or might be intuitive to estimate under some circumstances.
+First, the normal distribution is relatively easy to define -- just a mean and a covariance -- which as we saw last class, can potentially be computed trivially from recorded data, or might be intuitive to estimate under some circumstances.
 
-Second, it comes with computational benefits -- this is a well-defined function, with easy-to-compute sample draws and a closed-form equation set for performing prediction and correction. 
+Second, it comes with computational benefits -- this is a well-defined function, with easy-to-compute sample draws and a closed-form equation for performing prediction and correction. 
 
 Third, it is unimodal -- for tracking or localization problems, it is nice to ensure that there is going to be a single "best" estimate that is made.
 
-But here is also the rub; this approximation scheme is limited because it is unimodal. There are lots of scenarios in which different hypotheses may have unique or multimodal distributions. Moreover, not everything in the world falls on a normal distribution, and poorly matched distributions between the real world and this approximation can mean significantly longer convergence times when performing state estimation (i.e., more observations are needed to estimate the state than would otherwise be needed).
+But here is also the rub; this approximation scheme is limited because it is unimodal. There are lots of scenarios in which different hypotheses may have unique or multimodal distributions. 
 
-We'll be spending the next few classes deep-diving into a specific instance of Gaussian Bayesian filters: the _Kalman filter_ and its extensions (which attempt to overcome some of the pitfalls of this approximator).
+Moreover, not everything in the world falls on a normal distribution, and poorly matched distributions between the real world and this approximation can mean significantly longer convergence times when performing state estimation (i.e., more observations are needed to estimate the state than would otherwise be needed).
+
+We'll be spending the next few classes deep-diving into a specific instance of Gaussian Bayesian filters: the _Kalman filter_ and its extensions (which attempt to overcome some pitfalls of this approximator).
 
 
 ## Today's So What
-State estimation in robotics is ultimately a game of data handling -- from streaming measurements and control signals, something from the world needs to be elucidated. **Inference frameworks, like Bayesian Estimation, provide a data-handling technique that provides us with these state estimates _and_ a notion of how certain we are about those estimates.** This is unique from classical signal processing, which focuses on outlier rejection, pattern recognition, or regressive lines of fit.
+State estimation in robotics is ultimately a game of data handling -- from streaming measurements and control signals, something from the world needs to be elucidated. **Inference frameworks, like Bayesian Estimation, provide a data-handling technique that provides us with these state estimates _and_ a notion of how certain we are about those estimates.** This is unique from classical signal processing, which focuses on outlier rejection, pattern recognition, or regressive lines of fit with statistical measures of fit.
 
 Prediction, Filtering, and Smoothing are common data handling functions that can be expressed probabilistically and can be leveraged by a robot in decision-making and state estimation: prediction can help select a new place to go or action to take based on the expected state of the world; filtering can provide a real-time estimate of the true state of the world; and smoothing can provide a retrospective on the history of the world to possibly improve future performance.
 
-
-
-## Going Further
+### Going Further
 We only touched the surface on these topics today. In fact, there is a whole textbook dedicated to this topic that you might find interesting! Relevant resources:
 
 * [_Bayesian Filtering and Smoothing_](https://users.aalto.fi/~ssarkka/pub/cup_book_online_20131111.pdf) textbook, especially Chapters 1, 4, and 8
@@ -222,10 +221,10 @@ Let's revisit our door-opening robot, and apply some of the principles of predic
 
 * **Part B: Filtering** Our door-opening robot goes ahead and starts to execute the series of actions in Part A. As it executes those actions, it makes the following observations: {Closed, Closed, Open, Closed, Open}. What is the real-time belief that the robot holds about the door state as it executes each action and makes each observation?
 
-* **Part C: Smoothing** The door-opening robot is now finished it actions and observations, and would like to estimate the most likely _trajectory_ (state sequence) of the door with the benefit of hindsight. What is the distribution over this trajectory, and the resulting most-likely trajectory?
+* **Part C: Smoothing** The door-opening robot is now finished its actions and observations, and would like to estimate the most likely _trajectory_ (state sequence) of the door with the benefit of hindsight. What is the distribution over this trajectory, and the resulting most-likely trajectory?
 
 ### Problem 3: A Simple HVAC System
-(Problem inspired by Exercise 3, Section 2.8 in _Probabilistic Robotics_) Indoor comfort is impacted by outdoor weather conditions -- sunny days can cause the greenhouse warming effect, cloudy days can keep things chilly, rainy days modulate the humidity, and so on. You're tasked with building a very simple HVAC system that monitors the weather and adjusts its controls accordingly to maintain comfortable indoor set points. since this is a prototype, the initial sensor you get to measure the weather is pretty noisy, so for more stable control, you decide to implement a state estimator for the weather given your sensor observations.
+(Problem inspired by Exercise 3, Section 2.8 in _Probabilistic Robotics_) Indoor comfort is impacted by outdoor weather conditions -- sunny days can cause the greenhouse warming effect, cloudy days can keep things chilly, rainy days modulate the humidity, and so on. You're tasked with building a very simple HVAC system that monitors the weather and adjusts its controls accordingly to maintain comfortable indoor set points. Since this is a prototype, the initial sensor you get to measure the weather is pretty cost-efficient (aka noisy), so for more stable control, you decide to implement a state estimator for the weather given your sensor observations.
 
 Through experimentation, you find that your sensor has the following characteristics:
 
@@ -247,5 +246,5 @@ Through experimentation, you find that your sensor has the following characteris
 
 * **Part C** What was the most likely weather on each of days 2-4, using the observations from Part B?
 
-* **Part D** Given what you're observing about your state estimation capabilities, how would you go about evaluating your prototype HVAC system? What experimental procdure or controls would you want to put in place? What caveats of your empirical performance would you need to communicate to a possible stakeholder?
+* **Part D** Given what you're observing about your state estimation capabilities, how would you go about evaluating your prototype HVAC system? What caveats of your empirical performance would you need to communicate to a possible stakeholder?
 
