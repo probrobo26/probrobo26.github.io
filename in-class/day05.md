@@ -135,6 +135,8 @@ where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
 
 **Exercise:** (Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1, $$\mathcal{P}(x_1 = 1) = 1$$, since the game always initializes there. 
 
+<p align="center">
+
 |Transition Matrix             |        |        |        |     
 |---                           |---     |---     |---     |
 | Robot is in &#8594;          | Room 1 | Room 2 | Room 3 |
@@ -142,6 +144,8 @@ where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
 | Room 1                       | 0.0    | 0.0    | 0.0    |
 | Room 2                       | 0.5    | 0.8    | 0.3    |
 | Room 3                       | 0.5    | 0.2    | 0.7    |
+
+</p>
 
 We can use Bayesian prediction, filtering, and smoothing to answer the following questions about our scenario:
 
