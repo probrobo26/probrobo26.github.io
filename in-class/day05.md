@@ -92,7 +92,7 @@ We've already gone ahead and derived this earlier in the notes, but to restate, 
 
 Mathematically, we want to find the probability of any state $$s \in \mathbf{X}$$ at time $$k$$. We can express this as:
 
-$$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}$$
+$$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}$$.
 
 
 ### Bayesian Prediction
