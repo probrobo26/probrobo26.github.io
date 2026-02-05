@@ -79,7 +79,7 @@ Note: Subject to change as the semester unfolds!
 * [Day 4: Noise and Covariance](in-class/day04)
 
 ### State Estimation, Localization, and Mapping (Kalman Filtering and SLAM)
-* [Day 5: Smoothing and Filtering](in-class/day05)
+* [Day 5: Bayesian Prediction, Smoothing, and Filtering](in-class/day05)
 * [Day 6: Kalman Filtering I: Overview and Intuition](in-class/day06) 
 * [Day 7: Kalman Filtering II: Linearization and Assumptions](in-class/day07)
 * [Day 8: Kalman Filtering III: Extensions](in-class/day08)
