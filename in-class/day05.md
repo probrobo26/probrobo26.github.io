@@ -125,6 +125,12 @@ $$ = \frac{\mathcal{P}(z_{k+1:N} \vert x_k = s, u_{k+1:N}) \mathcal{P}(x_k = s, 
 
 In the final derived expression here, the first term in the numerator encodes the information of future measurements, and we can think of this as the "backwards" look in our smoother (very literally, this term computes the probability of future observations given that the current state estimate is what we think it is). The second term should look familiar -- this is just forward filtering! 
 
+Note that computing the backward step can be a little tricky. This is going to end up being a recursive trick, where you will want to start at the last possible timestep and assume a probability of 1 for any of the states, and then repeat the following:
+
+$$\beta_k(s) = \sum_{q \in \mathbf{X}}\beta_{k+1}(q)\mathcal{P}(x_k = s \vert x_{k+1} = q)\mathcal{P}(z_{k+1} \vert x_{k+1} = q)$$
+
+where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
+
 **Exercise:** (Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1 ($$\mathcal{P}(x_1 = 1) = 1$$), since the game always initializes there. 
 
 <center>
@@ -133,9 +139,9 @@ In the final derived expression here, the first term in the numerator encodes th
 | --- | --- | --- | --- |
 | Robot is in  &#8594;      | Room 1 | Room 2 | Room 3 |
 | Robot transitions to &#8595; | | | |
-| Room 1| 0.1   | 0.1    | 0     |
-| Room 2| 0.45   | 0.8    | 0.3     |
-| Room 3| 0.45     | 0.1      | 0.7     |
+| Room 1| 0.0   | 0.0    | 0.0     |
+| Room 2| 0.5   | 0.8    | 0.3     |
+| Room 3| 0.5     | 0.2      | 0.7     |
 
 </center>
 
@@ -157,7 +163,7 @@ We can use Bayesian prediction, filtering, and smoothing to answer the following
 
 </center>
 
-Hint: You might find it useful to think about populating a table that keeps track of timesteps and probabilities for each step, such as:
+Hint: You might find it useful to think about populating several tables that keep track of timesteps and probabilities for each step, such as:
 
 <center>
 
@@ -167,6 +173,8 @@ Hint: You might find it useful to think about populating a table that keeps trac
 | 2 | ... | ... | ...|
 
 </center>
+
+Hint 2: Make sure to keep track of your _unnormalized_ forward and backward step values, especially useful when performing smoothing. Your final answer for your filtered output should be a table with normalized probabilities, but if you use these directly in your smoothing step you're going to have a bad time! 
 
 ## The Gaussian Approximation
 In general, straight-up Bayes filters (and smoothers!) are not tractable to compute directly for large discrete spaces or continuous domains. It's also the case that in real scenarios we also don't typically have access to the real transition/action models and measurement models, or the full extent of the state space. So, we need to _approximate_ these things in a principled way. 
