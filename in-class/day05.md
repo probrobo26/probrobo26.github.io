@@ -92,7 +92,7 @@ We've already gone ahead and derived this earlier in the notes, but to restate, 
 
 Mathematically, we want to find the probability of any state $$s \in \mathbf{X}$$ at time $$k$$. We can express this as:
 
-$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}$
+<!-- $$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}$$ -->
 
 
 ### Bayesian Prediction
@@ -104,7 +104,7 @@ To perform prediction, we can first use a Bayesian Filter to compute $$\mathcal{
 
 From there, a naive update is performed using only the transition model, for $$k - N$$ steps:
 
-$\mathcal{P}(x_{N+1} = s_j \vert x_{N} = s_i)$
+<!-- $$\mathcal{P}(x_{N+1} = s_j \vert x_{N} = s_i)$$ -->
 
 
 
@@ -125,7 +125,7 @@ In the final derived expression here, the first term in the numerator encodes th
 
 Note that computing the backward step can be a little tricky. This is going to end up being a recursive trick, where you will want to start at the last possible timestep and assume a probability of 1 for any of the last states, and then repeat the following:
 
-$\beta_k(s \in \mathbf{X}) = \sum_{q \in \mathbf{X}}\beta_{k+1}(q)\mathcal{P}(x_k = s \vert x_{k+1} = q)\mathcal{P}(z_{k+1} \vert x_{k+1} = q)$
+<!-- $$\beta_k(s \in \mathbf{X}) = \sum_{q \in \mathbf{X}}\beta_{k+1}(q)\mathcal{P}(x_k = s \vert x_{k+1} = q)\mathcal{P}(z_{k+1} \vert x_{k+1} = q)$$ -->
 
 where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
 
