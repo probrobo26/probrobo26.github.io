@@ -87,14 +87,12 @@ In signal processing, _prediction, smoothing, and filtering_ are common utilitie
 **Filtering** is the ability to estimate state $$x_t$$ given the history of $$x_{t-1}$$ and the latest observation $$z_t$$ and action $$u_t$$. We've been talking about filtering quite a lot already! We can note this as $$\mathcal{P}(x_{k} \vert x_{1:k-1}, z_{1:k}, u_{1:k})$$.
 
 
-
-
 ### Bayesian Filtering
 We've already gone ahead and derived this earlier in the notes, but to restate, the Bayesian filter estimates the current state from the most recent state and observation/action. 
 
 Mathematically, we want to find the probability of any state $$s \in \mathbf{X}$$ at time $$k$$. We can express this as:
 
-$$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k}\vert u_{1:k})}$$
+$$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}$$
 
 
 ### Bayesian Prediction
@@ -127,11 +125,12 @@ In the final derived expression here, the first term in the numerator encodes th
 
 Note that computing the backward step can be a little tricky. This is going to end up being a recursive trick, where you will want to start at the last possible timestep and assume a probability of 1 for any of the states, and then repeat the following:
 
-$$\beta_k(s) = \sum_{q \in \mathbf{X}}\beta_{k+1}(q)\mathcal{P}(x_k = s \vert x_{k+1} = q)\mathcal{P}(z_{k+1} \vert x_{k+1} = q)$$
+$$\beta_k(s \in \mathbf{X}) = \sum_{q \in \mathbf{X}}\beta_{k+1}(q)\mathcal{P}(x_k = s \vert x_{k+1} = q)\mathcal{P}(z_{k+1} \vert x_{k+1} = q)$$
 
 where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
 
-**Exercise:** (Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1 ($$\mathcal{P}(x_1 = 1) = 1$$), since the game always initializes there. 
+**Exercise:** (Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1, $$\mathcal{P}(x_1 = 1) = 1$$, since the game always initializes there. 
+
 
 <center>
 
@@ -145,11 +144,13 @@ where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
 
 </center>
 
+
 We can use Bayesian prediction, filtering, and smoothing to answer the following questions about our scenario:
 
 * In one version of the game, the tagged robot shuts down for a few seconds to give the other robot a chance to run away. Our "it" robot just wakes up after some set time, and would like to estimate where the other robot is in the world. After one world timestep, what is the _probability distribution_ over where the other robot is? Over two timesteps? Continue computing a prediction further into the future -- what do you notice about the distribution? 
 
 * In another version of the game, there is no shutdown period, but our "it" robot can only take noisy measurements (model in the table below) of where the other robot is according to a measurement model. While our "it" robot is still certain that the other robot started in Room 1, over the next 5 timesteps it observes the other robot in {Room 2, Room 3, Room 3, Room 2, Room 3}. Using filtering, what is the point-wise most likely trajectory of the chased robot? Using smoothing, what is the most likely trajectory of the chased robot?
+
 
 <center>
 
@@ -163,7 +164,9 @@ We can use Bayesian prediction, filtering, and smoothing to answer the following
 
 </center>
 
+
 Hint: You might find it useful to think about populating several tables that keep track of timesteps and probabilities for each step, such as:
+
 
 <center>
 
@@ -173,6 +176,7 @@ Hint: You might find it useful to think about populating several tables that kee
 | 2 | ... | ... | ...|
 
 </center>
+
 
 Hint 2: Make sure to keep track of your _unnormalized_ forward and backward step values, especially useful when performing smoothing. Your final answer for your filtered output should be a table with normalized probabilities, but if you use these directly in your smoothing step you're going to have a bad time! 
 
@@ -236,6 +240,7 @@ Let's revisit our door-opening robot, and apply some of the principles of predic
 
 You pull up historical weather trends in your area, and the transition pattern from day-to-day can be modeled as follows:
 
+
 <center>
 
 |||||    
@@ -248,7 +253,9 @@ You pull up historical weather trends in your area, and the transition pattern f
 
 </center>
 
+
 Then through experimentation, you find that your sensor has the following characteristics:
+
 
 <center>
 
@@ -261,6 +268,7 @@ Then through experimentation, you find that your sensor has the following charac
 | Rainy | 0     | 0      | 1     |
 
 </center>
+
 
 * **Part A** While predicting the weather is always fraught, let's say that you know for a fact that today (day 1) is sunny. What is the weather going to be on day 5?
 
