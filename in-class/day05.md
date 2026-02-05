@@ -92,7 +92,9 @@ We've already gone ahead and derived this earlier in the notes, but to restate, 
 
 Mathematically, we want to find the probability of any state $$s \in \mathbf{X}$$ at time $$k$$. We can express this as:
 
-<!-- $$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}$$ -->
+
+$$\mathcal{P}(x_k = s \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k = s, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}$$
+
 
 
 ### Bayesian Prediction
@@ -104,7 +106,7 @@ To perform prediction, we can first use a Bayesian Filter to compute $$\mathcal{
 
 From there, a naive update is performed using only the transition model, for $$k - N$$ steps:
 
-<!-- $$\mathcal{P}(x_{N+1} = s_j \vert x_{N} = s_i)$$ -->
+$$\mathcal{P}(x_{N+1} = s_j \vert x_{N} = s_i)$$
 
 
 
@@ -125,9 +127,7 @@ In the final derived expression here, the first term in the numerator encodes th
 
 Note that computing the backward step can be a little tricky. This is going to end up being a recursive trick, where you will want to start at the last possible timestep and assume a probability of 1 for any of the last states, and then repeat the following:
 
-<!-- $$\beta_k(s \in \mathbf{X}) = \sum_{q \in \mathbf{X}}\beta_{k+1}(q)\mathcal{P}(x_k = s \vert x_{k+1} = q)\mathcal{P}(z_{k+1} \vert x_{k+1} = q)$$ -->
 
-where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
 
 **Exercise:** (Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1, $$\mathcal{P}(x_1 = 1) = 1$$, since the game always initializes there. 
 
@@ -136,7 +136,7 @@ where $$\beta(\cdot)$$ is a function representing the cumulative backwards step.
 
 |||||    
 | --- | --- | --- | --- |
-| Robot is in  &#8594;      | Room 1 | Room 2 | Room 3 |
+| Robot is in  &#8594; | Room 1 | Room 2 | Room 3 |
 | Robot transitions to &#8595; | | | |
 | Room 1| 0.0   | 0.0    | 0.0     |
 | Room 2| 0.5   | 0.8    | 0.3     |
@@ -189,7 +189,7 @@ The Gaussian approximation assumes that all beliefs can be represented as normal
 
 $$\mathcal{P}(x) = \text{det}(2\pi \Sigma)^{1/2} \exp(\frac{-1}{2}(x - \mu)^T \Sigma^{-1}(x-\mu))$$
 
-where $$\mu$$ is the mean of the distribution, and $$\Sigma$$ is the covariance (we're clearly assuming here that the state space $x$ is multivariate).
+where $$\mu$$ is the mean of the distribution, and $$\Sigma$$ is the covariance (we're clearly assuming here that the state space $$x$$ is multivariate).
 
 ### Implications
 So, what makes this family of approximators so popular? 
