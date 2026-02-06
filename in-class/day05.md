@@ -59,6 +59,32 @@ As we observed in the door-opening robot example, Bayes Rule can be used _recurs
 
 **Exercise:** (Problem inspired by Chapter 2.8 Exercise 1 from the _Probabilistic Robotics_ textbook) Let's say we have a robot with a scalar range sensor with bounds from 0 to 3 meters, with actual ranges in the world distributed uniformly in this interval. This sensor is imperfect, and when it faults, it consistently outputs a range reading below 1 meter, regardless of the true range in the world. The prior probability that the sensor is faulty is $$\mathcal{P}(x_0 = \text{faulty}) = 0.015$$. The robot queries its sensor $$N$$ times, and every measurement is below 1 meter. What is the posterior probability that the sensor is faulting, for $$N = 1, 2, ..., 10$$? Formulate the corresponding probabilistic model and solve using an implemented Bayes Filter.  
 
+Note that there are many ways you could interpret or model this problem. To give you a sense of the numbers that you might get in this problem, below are the results from one interpretation:
+
+```
+Forward Step for k=1:  [0.24625 0.015]
+Forward Step for k=2:  [0.0615625 0.015]
+Forward Step for k=3:  [0.01539062 0.015]
+Forward Step for k=4:  [0.00384766 0.015]
+Forward Step for k=5:  [0.00096191 0.015]
+Forward Step for k=6:  [0.00024048 0.015]
+Forward Step for k=7:  [6.01196289e-05 1.50000000e-02]
+Forward Step for k=8:  [1.50299072e-05 1.50000000e-02]
+Forward Step for k=9:  [3.75747681e-06 1.50000000e-02]
+Forward Step for k=10:  [9.39369202e-07 1.50000000e-02]
+
+Filtered Estimate for k=1:  [0.98500000 0.01500000]
+Filtered Estimate for k=2:  [0.80408163 0.19591837]
+Filtered Estimate for k=3:  [0.50642674 0.49357326]
+Filtered Estimate for k=4:  [0.20414508 0.79585492]
+Filtered Estimate for k=5:  [0.06026308 0.93973692]
+Filtered Estimate for k=6:  [0.01577893 0.98422107]
+Filtered Estimate for k=7:  [0.00399198 0.99600802]
+Filtered Estimate for k=8:  [0.00100099 0.99899901]
+Filtered Estimate for k=9:  [2.50435720e-04 9.99749564e-01]
+Filtered Estimate for k=10:  [6.26206918e-05 9.99937379e-01]
+```
+
 ### Assumptions and Considerations for Bayes Filters
 While Bayes Filters are a very useful tool, they come with some baggage that is worth knowing about.
 
@@ -478,9 +504,35 @@ Then through experimentation, you find that your sensor has the following charac
 
 * **Part A** While predicting the weather is always fraught, let's say that you know for a fact that today (day 1) is sunny. What is the weather going to be on day 5?
 
-* **Part B** Your system is now in use, and you've got your sensor integrated. Today (day 1) it was rainy. In the next several days, your system observes {cloudy, cloudy, rainy, sunny}. What is the probability that the last day (day 5) it was actually sunny?
+* **Part B** Your system is now in use, and you've got your sensor integrated. Today (day 1) it was rainy and the sensor agreed. In the next several days, your system observes {cloudy, cloudy, rainy, sunny}. What is the probability that the last day (day 5) it was actually sunny?
 
 * **Part C** What was the most likely weather on each of days 2-4, using the observations from Part B?
 
 * **Part D** Given what you're observing about your state estimation capabilities, how would you go about evaluating your prototype HVAC system? What caveats of your empirical performance would you need to communicate to a possible stakeholder?
 
+In Part B, the filtered/smoothed output for that sequence is provided below, for reference:
+```
+Forward Step for k=1:  [0. 0. 1.]
+Forward Step for k=2:  [0.08 0.42 0.]
+Forward Step for k=3:  [0.0928 0.1288 0.]
+Forward Step for k=4:  [0.      0.      0.02576]
+Forward Step for k=5:  [0.0030912 0.0046368 0. ]
+
+Filtered Estimate for k=1:  [0. 0. 1.]
+Filtered Estimate for k=2:  [0.16 0.84 0.]
+Filtered Estimate for k=3:  [0.41877256 0.58122744 0.]
+Filtered Estimate for k=4:  [0. 0. 1.]
+Filtered Estimate for k=5:  [0.4 0.6 0.]
+
+Backwards step for k=5:  [1.0 1.0 1.0]
+Backwards Step for k=4:  [0.54 0.36 0.3 ]
+Backwards Step for k=3:  [0.   0.06 0.06]
+Backwards Step for k=2:  [0.0084 0.0168 0.0252]
+Backwards Step for k=1:  [0.00504  0.006048 0.007728]
+
+Smoothed Value for k=1:  [0. 0. 1.]
+Smoothed Value for k=2:  [0.08695652 0.91304348 0.        ]
+Smoothed Value for k=3:  [0. 1. 0.]
+Smoothed Value for k=4:  [0. 0. 1.]
+Smoothed Value for k=5:  [0.4 0.6 0. ]
+```
