@@ -172,6 +172,33 @@ Hint: You might find it useful to think about populating several tables that kee
 
 Hint 2: Make sure to keep track of your _unnormalized_ forward and backward step values, especially useful when performing smoothing. Your final answer for your filtered output should be a table with normalized probabilities, but if you use these directly in your smoothing step you're going to have a bad time! 
 
+For this problem, you should arrive at the following values:
+```
+Forward Step for k=1:  [0.5 0.  0. ]
+Forward Step for k=2:  [0.  0.025 0.225]
+Forward Step for k=3:  [0.  0.0045 0.1845]
+Forward Step for k=4:  [0.  0.02025 0.01665]
+Forward Step for k=5:  [0.  0.001989 0.015309]
+
+Filtered Estimate for k=1:  [1. 0. 0.]
+Filtered Estimate for k=2:  [0.  0.1 0.9]
+Filtered Estimate for k=3:  [0.  0.02380952 0.97619048]
+Filtered Estimate for k=4:  [0.  0.54878049 0.45121951]
+Filtered Estimate for k=5:  [0.  0.11498439 0.88501561]
+
+Backwards Step for k=5:  [1.0 1.0 1.0]
+Backwards Step for k=4:  [0.5  0.18 0.82]
+Backwards Step for k=3:  [0.122 0.154 0.09 ]
+Backwards Step for k=2:  [0.0482  0.02196 0.07444]
+Backwards Step for k=1:  [0.034596 0.008676 0.060516]
+
+Smoothed Value for k=1:  [1. 0. 0.]
+Smoothed Value for k=2:  [0. 0.03173777 0.96826223]
+Smoothed Value for k=3:  [0. 0.04006243 0.95993757]
+Smoothed Value for k=4:  [0. 0.210718 0.789282]
+Smoothed Value for k=5:  [0. 0.11498439 0.88501561]
+```
+
 ## The Gaussian Approximation
 In general, straight-up Bayes filters (and smoothers!) are not tractable to compute directly for large discrete spaces or continuous domains. It's also the case that in real scenarios we also don't typically have access to the real transition/action models and measurement models, or the full extent of the state space. So, we need to _approximate_ these things in a principled way. 
 
@@ -211,6 +238,199 @@ We only touched the surface on these topics today. In fact, there is a whole tex
 * Chapter 1, Sections 2 and 3 of _Probabilistic Robotics_
 * _Principles of Autonomy_ MIT [Course Notes, Lecture 20](https://ocw.mit.edu/courses/16-410-principles-of-autonomy-and-decision-making-fall-2010/resources/mit16_410f10_lec20/)
 
+
+## Implementation Example
+Throughout these notes, we've been using generic notation to refer to our states, observations, and probabilities. It can be easy to forget that our aim is to compute a _probability distribution_ over the state at any time. For our discrete cases, that means that the output of our bayes filter or any other estimation function should be _vector valued_. 
+
+Briefly, this section introduces an alternative notation to that which we've been using in class which emphasizes the matrix and vector valued formulation of our functions, and walks through an entire example, with sample implementation code.
+
+### Problem Set-Up 
+(Problem inspired by the "whack-a-mole" problem in MIT's _Principles of Autonomy_ Lecture 20 notes) Two robots are playing tag in a three-room space. The "it" robot would like to estimate where the other robot will be to tag them. The robot that is being chased has some probability of moving between the rooms associated with the room it was previously in (represented in the table). We know for a fact that the robot being chased started in room 1, since the game always initializes there. 
+
+
+|Transition Matrix             |        |        |        |     
+|---                           |---     |---     |---     |
+| Robot is in &#8594;          | Room 1 | Room 2 | Room 3 |
+| Robot transitions to &#8595; |        |        |        | 
+| Room 1                       | 0.1    | 0.4    | 0.0    |
+| Room 2                       | 0.4    | 0.0    | 0.6    |
+| Room 3                       | 0.5    | 0.6    | 0.4    |
+
+
+Our "it" robot can only take noisy measurements (model in the table below) of where the other robot is according to a measurement model. From the beginning of the game, our "it" robot observes the other robot in {Room 1, Room 3, Room 3}. 
+
+| Measurement Matrix    |      | | |    
+| --- | --- | --- | --- |
+| Sensor reads  &#8594;      | Room 1 | Room 2 | Room 3 |
+| Actual location &#8595; | | | |
+| Room 1| 0.6   | 0.2    | 0.2     |
+| Room 2| 0.2   | 0.6    | 0.2     |
+| Room 3| 0.2   | 0.2    | 0.6     |
+
+### Filtering and the Forward Step
+As the game unfolds, what is the state of the chased robot according to the "it" robot? To answer this, we'll use Bayes Filtering:
+
+$$
+\mathcal{P}(x_k \vert z_{1:k}, u_{1:k}) = \frac{\mathcal{P}(x_k, z_{1:k} \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}
+$$
+
+$$
+= \frac{\mathcal{P}(z_{1:k} \vert x_k, u_{1:k})\mathcal{P}(x_k \vert u_{1:k})}{\mathcal{P}(z_{1:k} \vert u_{1:k})}
+$$
+
+From the model of our system, we have matrices we can define to represent our likelihood (measurement model) and conditional prior (transition model). Specifically:
+
+$$
+\mathbf{M} = \begin{bmatrix} 0.6, 0.2, 0.2 \\\ 0.2, 0.6, 0.2 \\\ 0.2, 0.2, 0.6 \end{bmatrix}
+$$
+
+$$
+\mathbf{T} = \begin{bmatrix} 0.1, 0.4, 0.5 \\\ 0.4, 0.0, 0.6 \\\ 0.0, 0.6, 0.4 \end{bmatrix}
+$$
+
+And we can represent specific entries in these columns with this example notation:
+
+$$
+\mathbf{T}_{s,q} \text{ as accessing the transition matrix value corresponding to starting in state } s \text{ and going to state } q
+$$
+
+For the forward step (computing the numerator of the filter) over the 10 time-steps of our problem, we can set-up a recursive algorithm of the form:
+
+* Initialize: $$\alpha_0(x_0 = s) = \mathcal{P}(x_0 = s) * \mathbf{M}_{x_0 = s, z_{1}} \text{ for all } s \in \mathcal{X} $$
+* Repeat, for $$k = 1$$ to $$k = t-1$$, for all $$s$$: $$\alpha_{k+1}(x_k = s) = \mathbf{M}_{x_k = s, z_{k+1}}\sum_{q \in \mathcal{X}} \alpha_k(x_k = q) \mathbf{T}_{q,s}$$
+
+From the list of forward steps, the normalized filtering probability can be computed empirically for each time step.
+
+
+### Smoothing and the Backward Step
+For smoothing, we will combine the forward step with a backward step, and then normalize. We have already seen the expression for the backward step; the complete recursive implementation takes the following form:
+
+* Initialize: $$\beta_N = \mathbb{1} \text { a vector of ones in the dimenstionality of the state space}$$
+* For a specific $$k$$ target, repeat for $$k = N - 1$$ to $$k = 1$$, for all $$s$$: $$\beta_k(s) = \sum_{q \in \mathcal{X}}\beta_{k+1}(q)\mathcal{P}(x_k = s \vert x_{k+1} = q)\mathcal{P}(z_{k+1} \vert x_{k+1} = q)$$
+
+
+And for smoothing, ultimately for each step, the forward and backward step are multiplied together, and then normalized:
+
+$$
+\mathcal{P}(x_k \vert z_{1:N}, u_{i:N}) = \mu \alpha_k \beta_k
+$$
+
+### Implementation and Results
+So, let's actually implement this for our problem. We'll start with initialization:
+
+```python
+import numpy as np
+
+# Set-Up the Model
+M = np.asarray([[0.6, 0.2, 0.2],[0.2, 0.6, 0.2],[0.2, 0.2, 0.6]])  # measurement model
+T = np.asarray([[0.1, 0.4, 0.5],[0.4, 0, 0.6],[0, 0.6, 0.4]])  # transition model
+initial_state = np.asarray([1, 0, 0])  # initial state of the world
+observations = np.asarray([1, 3, 3])  # history of observations
+observation_idx = observations - 1  # convenience for indexing
+steps = 2
+```
+Here, we establish our Measurement and Transition matrices, record the collected observation history, and provide the initial state of the world from which we will iterate.
+
+We can write a function that captures our forward step process:
+
+```python
+def forward_step(alpha_k, Mmat, Tmat, step):
+    """Computes the forward step for a Bayes Filter.
+    
+    Inputs:
+        - alpha_k: previous alpha vector for state k
+        - Mmat: measurement matrix
+        - Tmat: transition matrix
+        - step: the state value k that is being assessed
+    
+    Outputs:
+        - alpha_kplus1: updated alpha vector for state k+1
+    """
+    temp_sum = np.zeros_like(alpha_k)  # initialize a variable to hold the sum over alpha * transition
+    for s in range(len(alpha_k)):  # for each possible state of x_k+1
+        for q in range(len(alpha_k)):  # for each possible previous state of x_k
+            temp_sum[s] += alpha_k[q] * Tmat[q,s]  # sum over all possible transitions
+    alpha_kplus1 = Mmat[:,observation_idx[step+1]] * temp_sum  # multiply by likelihood of the observation
+    return(alpha_kplus1)
+
+```
+
+And then we can wrap this forward step into a recursive function to ultimately compute our filtered values for the state:
+
+```python
+if __name__ == "__main__":
+    alpha = initial_state * M[:,observation_idx[0]]  # initial alpha value
+    print(f"Forward Step for k=1: ", alpha)
+    beta = np.asarray([1.0, 1.0, 1.0])  # initial beta value
+
+    forward = [alpha]  # store each forward value for later smoothing
+    for i in range(steps):  # walk through state history
+        alpha = forward_step(alpha, M, T, i)
+        forward.append(alpha)
+        normalized_alpha = alpha/np.sum(alpha)
+        print(f"Forward Step for k={i+2}: ", alpha)
+        print(f"Filtered Estimate for k={i+2}: ", normalized_alpha)
+```
+Now, let's turn our attention to smoothing, and write out the function for our backwards step:
+
+```python
+def backwards_step(beta_kplus1, Mmat, Tmat, step):
+    """Computes the backward step for a Bayes Smoother.
+    
+    Inputs:
+        - beta_kplus1: beta vector for future state k+1
+        - Mmat: measurement matrix
+        - Tmat: transition matrix
+        - step: the state value k that is being assessed
+    
+    Outputs:
+        - beta_k: updated beta vector for state k
+    """
+    beta_k = np.zeros_like(beta_kplus1)  # initialize a vector to compute beta_k
+    for s in range(len(beta_kplus1)):  # for each possible state of x_k
+        for q in range(len(beta_kplus1)):  # for each possible state of x_k+1
+            beta_k[s] += beta_kplus1[q] * Tmat[s,q] * Mmat[q,observation_idx[-step-1]]  # sum over all possible transition-observation pairs
+    return(beta_k)
+```
+
+And so now we can recursively compute our backwards step for any query state:
+
+```python
+backward = [beta]  # store each backward value for later smoothing
+    for i in range(steps):  # walk through state history
+        beta = backwards_step(beta, M, T, i)
+        backward.append(beta)
+        print(f"Backwards Step for k={steps-i}: ", beta)
+```
+
+Finally, we can compute the smoothed trajectory estimate:
+
+```python
+backward.reverse()  # re-orient the vector to be in the same order of states as the forward pass
+for i, (a, b) in enumerate(zip(forward, backward)):  # get the corresponding alpha and beta for each state
+    numerator = a * b
+    smoothed = numerator / np.sum(numerator)
+    print(f"Smoothed Value for k={i+1}: ", smoothed)
+```
+
+For this problem, you should arrive at the following values:
+```
+Forward Step for k=1:  [0.6 0.0 0.0]
+Forward Step for k=2:  [0.012 0.048 0.18 ]
+Forward Step for k=3:  [0.00408 0.02256 0.06408]
+
+Filtered Estimate for k=1:  [1.0 0.0 0.0]
+Filtered Estimate for k=2:  [0.05 0.2  0.75]
+Filtered Estimate for k=3:  [0.04497354 0.24867725 0.70634921]
+
+Backwards Step for k=3:  [1.0 1.0 1.0]
+Backwards Step for k=2:  [0.4  0.44 0.36]
+Backwards Step for k=1:  [0.1512 0.1616 0.1392]
+
+Smoothed Value for k=1:  [1. 0. 0.]
+Smoothed Value for k=2:  [0.05291005 0.23280423 0.71428571]
+Smoothed Value for k=3:  [0.04497354 0.24867725 0.70634921]
+```
 
 ## Day Activity
 Today's activity focuses on practicing with the concepts of prediction, smoothing, and filtering.
