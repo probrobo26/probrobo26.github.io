@@ -201,28 +201,28 @@ Hint 2: Make sure to keep track of your _unnormalized_ forward and backward step
 For this problem, you should arrive at the following values:
 ```
 Forward Step for k=1:  [0.5 0.  0. ]
-Forward Step for k=2:  [0.  0.025 0.225]
-Forward Step for k=3:  [0.  0.0045 0.1845]
-Forward Step for k=4:  [0.  0.02025 0.01665]
-Forward Step for k=5:  [0.  0.001989 0.015309]
+Forward Step for k=2:  [0. 0.025 0.225]
+Forward Step for k=3:  [0. 0.00875 0.14625]
+Forward Step for k=4:  [0. 0.0457875 0.0104125]
+Forward Step for k=5:  [0. 0.00397538 0.01480163]
 
 Filtered Estimate for k=1:  [1. 0. 0.]
-Filtered Estimate for k=2:  [0.  0.1 0.9]
-Filtered Estimate for k=3:  [0.  0.02380952 0.97619048]
-Filtered Estimate for k=4:  [0.  0.54878049 0.45121951]
-Filtered Estimate for k=5:  [0.  0.11498439 0.88501561]
+Filtered Estimate for k=2:  [0. 0.1 0.9]
+Filtered Estimate for k=3:  [0. 0.05645161 0.94354839]
+Filtered Estimate for k=4:  [0. 0.8147242 0.1852758]
+Filtered Estimate for k=5:  [0. 0.21171513 0.78828487]
 
-Backwards Step for k=5:  [1.0 1.0 1.0]
-Backwards Step for k=4:  [0.5  0.18 0.82]
-Backwards Step for k=3:  [0.122 0.154 0.09 ]
-Backwards Step for k=2:  [0.0482  0.02196 0.07444]
-Backwards Step for k=1:  [0.034596 0.008676 0.060516]
+Backwards Step for k=5:  [1.  1.  1.]
+Backwards Step for k=4:  [0.5  0.26 0.66]
+Backwards Step for k=3:  [0.15  0.2004 0.1164]
+Backwards Step for k=2:  [0.0624  0.036984 0.079344]
+Backwards Step for k=1:  [0.037554  0.01724064 0.05109624]
 
 Smoothed Value for k=1:  [1. 0. 0.]
-Smoothed Value for k=2:  [0. 0.03173777 0.96826223]
-Smoothed Value for k=3:  [0. 0.04006243 0.95993757]
-Smoothed Value for k=4:  [0. 0.210718 0.789282]
-Smoothed Value for k=5:  [0. 0.11498439 0.88501561]
+Smoothed Value for k=2:  [0. 0.04924109 0.95075891]
+Smoothed Value for k=3:  [0. 0.09338552 0.90661448]
+Smoothed Value for k=4:  [0. 0.63400703 0.36599297]
+Smoothed Value for k=5:  [0. 0.21171513 0.78828487]
 ```
 
 ## The Gaussian Approximation
