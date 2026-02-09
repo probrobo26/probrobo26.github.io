@@ -104,7 +104,8 @@ where:
 * $$u$$ is our input control vector
 * $$F$$ is our transformation / transition matrix which maps from the previous state to the current state
 * $$B$$ is our control matrix which maps from the control input to the state space
-* $$w$$ is process noise, which is drawn from a Gaussian distribution with covariance $Q_t$
+* $$w$$ is process noise
+    * $$Q_t$$ is the covariance of the Gaussian distribution from which the process noise is drawn
 * $$P$$ is the process covariance
 * $$t$$ is an index indicating time step
 
@@ -123,7 +124,7 @@ where:
 * $$y_t$$ is our residual data vector
 * $$z_t$$ is our actual measurement
 * $$H_t$$ is our measurement model matrix
-* $$\hat{x_t}$$ is our _preficted_ state, following from the prediction step
+* $$\hat{x_t}$$ is our _predicted_ state, following from the prediction step
 
 Similarly, we can compute the _innovation_ (measurement residual) on the covariance as well:
 
