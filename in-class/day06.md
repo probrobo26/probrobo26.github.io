@@ -37,7 +37,7 @@ We have talked at length about the Bayes Filter; first understanding Bayes Rule,
 
 But, what of more complex worlds, instances of multiple sensors, control systems that don't directly map to changes in the state space? 
 
-If we wanted to apply a Bayes Filter directly in these cases, we would find that it is technically correct, but computationally challenging or even intractable. As was mentioned in the [day 5 notes][./day5.md], to address this issue, there are a menu of _approximations_ that can be made that allow us to make small adjustments to our Bayes filter that can deal with more complex scenarios.
+If we wanted to apply a Bayes Filter directly in these cases, we would find that it is technically correct, but computationally challenging or even intractable. As was mentioned in the [day 5 notes](./day05.md), to address this issue, there are a menu of _approximations_ that can be made that allow us to make small adjustments to our Bayes filter that can deal with more complex scenarios.
 
 We will be spending the next several classes discussing _Kalman Filtering_, perhaps one of the most essential Bayesian filters used in modern robotics today, and which hinges on a series of simple approximations that we will analyze. A roadmap for our discussions:
 
@@ -67,7 +67,7 @@ $$\mathcal{P}(x) = \text{det}(2\pi \Sigma)^{1/2} \exp(\frac{-1}{2}(x - \mu)^T \S
 
 where $$\mu$$ is the mean of the distribution, and $$\Sigma$$ is the covariance.
 
-Gaussians are convenient for their closed-form expressions, their unimodality (there will be a single "best estimate" at every timestep), and their relatively easy/flexible definition.
+Gaussians are convenient for being closed-form expressions,unimodal (there will be a single "best estimate" at every timestep), and relatively easy/flexible to define.
 
 
 ### Properties of Linear-Gaussian Systems
@@ -100,13 +100,13 @@ $$
 $$
 
 where:
-* $x$ is our state vector
-* $u$ is our input control vector
-* $F$ is our transformation / transition matrix which maps from the previous state to the current state
-* $B$ is our control matrix which maps from the control input to the state space
-* $w$ is process noise, which is drawn from a Gaussian distribution with covariance $Q_t$
-* $P$ is the process covariance
-* $t$ is an index indicating time step
+* $$x$$ is our state vector
+* $$u$$ is our input control vector
+* $$F$$ is our transformation / transition matrix which maps from the previous state to the current state
+* $$B$$ is our control matrix which maps from the control input to the state space
+* $$w$$ is process noise, which is drawn from a Gaussian distribution with covariance $Q_t$
+* $$P$$ is the process covariance
+* $$t$$ is an index indicating time step
 
 The update step showcases the advantage of the linear-Gaussian assumption clearly. We are able to compute the distribution over multiple state variables _completely_ in a set of only two linear algebraic expressions.
 
@@ -115,42 +115,56 @@ Of course, the world doesn't always behave perfectly according to our transition
 
 For this, we will start with computing the _residual_ which is the difference between an actual measurement we took in the world, and the prediction of what that measurement ought to have been according to our state estimate:
 
-$$\text{Kalman Update Residual: } y_t = z_t - H_t \hat{x_t}$$
+$$
+\text{Kalman Update Residual: } y_t = z_t - H_t \hat{x_t}
+$$
 
 where:
-* $y_t$ is our residual data vector
-* $z_t$ is our actual measurement
-* $H_t$ is our measurement model matrix
-* $\hat{x_t}$ is our _preficted_ state, following from the prediction step
+* $$y_t$$ is our residual data vector
+* $$z_t$$ is our actual measurement
+* $$H_t$$ is our measurement model matrix
+* $$\hat{x_t}$$ is our _preficted_ state, following from the prediction step
 
 Similarly, we can compute the _innovation_ (measurement residual) on the covariance as well:
 
-$$\text{Kalman Update Covariance Innovation: } S_t = H_t \hat{P_t} H_t^T + R_t$$
+$$
+\text{Kalman Update Covariance Innovation: } S_t = H_t \hat{P_t} H_t^T + R_t
+$$
 
 where:
-* $S_t$ is the innovation on covariance
-* $\hat{P_t}$ is the _predicted_ process covariance, following from the prediction step
-* $R_t$ is the measurement noise covariance
+* $$S_t$$ is the innovation on covariance
+* $$\hat{P_t}$$ is the _predicted_ process covariance, following from the prediction step
+* $$R_t$$ is the measurement noise covariance
 
 When computing the residuals, we are effectively computing an "error" term in state and an "uncertainty propogation" term in covariance. 
 
 Ultimately, we want to use these residuals to correct our state estimate, essentially tempering our prediction with a dose of reality from our observations. To do this, we will make use of the "secret sauce" of a Kalman filter -- the Kalman Gain:
 
-$$\text{Kalman Gain: } K_t = \hat{P_t} H_t^T S_t^{-1}$$
+$$
+\text{Kalman Gain: } K_t = \hat{P_t} H_t^T S_t^{-1}
+$$
 
 and apply it as:
 
-$$\text{Posterior Kalman State Estimate: } x_t = \hat{x_t} + K_t y_t$$
+$$
+\text{Posterior Kalman State Estimate: } x_t = \hat{x_t} + K_t y_t
+$$
 
-$$\text{Posterior Kalman Process Covariance: } P_t = (I - K_t H_t)\hat{P_t}$$
+$$
+\text{Posterior Kalman Process Covariance: } P_t = (I - K_t H_t)\hat{P_t}
+$$
 
 We can think of the Kalman gain as a principled "tuning" parameter for our update step; it modifies how much we trust our residual statement (since after all, measurement models can be wrong too!). It is directly derived from an optimization problem that seeks to minimize the mean square error between the true state and the predicted state estimate.  
 
 For completeness, you may see the final posterior estimates for the Kalman filter written in the following forms (for either ease of interpretation or numerical stability):
 
-$$\text{Posterior Kalman State Estimate (Equivalent Form): } x_t = (I - K_t H_t) \hat{x_t} + K_t z_t$$
+$$
+\text{Posterior Kalman State Estimate (Equivalent Form): } x_t = (I - K_t H_t) \hat{x_t} + K_t z_t
+$$
 
-$$\text{Posterior Kalman Process Covariance (Joseph Form): } P_t = (I - K_t H_t)\hat{P_t}(I - K_t H_t)^T + K_t R_t K_t^T$$
+$$
+\text{Posterior Kalman Process Covariance (Joseph Form): } P_t = (I - K_t H_t)\hat{P_t}(I - K_t H_t)^T + K_t R_t K_t^T
+$$
 
 ## Kalman Filter Principles
 The Kalman filter provides an _optimal_ state estimation whenever the model matches the real system, noise in the system is uncorrelated, and the covariance matrices for noise are known perfectly. Perhaps this is a tall order, so it is useful to know how violations in this set-up impact filter performance.
