@@ -3,15 +3,15 @@ title: "Day 6: Kalman Filtering I: Overview and Intuition"
 toc_sticky: true
 toc_data:
   - title: Today
-    link: in-class/day05/#today
+    link: in-class/day06/#today
   - title: For Next Time
-    link: in-class/day05/#for-next-time
+    link: in-class/day06/#for-next-time
   - title: The Linear-Gaussian Approximation
-    link: in-class/day05/#linear-gaussian
+    link: in-class/day06/#linear-gaussian
   - title: Kalman Filters
-    link: in-class/day05/#kalman-filters
+    link: in-class/day06/#kalman-filters
   - title: Day Activity
-    link: in-class/day05/#day-activity
+    link: in-class/day06/#day-activity
 ---
 
 ## Today
