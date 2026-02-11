@@ -30,15 +30,39 @@ toc_data:
 Last time we had a look at the Kalman Filter, a method for performing a Bayesian update over continuous state variables under a linear-Gaussian approximation. The regular Kalman filter (or linear Kalman filter) can be written as:
 
 $$
-\text{Prediction Step:} \\
-\hat{x}_{t} = F_tx_{t-1} + B_tu_t + w_t \\
-\hat{P}_{t} = F_tP_{t-1}F_t^T + Q_t \\
-\text{ } \\
-\text{Update Step:} \\
-y_{t} = z_t - H_t\hat{x}_t \\
-S_{t} = H_t\hat{P}_{t}H_t^T + R_t \\
-K_t = \hat{P}_tH_t^TS_t^{-1} \\
-x_t = x_{t-1} + K_ty_t \\
+\text{Prediction Step:}
+$$
+
+$$
+\hat{x}_{t} = F_tx_{t-1} + B_tu_t + w_t 
+$$
+
+$$
+\hat{P}_{t} = F_tP_{t-1}F_t^T + Q_t 
+$$
+
+
+$$
+\text{Update Step:}
+$$
+
+$$
+y_{t} = z_t - H_t\hat{x}_t 
+$$
+
+$$
+S_{t} = H_t\hat{P}_{t}H_t^T + R_t 
+$$
+
+$$
+K_t = \hat{P}_tH_t^TS_t^{-1}
+$$
+
+$$
+x_t = x_{t-1} + K_ty_t
+$$
+
+$$
 P_t = (I - K_tH_t)\hat{P}_t
 $$
 
@@ -151,8 +175,14 @@ Compute the following:
 **Problem 2** Assume we have a motion model defined by the set of equations:
 
 $$
-x_{t+1} = x_{t} - R \sin(\theta_t) + R\sin(\theta_t + \beta) \\
-y_{t+1} = y_{t} + R \cos(\theta_t) - R\cos(\theta_t + \beta) \\
+x_{t+1} = x_{t} - R \sin(\theta_t) + R\sin(\theta_t + \beta)
+$$
+
+$$
+y_{t+1} = y_{t} + R \cos(\theta_t) - R\cos(\theta_t + \beta)
+$$
+
+$$
 \theta_{t+1} = \theta_{t} + \beta 
 $$
 
