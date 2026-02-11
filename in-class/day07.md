@@ -1,5 +1,5 @@
 ---
-title: "Day 6: Kalman Filtering I: Overview and Intuition"
+title: "Day 7: Kalman Filtering II: Linearization and the Extended Kalman Filter"
 toc_sticky: true
 toc_data:
   - title: Today
@@ -27,30 +27,59 @@ toc_data:
 * State Estimation Simulation Assignment (Monday 23rd at 7PM) [Canvas Submission](https://canvas.olin.edu/courses/1002/assignments/18433)
 
 ## Filtering for Nonlinear Systems
-Last time we had a look at the Kalman Filter, a method for performing a Bayesian update over continuous state variables under a linear-Gaussian approximation. There is a natural question that follows when learning about the Kalman filter: what about systems that aren't linear? 
+Last time we had a look at the Kalman Filter, a method for performing a Bayesian update over continuous state variables under a linear-Gaussian approximation. The regular Kalman filter (or linear Kalman filter) can be written as:
 
-The linearity assumption in the standard Kalman Filter dictates that the relationship between observations, actions, and states is _direct_. This is ultimately what allows relatively simple linear matrix operations to be used in the filter itself to estimate the posterior. 
+$$
+\text{Prediction Step:} \\
+\hat{x}_{t} = F_tx_{t-1} + B_tu_t + w_t \\
+\hat{P}_{t} = F_tP_{t-1}F_t^T + Q_t \\
+\text{ } \\
+\text{Update Step:} \\
+y_{t} = z_t - H_t\hat{x}_t \\
+S_{t} = H_t\hat{P}_{t}H_t^T + R_t \\
+K_t = \hat{P}_tH_t^TS_t^{-1} \\
+x_t = x_{t-1} + K_ty_t \\
+P_t = (I - K_tH_t)\hat{P}_t
+$$
 
-But there are many instances when using robotic systems when we don't have such clean relationships between our state spaces:
-* Imagine a landmark sensor that is available on a robot moving around a space. It provides metric information about the robot's surroundings, which is sufficient for navigation. However, coordinates of landmarks and the position of the robot are _not_ directly related
-* Imagine a super fast flying drone, wherein the motion model needs to incorporate a notion of air density and drag; this motion model is a nonlinear differential equation and thus the state from one step to a next is _not_ directly related
+The creation of the Kalman filter is naturally predicated on the assumption that the random variables in the estimation problem can be modeled as Gaussian distributions, and that the relationships between steps in the state history (e.g., $$x_{t-1}$$ and $$x_t$$), the state and observation space, and the state and action space are _linear_ or direct. Both of these assumptions combined, but especially the linear assumption, is ultimately what allows relatively simple linear matrix operations to estimate the posterior of an otherwise complex, continuous state.
 
-Unfortunately, directly dealing with nonlinearity is _hard_. If we were to relax our linearity requirement in the Kalman filter, then we lose the ability to propagate our uncertainty under a closed form (a linear transformation of a Gaussian is a Gaussian, but a nonlinear transformation of a Gaussian is...not). We could just formulate a new type of filter entirely, but at the end of that day, the computational complexity would be enormous.
+**There is a natural question that follows when learning about the linear Kalman filter: _what about systems that aren't linear?_**
 
-We want to keep using the nice parts of our Kalman Filter, and be able to handle nonlinear systems. And so our compromise is that we must _approximate_ our nonlinear system as a linear one, then apply our standard Kalman Filter on the _linearized_ system. This specific design choice is known as the _Extended Kalman filter_ (EKF) and is among the most common techniques utilized in the robotics industry to deal with nonlinear systems in complex localization, mapping, and control tasks.
+The real world is seldom as tidy as a series of noisy, linear relationships. And there are many instances in robotics that violate the linear assumption:
+* Imagine a landmark sensor that is available on a robot moving around a space. It provides metric information about the robot's surroundings, which is sufficient for navigation, but the output of this sensor (a list of range and bearings) is not directly related to the Cartesian pose of the robot.
+* Imagine an ultra-fast flying drone, wherein the motion model needs to incorporate a notion of air density and drag; this motion model is a nonlinear differential equation and thus the state from one step to a next is _not_ linear.
+* Imagine a self-driving car with control inputs of velocity and steering wheel angle. These controls do not map linearly to the actual velocity of the car, especially in modern vehicles with differential drivetrains.
+
+### Why is Nonlinearity A Problem?
+If we were to relax the linearity requirement on our Kalman filter, then we would lose some important properties:
+* A Gaussian distribution is not closed under nonlinear transformations; this means that our posterior estimate would no longer be Gaussian and recursion would be ill-defined.
+* Transformation matrix $$F$$ and measurement matrix $$H$$ would need to be redefined or fully replaced with the nonlinear function / system of equations. This would impact computational tractability of the algorithm.
+
+
+### Ways to Handle Nonlinearity
+Given the prevalence of nonlinear systems, it will come to no surprise that there are a number of techniques that have been developed to overcome this challenge.
+
+For the purposes of today's discussion, we assume that we _want_ to keep using a Kalman filter for its useful properties to us, but we will need to adapt it to deal with nonlinear systems. To do this, **we need to linearize our nonlinear system** in order to keep using our filter as-is. 
+
+Choosing to deal with nonlinear systems in this way is known as the _Extended Kalman filter_ (EKF) and it is among the most common techniques utilized in the robotics industry to deal with nonlinear systems in complex localization, mapping, and control tasks.
  
 ## Linearization for Robot Models
-You may have encountered linearization in previous classes (the QEAs, ESA, Controls...). To review in a general case, imagine we have some nonlinear function:
+You may have encountered linearization in previous classes (the QEAs, ESA, Controls...) under different contexts; it is the same process in this class too! To review in a general case, linearization is the process of finding the linear function that approximates an underlying curve within a local domain of that curve. 
+
+For instance, imagine we have some nonlinear function:
 
 $$f(x) = x^3 - 2x^2$$
 
-To "linearize" this function means to find the line which most closely matches the curve at some defined point along that curve. For instance, at $$x = 2$$, we would want to find the line that is _tangent_ to the the curve at that point. For some functions, this may be as simple as taking the derivative of the function, but a more general approach is to use the equation for a tangent line using the [Taylor Series Expansion](https://en.wikipedia.org/wiki/Taylor_series):
+and we aim to linearize this function about the point $$x = 2$$. The line that comes "closest" to the curve in the local area around this point will be the _tangent_ line. 
+
+For some functions, this may be as simple as taking the derivative of the function, but a more general approach is to use the equation for a tangent line using the [Taylor Series Expansion](https://en.wikipedia.org/wiki/Taylor_series):
 
 $$
 T(x) = f(\hat{x}) + \frac{df}{dx}(\hat{x}x)(x-\hat{x})
 $$
 
-where $$\hat{x}$$ is the query point at which the tangent line is to be approximated. For our original setup, the linearization of our function at $$x = 2$$ would be:
+where $$\hat{x}$$ is the query point at which the tangent line is to be approximated. For our problem, the linearization of our function at $$x = 2$$ would be:
 
 $$
 T(x) = f(2) + \frac{df}{dx}(2)(x-2)
@@ -68,39 +97,54 @@ $$
 <img alt="Demonstration of a nonlinear function linearized at a specific query point." src="../website_graphics/linearization_example.png"/>
 </p>
 
-### The Jacobian
-In our Kalman filter, recall that we can approximate the state space and observations with the following (linear!) expressions:
+For very small changes in $$x$$ around $$x = 2$$, the tangent line can be a reasonable approximation for the true curve. 
+
+### The Jacobian For Multivariate Linearization
+When we apply a Kalman filter, we are typically estimating the state and covariances of multple variables simultaneous (i.e., our state is a _vector_ with multiple entries). To generalize our linearization method to multiple state variables and systems of equations, we will make use of the _Jacobian_, a matrix of partial derivatives:
 
 $$
-x_t = F_t x_t + B_t u_t
+J(x) = \begin{bmatrix} \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \dots \\ \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \dots \\
+\vdots & \vdots & \text{ } \end{bmatrix} 
 $$
 
-$$
-z_t = H_t x_t 
-$$
+where $$J(x)$$ represents the generic form of the Jacobian over state vector $$x$$, $$f_1, f_2, \dots$$ represent multiple system functions, and $$x_1, x_2, \dots$$ represent different variables within the state vector.
 
-In our nonlinear system, we replace the $$F$$ and $$B$$ matrices in state with a nonlinear equation $$f(x_t, u_t)$$, and in our observation space, we replace out measurement matrix $$H$$ with a nonlinear function $$h(x_t)$$:
+We can think of the Jacobian as giving us the local "slopes" for each variable within a given function; essentially, the Jacobian provides us the tangent line.
 
-$$
-x_t = f(x_t, u_t) + w_t
-$$
+We can see how this is operationalized in our Kalman filter, by first recalling the definition of our state transition model and the measurement model:
+
 
 $$
-z_t = h(x_t)
-$$
-
-To linearize these equations means to get back out a transition matrix $$F$$ and measurement matrix $$H$$ at specific query points of $$x_t$$ and $$u_t$$. Thus, we need to linearize these equations with respect to different reference points. To do this, we will use partial derivatives with respect to the input variables and store these in a matrix. You might know this as computing the _Jacobian_:
-
-$$
-F = \frac{\partial f(x_t, u_t)}{\partial x} \Big\vert_{x_t,u_t} = \begin{bmatrix} \frac{\partial f_1}{x_1} & \frac{\partial f_1}{x_2} & \dots \\ \frac{\partial f_2}{x_1} & \frac{\partial f_2}{x_2} & \dots \\ \vdots & \vdots &  \end{bmatrix} 
+\hat{x}_t = F_t x_{t-1} + B_t u_t
 $$
 
 $$
-H = \frac{\partial h(x_t)}{\partial x} \Big\vert_{x_t} = \begin{bmatrix} \frac{\partial h_1}{x_1} & \frac{\partial h_1}{x_2} & \dots \\ \frac{\partial h_2}{x_1} & \frac{\partial h_2}{x_2} & \dots \\ \vdots & \vdots &  \end{bmatrix}
+z_t = H_t \hat{x}_t 
+$$
+
+In our nonlinear system, we will need to replace the $$F$$ and $$B$$ matrices in state with a nonlinear equation $$f(x_{t-1}, u_t)$$, and in our observation space, we replace our measurement matrix $$H$$ with a nonlinear function $$h(\hat{x}_t)$$:
+
+$$
+x_t = f(x_{t-1}, u_t) + w_t
+$$
+
+$$
+z_t = h(\hat{x}_t)
+$$
+
+To linearize these equations means to get back out a transition matrix $$F$$ and measurement matrix $$H$$. This requires characterizing the slopes of the nonlinear functions with respect to the state variables; this requires compuing the Jacobian:
+
+$$
+F = \frac{\partial f(x_{t-1}, u_t)}{\partial x} \Big\vert_{x_{t-1},u_t} = \begin{bmatrix} \frac{\partial f_1}{x_1} & \frac{\partial f_1}{x_2} & \dots \\ \frac{\partial f_2}{x_1} & \frac{\partial f_2}{x_2} & \dots \\ \vdots & \vdots &  \end{bmatrix} 
+$$
+
+$$
+H = \frac{\partial h(\hat{x}_t)}{\partial x} \Big\vert_{\hat{x}_t} = \begin{bmatrix} \frac{\partial h_1}{x_1} & \frac{\partial h_1}{x_2} & \dots \\ \frac{\partial h_2}{x_1} & \frac{\partial h_2}{x_2} & \dots \\ \vdots & \vdots &  \end{bmatrix}
 $$
 
 
-**Exercise**: Compute the following:
+### Exercise
+Compute the following:
 
 **Problem 1** Let $$X = [x, \dot{x}, y]$$ and $$f(X) = \sqrt{x^2 + y^2}$$. Compute the Jacobian $$\frac{\partial f(X)}{\partial X} \Big\vert_{x_t}$$ 
 
@@ -119,8 +163,8 @@ When we compute our linearized system, how do we end up using this in our Kalman
 
 | | Linear Kalman Filter | EKF | 
 | --- | --- | --- |
-| Prediction Step | $$\hat{x} = Fx + Bu \\ \hat{P} = FPF^T + Q $$ | $$F = \frac{\partial f}{\partial x} \Big\vert_{x,u} \\ \hat{x} = f(x,u) \\ \hat{P} = FPF^T + Q$$ |
-| Update Step| $$y = z - H\hat{x} \\ S = H\hat{P}H^T + R \\ K = \hat{P}H^TS^{-1} \\ x = \hat{x} + Ky \\ P = (I - KH)\hat{P}$$ | $$ H = \frac{\partial h}{\partial x} \Big\vert_{\hat{x}} \\ y = z - h(\hat{x}) \\ S = H\hat{P}H^T + R \\ K = \hat{P}H^TS^{-1} \\ x = \hat{x} + Ky \\ P = (I - KH)\hat{P} $$ | 
+| Prediction Step | $$\hat{x} = Fx + Bu$$ $$\hat{P} = FPF^T + Q $$ | $$F = \frac{\partial f}{\partial x} \Big\vert_{x,u}$$ $$\hat{x} = f(x,u)$$ $$\hat{P} = FPF^T + Q$$ |
+| Update Step| $$y = z - H\hat{x}$$ $$S = H\hat{P}H^T + R$$ $$K = \hat{P}H^TS^{-1}$$ $$x = \hat{x} + Ky$$ $$P = (I - KH)\hat{P}$$ | $$H = \frac{\partial h}{\partial x} \Big\vert_{\hat{x}}$$ $$y = z - h(\hat{x})$$ $$S = H\hat{P}H^T + R$$ $$K = \hat{P}H^TS^{-1}$$ $$x = \hat{x} + Ky$$ $$P = (I - KH)\hat{P}$$ | 
 
 In general, we use our nonlinear equations to set our predictive state and update residual, and use our linearized matrices to estimate covariances and Kalman gain.
 
