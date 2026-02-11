@@ -193,8 +193,8 @@ When we compute our linearized system, how do we end up using this in our Kalman
 
 | | Linear Kalman Filter | EKF | 
 | --- | --- | --- |
-| Prediction Step | $$\hat{x} = Fx + Bu$$ $$\hat{P} = FPF^T + Q $$ | $$F = \frac{\partial f}{\partial x} \Big\vert_{x,u}$$ $$\hat{x} = f(x,u)$$ $$\hat{P} = FPF^T + Q$$ |
-| Update Step| $$y = z - H\hat{x}$$ $$S = H\hat{P}H^T + R$$ $$K = \hat{P}H^TS^{-1}$$ $$x = \hat{x} + Ky$$ $$P = (I - KH)\hat{P}$$ | $$H = \frac{\partial h}{\partial x} \Big\vert_{\hat{x}}$$ $$y = z - h(\hat{x})$$ $$S = H\hat{P}H^T + R$$ $$K = \hat{P}H^TS^{-1}$$ $$x = \hat{x} + Ky$$ $$P = (I - KH)\hat{P}$$ | 
+| Prediction Step | $$\hat{x} = Fx + Bu$$<br>$$\hat{P} = FPF^T + Q $$ | $$F = \frac{\partial f}{\partial x} \Big\vert_{x,u}$$<br>$$\hat{x} = f(x,u)$$<br>$$\hat{P} = FPF^T + Q$$ |
+| Update Step| $$y = z - H\hat{x}$$<br>$$S = H\hat{P}H^T + R$$<br>$$K = \hat{P}H^TS^{-1}$$<br>$$x = \hat{x} + Ky$$<br>$$P = (I - KH)\hat{P}$$ | $$H = \frac{\partial h}{\partial x} \Big\vert_{\hat{x}}$$<br>$$y = z - h(\hat{x})$$<br>$$S = H\hat{P}H^T + R$$<br>$$K = \hat{P}H^TS^{-1}$$<br>$$x = \hat{x} + Ky$$<br>$$P = (I - KH)\hat{P}$$ | 
 
 In general, we use our nonlinear equations to set our predictive state and update residual, and use our linearized matrices to estimate covariances and Kalman gain.
 
