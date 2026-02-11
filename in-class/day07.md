@@ -191,16 +191,63 @@ Let the state vector be composed of variables $$x$$, $$y$$, and $$\theta$$. Comp
 ## Extended Kalman Filtering
 When we compute our linearized system, how do we end up using this in our Kalman Filter? 
 
-| | Linear Kalman Filter | EKF | 
-| --- | --- | --- |
-| Prediction Step | $$\hat{x} = Fx + Bu$$<br>$$\hat{P} = FPF^T + Q $$ | $$F = \frac{\partial f}{\partial x} \Big\vert_{x,u}$$<br>$$\hat{x} = f(x,u)$$<br>$$\hat{P} = FPF^T + Q$$ |
-| Update Step| $$y = z - H\hat{x}$$<br>$$S = H\hat{P}H^T + R$$<br>$$K = \hat{P}H^TS^{-1}$$<br>$$x = \hat{x} + Ky$$<br>$$P = (I - KH)\hat{P}$$ | $$H = \frac{\partial h}{\partial x} \Big\vert_{\hat{x}}$$<br>$$y = z - h(\hat{x})$$<br>$$S = H\hat{P}H^T + R$$<br>$$K = \hat{P}H^TS^{-1}$$<br>$$x = \hat{x} + Ky$$<br>$$P = (I - KH)\hat{P}$$ | 
+$$
+\text{Prediction Step:}
+$$
 
-In general, we use our nonlinear equations to set our predictive state and update residual, and use our linearized matrices to estimate covariances and Kalman gain.
+$$
+F_t = \frac{\partial f}{\partial x} \Big\vert_{x_{t-1},u_t}
+$$
+
+$$
+\hat{x}_{t} = f(x_{t-1}, u_t) + w_t 
+$$
+
+$$
+\hat{P}_{t} = F_tP_{t-1}F_t^T + Q_t 
+$$
 
 
-**Exercise**: Read Roger Labbe's [_Kalman and Bayesian Filters in Python_ Chapter 11](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/11-Extended-Kalman-Filters.ipynb) entry (feel free to pull and run his notebook for this! you do _not_ need to do the embedded exercises in the notebook) and answer the following questions:
-* In the tracking airplane problem, is the state space linear or nonlinear? Is the measurement space linear or nonlinear?
+$$
+\text{Update Step:}
+$$
+
+$$
+H_t = \frac{\partial h}{\partial x} \Big\vert_{\hat{x}_t}
+$$
+
+$$
+y_{t} = z_t - h(\hat{x}_t) 
+$$
+
+$$
+S_{t} = H_t\hat{P}_{t}H_t^T + R_t 
+$$
+
+$$
+K_t = \hat{P}_tH_t^TS_t^{-1}
+$$
+
+$$
+x_t = x_{t-1} + K_ty_t
+$$
+
+$$
+P_t = (I - K_tH_t)\hat{P}_t
+$$
+
+
+
+There are a few key differences from the linear Kalman filter to be aware of in each step:
+
+**Prediction Step** In the prediction step, the EKF will make use of the linearized dynamics of the system to estimate covariance, but the state prediction can be directly computed by the nonlinear system of equations. You _could_ use the linearized dynamics to compute the state variable estimate, but it will be less accurate than just using the motion model exactly.
+
+**Update Step** The linearized measurement model is used to compute the innovation in covariance and Kalman gain, which ultimately impacts the posterior state and state covariance estimates. The residual can also be computed with the linearized dynamics, however, using the nonlinear measurement model directly will yield a more accurate value.
+
+And that's truly it -- the hard part of an EKF is the same as the hard part for any filter or estimation problem: defining the state variable, action, and observation spaces. Once the model is computed, the EKF requires a linearization step and then the standard linear Kalman filter can be applied.
+
+### Exercise
+Read Roger Labbe's [_Kalman and Bayesian Filters in Python_ Chapter 11](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/11-Extended-Kalman-Filters.ipynb) entry (feel free to pull and run his notebook for this! you do _not_ need to do the embedded exercises in the notebook) and answer the following questions:
 * In the tracking airplane problem, the dimensionality of all of the vectors is not necessarily super obvious. Re-summarize each of the elements of the model and perform the dimensional analysis for each of the prediction and update steps. Do these results make sense to you?
 * Do a close reading of the robot localization problem (you may have to go to the [unscented Kalman filter chapter](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/10-Unscented-Kalman-Filter.ipynb) to read about the derivation of the motion model for this problem). 
   * Explain how the control inputs in this problem are incorporated into the Kalman filter prediction step.
