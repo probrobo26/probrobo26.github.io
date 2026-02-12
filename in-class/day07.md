@@ -252,7 +252,7 @@ Read Roger Labbe's [_Kalman and Bayesian Filters in Python_ Chapter 11](https://
 * Do a close reading of the robot localization problem (you may have to go to the [unscented Kalman filter chapter](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/10-Unscented-Kalman-Filter.ipynb) to read about the derivation of the motion model for this problem). 
   * Explain how the control inputs in this problem are incorporated into the Kalman filter prediction step.
   * Summarize the model for this problem (state, actions, measurements and choices for noise covariances).
-  * Describe implementation considerations made to translate the EKF math into a computable set of functions.
+  * Describe implementation considerations made to translate the EKF math into a computable set of functions. A few I'd like you to investigate: how is the heading for the robot handled? What does the \@ symbol do? How is the Jacobian computed? 
   * What do the plots demonstrate about the Kalman Filter performance?
   * What are some potential weaknesses or sensitivities of this filter? Under what conditions might this filter _diverge_?
 
@@ -267,6 +267,9 @@ Today's day activity is designed to provide time on the [simulation assignment](
 
 ### Problem 1: Recap of Today's Notes
 Go back through today's written notes on this page and work through each of the exercises / be sure to document your answers to the exercises discussed in class (there should be a total of 2 exercises in today's notes).
+
+### Let Us Know How Things Are Going
+Next class we'll be doing a unit re-cap of everything we've seen so far. Let us know what topics you would be interested in re-hashing or having additional practice with! Fill in [this form](https://forms.gle/v8hdhVQsHnF1zyLt8) for anonymous feedback, and feel free to email the teaching team directly with any additional thoughts or for follow-up discussion.
 
 ### Work On The Simulation Assignment
 Nothing to turn in for day-activity work here; just get started with the simulation assignment!
