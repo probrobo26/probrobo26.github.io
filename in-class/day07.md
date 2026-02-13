@@ -100,7 +100,7 @@ and we aim to linearize this function about the point $$x = 2$$. The line that c
 For some functions, this may be as simple as taking the derivative of the function, but a more general approach is to use the equation for a tangent line using the [Taylor Series Expansion](https://en.wikipedia.org/wiki/Taylor_series):
 
 $$
-T(x) = f(\hat{x}) + \frac{df}{dx}(\hat{x}x)(x-\hat{x})
+T(x) = f(\hat{x}) + \frac{df}{dx}(\hat{x})(x-\hat{x})
 $$
 
 where $$\hat{x}$$ is the query point at which the tangent line is to be approximated. For our problem, the linearization of our function at $$x = 2$$ would be:
@@ -252,7 +252,7 @@ Read Roger Labbe's [_Kalman and Bayesian Filters in Python_ Chapter 11](https://
 * Do a close reading of the robot localization problem (you may have to go to the [unscented Kalman filter chapter](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/10-Unscented-Kalman-Filter.ipynb) to read about the derivation of the motion model for this problem). 
   * Explain how the control inputs in this problem are incorporated into the Kalman filter prediction step.
   * Summarize the model for this problem (state, actions, measurements and choices for noise covariances).
-  * Describe implementation considerations made to translate the EKF math into a computable set of functions. A few I'd like you to investigate: how is the heading for the robot handled? What does the \@ symbol do? How is the Jacobian computed? 
+  * Describe implementation considerations made to translate the EKF math into a computable set of functions. A few I'd like you to investigate: how is the heading for the robot handled? What does the @ symbol do? How is the Jacobian computed? 
   * What do the plots demonstrate about the Kalman Filter performance?
   * What are some potential weaknesses or sensitivities of this filter? Under what conditions might this filter _diverge_?
 
