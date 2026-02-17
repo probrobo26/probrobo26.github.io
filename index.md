@@ -82,7 +82,7 @@ Note: Subject to change as the semester unfolds!
 * [Day 5: Bayesian Prediction, Smoothing, and Filtering](in-class/day05)
 * [Day 6: Kalman Filtering I: Overview and Intuition](in-class/day06) 
 * [Day 7: Kalman Filtering II: Linearization and the Extended Kalman Filter](in-class/day07)
-* [Day 8: Kalman Filtering III: Extensions](in-class/day08)
+* [Day 8: Kalman Filtering III: Extensions and Re-Cap](in-class/day08)
 * [Day 9: SLAM I: Overview and Intuition](in-class/day09)
 * [Day 10: Deep Dive 1 // SLAM II: Probabilistic Optimization](in-class/day10)
 * [Day 11: Deep Dive 1 // SLAM III: Extensions and Modern Approaches](in-class/day11)
