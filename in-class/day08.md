@@ -53,9 +53,14 @@ We have been focused the last several weeks on understanding Bayesian Estimation
 Today, we'll be taking some time to review and reinforce these concepts before we start in on our culminating topic in this module: simultaneous localization and mapping (SLAM). In the rest of this section there are exercises designed to review the course material. See the _Day Activity_ section for specific instructions.
 
 ### Exercise: Concept Mapping
-Pair up with one or two other students in the class. Using the list of provided terminology, as well as notes from the last seven classes and days activities, generate a concept map that demonstrates the relationships between ideas in the class, and highlights key takeaways / lessons learned. Your concept map can be in any format - virtual, on the whiteboard, with words, with visuals, mixed media - but does need to be recorded in some way to be submitted. As you are conducting this activity, make note of any areas that you feel strong in, areas that might need more practice, or areas where they are remaining questions. Capture your questions in your concept map with annotations, and consider using these questions as a guide for selecting further practice problems to work through.
+Pair up with one or two other students in the class. Using the list of provided terminology, as well as notes from the last seven classes and days activities, generate a concept map that demonstrates the relationships between ideas in the class, and highlights key takeaways / lessons learned. Your concept map can be sweeping of all the material we've covered, or zoom in on a particular concept/set of concepts. Some guiding questions for your concept map could be:
+* How do you recognize when a problem could be formulated as a Bayesian estimation problem?
+* What is the mapping between a discrete Bayes filter and a continuous Kalman filter?
+* What key assumptions have we discussed, and how are they incorporated into our Bayesian estimation formulation?
 
-### Exercise: Warehouse Wanderer
+Your concept map can be in any format - virtual, on the whiteboard, with words, with visuals, mixed media - but does need to be recorded in some way to be submitted. As you are conducting this activity, make note of any areas that you feel strong in, areas that might need more practice, or areas where they are remaining questions. Capture your questions in your concept map with annotations, and consider using these questions as a guide for selecting further practice problems to work through.
+
+### Exercise: Warehouse Wanderer (Rote Practice)
 A warehouse robot is navigating the building when suddenly the lights go out. When the lights come back on, the robot needs to re-localize itself in the warehouse using only its own local visual measurements and actions. Our robot has the following sensor model:
 
 | | | | | | | 
@@ -85,11 +90,19 @@ Our robot thinks that before the lights went off, it was in _Aisle 3_ with a pro
 
 The robot then proceeds to take 10 actions, observing the following sequence: {_Aisle 4_, _Aisle 4_, _Aisle 5_, _Aisle 4_, _Aisle 4_, _Aisle 3_, _Aisle 2_, _Aisle 1_, _Aisle 1_, _Aisle 2_}. 
 
-As the robot is taking its actions, what does it believe its sequence of aisles to be? After it completes all of its actions, what does it believe its most likely trajectory to be? How devastating is the power outage to your robot's performance? (Note: Make sure to check the matrix orientation before you start doing any computation!)
+**As the robot is taking its actions, what does it believe its sequence of aisles to be? After it completes all of its actions, what does it believe its most likely trajectory to be? How devastating is the power outage to your robot's performance?**
+
+To answer these questions, you might consider using the following strategy:
+* Identify the state, action, and sense spaces
+* Formulate the prior over the state space
+* Formulate the _prediction_ matrix (or transition matrix)
+* Formulate the _update_ matrix (or measurement matrix)
+* Determine whether to use Smoothing or Filtering for a particular question; set up the appropriate recursive formula and bookkeeping
 
 
-### Exercise: The Wumpus World
-[This problem is inspired by the Wumpus World in _Artificial Intelligence: A Modern Approach_]
+### Exercise: The Wumpus World (Deep Thinking Problem)
+[This problem is inspired by the Wumpus World in _Artificial Intelligence: A Modern Approach_. It is not intended that you "solve" the Wumpus World problem, but instead use it as a grounded example to examine the ideas and formulas of state estimation.]
+
 Imagine a robot tasked with exploring a subterranean (cave) complex, which consists of several caverns connected by natural passages. These caves hold several dangers: there is one large Wumpus monster and several bottomless puts. There is one cavern however that holds a scientific discovery that will change _everything_. 
 
 We can frame the exploration task for our robot as a game, where the robot collects +1000 points for finding the scientifically valuable cavern and retrieving the science sample, -1000 points for getting eaten by the Wumpus or falling into a pit, -10 points for using a Wumpus stun gun, and -1 point for every action the robot takes. 
@@ -103,14 +116,15 @@ Our robot is initialized at (1,1) facing directly right, and it senses nothing. 
 * What is the probability that any of (1,3), (2,2), and (3,1) contain a pit?
 * Which is the best action the robot should select at the next time step?
 
-Populate your own Wumpus world based on the rules described here, and play a few steps of your game. Consider the following:
-* What variables are you tracking through the game? 
+Populate your own Wumpus world based on the rules described here, and play a few steps of your game assuming the robot acts as a _probabilistic agent_. Consider the following:
+* Define the state-action-sense elements of this game. What variables are you tracking through the game? 
+* What are the sources of uncertainty in this game? How can uncertainty be reduced?
 * Are there "unwinnable" Wumpus worlds that can be created with this rule set? Would it be possible for a robot to know whether it is in an "unwinnable" or "winnable" world?
-* If you were programming a robot to do this "for real" would you use a purely Bayesian approach to set the robot's actions, or would you use some other technique? Describe your ideal probabilistic-hybrid agent to play this game.
+* If you were programming a robot to do this for real, would you use a purely Bayesian approach to set the robot's actions, or would you use some other technique? Describe your ideal probabilistic-hybrid agent to play this game.
 
 
 ### Exercise: The Runaway Neato (Implementation Problem)
-A Neato is on the loose in the MAC, and we need to estimate where it has gone! We will make a very simple assumption that we can represent our world as a 1D system. We will set up a simple simulation of this world, where the robot's pose is controlled by its velocity and process noise, and noisy observations of this pose can be directly observed.
+A Neato is on the loose in the MAC, and we need to estimate where it has gone! We will make a very simple assumption that we can represent our world as a 1D system. We will set up a simple simulation of this world, where the robot's pose is controlled by its velocity and process noise, and noisy observations of this pose can be directly observed:
 
 ```python
 def simulate_realworld_neato(sensor_var, process_var, vel=1.0, step=1, dt=1.):
@@ -150,13 +164,15 @@ We will define the state vector of our Neato as $$\textbf{x} = [x, \dot{x}]^T$$,
 * The Measurement Matrix ($$H$$)
 * The Measurement Noise ($$R$$)
 
+Once you've set all your definitions, implement a simple Kalman Filter (note: would you elect to use a linear Kalman filter or Extended Kalman filter for this problem? Why or why not?). Remember, you will need to write a _prediction_ function and an _update_ function, then wrap the steps of your Kalman filter into a loop which draws new observations and actions of the Neato over time.
+
 Once you are happy with your implementation, consider the following:
 * How does the process covariance change with each iteration of the filter? What would the off-diagonal values indicate?
 * What impact does $$R$$ have on the quality of the Neato position estimate? What about $$Q$$? 
 * If you were to add a noisy measurement of velocity at each timestep, what would need to be redefined about your model? How different would you expect the filter performance to be?
 
 
-### Exercise: Robots in the Wild
+### Exercise: Robots in the Wild (Professional Skills Problem)
 In this exercise, I would like you to pick one of the following (or find your own!) academic papers utilizing an EKF in a robotic system:
 * [Extended Kalman Filter Based Mobile Robot Localization in Indoor Fire Environments](https://www.researchgate.net/profile/Jong-Hwan-Kim/publication/289519889_Extended_Kalman_Filter_Based_Mobile_Robot_Localization_in_Indoor_Fire_Environments/links/568e0d7c08aef987e5661fc6/Extended-Kalman-Filter-Based-Mobile-Robot-Localization-in-Indoor-Fire-Environments.pdf)
 * [Contact-Aided Invariant Extended Kalman Filtering for Robot State Estimation](https://arxiv.org/pdf/1904.09251)
@@ -168,7 +184,8 @@ Consider the following questions:
 * Take a shot at summarizing the components of the EKF that was implemented; you can do this in words or by providing and discussing the exact functions/matrices. 
     * What aspects of the model were linear or nonlinear?
     * Are there any _hidden_ variables in the state to estimate?
-* How did the authors evaluate their EKF implementation?
+    * Do your number of states match the number of observations that are possible? Discuss the dimensionality of the model.
+* How did the authors evaluate their EKF implementation? Describe their experimental set-ups and evaluation metrics.
 * Do you agree with the conclusions that the authors drew about the efficacy of their state estimation framework? What critiques do you have on their method?
 
 
