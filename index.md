@@ -24,7 +24,7 @@ feature_row_robot_localization:
     ### Core Activities\n
     * Filtering, Kalman Filtering, and Localization\n
     * SLAM (EKF-SLAM, Pose-Graph SLAM) and Optimization\n
-    * [Deep Dive on a topic of choice](projects/deepdive_1.md)\n"
+    * [Deep Dive on a topic of choice](projects/deepdive_1)\n"
 
 feature_row_robot_planning:
   - image_path: website_graphics/final_projects_collage_2024.png
