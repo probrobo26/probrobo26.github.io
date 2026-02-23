@@ -31,6 +31,7 @@ toc_data:
 _Simultaneous Localization and Mapping_ or SLAM is perhaps one of the most quintessential family of algorithms used in modern robotics today. SLAM answers the question: _where is the robot within a particular environment?_ The hard part -- we don't necessarily start with any prior information about the particular environment that we want to localize our robot into. Thus, we must _estimate our world state as well as our robot state at the same time_.
 
 Note how this is different from the state estimation (localization) questions we've been answering so far:
+
 | Filtering Techniques | SLAM | 
 | --- | --- | 
 | Assume we know the starting location of the robot | Starting location within a particular environment is unknown | 
@@ -223,7 +224,10 @@ $$
 Thus, at the end of the prediction step we would have:
 
 $$
-\hat{\mathcal{X}_t} = \mathcal{X}_{t-1} + F^T\begin{bmatrix}-\frac{v_t}{\omega_t}\sin\theta + \frac{v_t}{\omega_t}\sin(\theta+\omega_t \Delta t) \\ \frac{v_t}{\omega_t}\cos\theta - \frac{v_t}{\omega_t}\cos(\theta+\omega_t \Delta t) \\ \omega_t \Delta t \end{bmatrix} \\
+\hat{\mathcal{X}_t} = \mathcal{X}_{t-1} + F^T\begin{bmatrix}-\frac{v_t}{\omega_t}\sin\theta + \frac{v_t}{\omega_t}\sin(\theta+\omega_t \Delta t) \\ \frac{v_t}{\omega_t}\cos\theta - \frac{v_t}{\omega_t}\cos(\theta+\omega_t \Delta t) \\ \omega_t \Delta t \end{bmatrix} 
+$$
+
+$$
 \hat{P_t} = G_t P_{t-1} G_t^T + F^TQ_tF
 $$
 
@@ -243,7 +247,10 @@ During the update step, we want to update our estimate of where the each landmar
 Let's revisit our steering robot, which is equipped with a range and bearing sensor. Any observation of a landmark can be modeled as:
 
 $$
-z_t^i = \begin{bmatrix} \sqrt{(m_{j,x} - x)^2 + (m_{j,y} - y)^2} \\ \text{atan2}(m_{j,y} - y, m_{j,x} - x) - \theta \\
+z_t^i = \begin{bmatrix} \sqrt{(m_{j,x} - x)^2 + (m_{j,y} - y)^2} \\ \text{atan2}(m_{j,y} - y, m_{j,x} - x) - \theta
+$$
+
+$$
 m_{j,s} \end{bmatrix} + R_t
 $$
 
@@ -254,7 +261,10 @@ Given some particular landmark, we can linearize the measurement function as $$h
 where
 
 $$
-q_t = (m_{j,x} - x_t)^2 + (m_{j,y} - y_t)^2 \\
+q_t = (m_{j,x} - x_t)^2 + (m_{j,y} - y_t)^2 
+$$
+
+$$
 h_t^i = \begin{bmatrix}\frac{\partial h_1}{\partial x} & \frac{\partial h_1}{\partial y} & \frac{\partial h_1}{\partial \theta} & \frac{\partial h_1}{\partial m_{j,x}} & \frac{\partial h_1}{\partial m_{j,y}} & \frac{\partial h_1}{\partial m_{j,s}} \\ \frac{\partial h_2}{\partial x} & \frac{\partial h_2}{\partial y} & \frac{\partial h_2}{\partial \theta} & \frac{\partial h_2}{\partial m_{j,x}} & \frac{\partial h_2}{\partial m_{j,y}} & \frac{\partial h_2}{\partial m_{j,s}} \\ \frac{\partial h_3}{\partial x} & \frac{\partial h_3}{\partial y} & \frac{\partial h_3}{\partial \theta} & \frac{\partial h_3}{\partial m_{j,x}} & \frac{\partial h_3}{\partial m_{j,y}} & \frac{\partial h_3}{\partial m_{j,s}} \end{bmatrix} = 
 \begin{bmatrix} \frac{x_t - m_{j,x}}{\sqrt{q_t}} & \frac{y_t - m_{j,y}}{\sqrt{q_t}} & 0 & \frac{m_{j,x} - x_t}{\sqrt{q_t}} & \frac{m_{j,y} - y_t}{\sqrt{q_t}} & 0 \\ \frac{m_{j,y} - y_t}{q_t} & \frac{x_t - m_{j,x}}{q_t} & -1 & \frac{y_t - m_{j,y}}{q_t} & \frac{m_{j,x} - x_t}{q_t} & 0 \\ 0 & 0 & 0 & 0 & 0 & 1\end{bmatrix}
 $$
