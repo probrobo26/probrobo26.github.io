@@ -145,6 +145,13 @@ There are many flavors of SLAM algorithm; in class, we're going to go in-depth i
 ## EKF-SLAM
 One of the original variants of a SLAM algorithm is EKF-SLAM, which borrows heavily from EKF for localization framework. Today, we'll walk through the mathematical derivation, and next time we will implement our own version.
 
+The gist of EKF-SLAM is that we will iteratively estimate the robot's location and the location of landmarks simultaneously. We can represent the landmarks as additional states in our transition and measurement matrices which define the transformations between states and observations, respectively. The output will look something similar to what this cartoon depicts:
+
+<p align="center">
+<img alt="Cartoon representation of EKF-SLAM." src="../website_graphics/ekf_slam_cartoon.png"/>
+</p>
+
+
 ### Assumptions
 In EKF-SLAM there are three key assumptions:
 * Noise is Gaussian (just like in the EKF localization problem)
