@@ -24,7 +24,7 @@ feature_row_robot_localization:
     ### Core Activities\n
     * Filtering, Kalman Filtering, and Localization\n
     * SLAM (EKF-SLAM, Pose-Graph SLAM) and Optimization\n
-    * Deep Dive on a topic of choice\n"
+    * [Deep Dive on a topic of choice](projects/deepdive_1.md)\n"
 
 feature_row_robot_planning:
   - image_path: website_graphics/final_projects_collage_2024.png
@@ -87,23 +87,23 @@ Note: Subject to change as the semester unfolds!
 * [Day 10: Deep Dive 1 // SLAM II: Probabilistic Optimization](in-class/day10)
 * [Day 11: Deep Dive 1 // SLAM III: Extensions and Modern Approaches](in-class/day11)
 * [Day 12: Deep Dive 1 // Theory, Practicalities, and Implications](in-class/day12)
-* [Day 13: Deep Dive 1 Share-Outs](in-class/day13)
+* [Day 13: Deep Dive 1 Working Day](in-class/day13)
+* [Day 14: Deep Dive 1 Share-Outs](in-class/day14)
 
 ### Planning Under Uncertainty (Decision Processes and Beliefs)
-* [Day 14: Decision-Making Processes and Formalism](in-class/day14)
-* [Day 15: Markov Decision Processes and Value Iteration](in-class/day15)
-* [Day 16: Partially-Observable Markov Decision Processes and Policy Iteration](in-class/day16)
-* [Day 17: Planning Under Uncertainty I: Belief Spaces](in-class/day17)
-* [Day 18: Planning Under Uncertainty II: Search Methods](in-class/day18)
-* [Day 19: Deep Dive 2 // Planning Under Uncertainty III: Information-Theoretic Heuristics](in-class/day19)
-* [Day 20: Deep Dive 2 // Planning Under Uncertainty IV: Extensions and Modern Approaches](in-class/day20)
-* [Day 21: Deep Dive 2 // Theory, Practicalities, and Implications](in-class/day21)
-* [Day 22: Deep Dive 2 Share-Outs](in-class/day22)
+* [Day 15: Decision-Making Processes and Formalism](in-class/day15)
+* [Day 16: Markov Decision Processes and Value Iteration](in-class/day16)
+* [Day 17: Partially-Observable Markov Decision Processes and Policy Iteration](in-class/day17)
+* [Day 18: Planning Under Uncertainty I: Belief Spaces](in-class/day18)
+* [Day 19: Planning Under Uncertainty II: Search Methods](in-class/day19)
+* [Day 20: Deep Dive 2 // Planning Under Uncertainty III: Information-Theoretic Heuristics](in-class/day20)
+* [Day 21: Deep Dive 2 // Planning Under Uncertainty IV: Extensions and Modern Approaches](in-class/day21)
+* [Day 22: Deep Dive 2 // Theory, Practicalities, and Implications](in-class/day22)
+* [Day 23: Deep Dive 2 Share-Outs](in-class/day23)
 
 ### Defining Intelligent Robots and Examining Implications
-* [Day 23: Intelligent Robots and Embodied Intelligence: What, Why, How](in-class/day23)
-* [Day 24: Markets and Research for Intelligent Robots](in-class/day24)
-* [Day 25: A Conceptual Roadmap for Probabilistic Robotics](in-class/day25)
-* [Day 26: Final Class: Summary, Implications, and Reflection](in-class/day26)
+* [Day 24: Intelligent Robots and Embodied Intelligence: What, Why, How](in-class/day24)
+* [Day 25: Markets and Research for Intelligent Robots](in-class/day25)
+* [Day 26: Final Class: A Conceptual Roadmap for Probabilistic Robotics](in-class/day26)
 
 
