@@ -201,7 +201,7 @@ During the update step, we want to update our estimate of where the each landmar
 6. Update the state vector.
 7. Update the state covariance.
 
-In practice, at a single timestep multiple landmarks may be observed. This set of steps can be modified to find the "most informative" landmark (smallest residual) and use that detection only to estiamte the world and robot states, or each detection can be looped through to provide a refined estimate. 
+In practice, at a single timestep multiple landmarks may be observed. The update step will iterate through each observation to compute a new innovation, gain, state vector, and state covariance. The output of the update step is the final integration of all of the observations.
 
 
 ### Example Problem: Steering Robot with a Landmark Detector
@@ -323,13 +323,17 @@ $$
 K_t^i = \hat{P}_t [H_t^i]^T [S_t^i]^{-1}
 $$
 
+**This is done, iterating through every observation with intermediate update steps (in the initial step the prediction estimate is used):** 
+
 $$
-\mathcal{X}_t = \hat{\mathcal{X}_t} + K_t^i(z_t^i - h(\hat{\mathcal{X}}_t, j))
+\tilde{\mathcal{X}_t} = \tilde{\mathcal{X}_t} + K_t^i(z_t^i - h(\tilde{\mathcal{X}}_t, j))
 $$
 
 $$
-P_t = (I - K_t^iH_t^i)\hat{P}_t
+\tilde{P_t} = (I - K_t^iH_t^i)\tilde{P}_t
 $$
+
+**until the final observation is incorporated, and $$\mathcal{X}_t = \tilde{\mathcal{X}_t}$$ and $$P_t = \tilde{P_t}$$.**
 
 ---
 
