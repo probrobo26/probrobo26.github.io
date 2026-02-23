@@ -25,7 +25,7 @@ toc_data:
 ## For Next Time
 * Week 5 Day Activities (Today at 7PM) [Canvas Submission](https://canvas.olin.edu/courses/1002/assignments/18480)
 * State Estimation Simulation Assignment (Today at 7PM) [Canvas Submission](https://canvas.olin.edu/courses/1002/assignments/18433)
-* [Deep Dive Project Proposals](./projects/deepdive_1.md) (Thursday at 1PM) [Canvas Submission](https://canvas.olin.edu/courses/1002/assignments/17540)
+* [Deep Dive Project Proposals](../projects/deepdive_1.md) (Thursday at 1PM) [Canvas Submission](https://canvas.olin.edu/courses/1002/assignments/17540)
 
 ## Simultaneous Localization and Mapping
 _Simultaneous Localization and Mapping_ or SLAM is perhaps one of the most quintessential family of algorithms used in modern robotics today. SLAM answers the question: _where is the robot within a particular environment?_ The hard part -- we don't necessarily start with any prior information about the particular environment that we want to localize our robot into. Thus, we must _estimate our world state as well as our robot state at the same time_.
@@ -316,4 +316,4 @@ If you'd like to get more depth in Mapping or SLAM as a whole, the following are
 
 
 ## Deep Dive Project Kick-Off
-Today we are kicking off the deep dive projects for the State Estimation unit. This is an opportunity for you to dig deep into a topic of your own interest and share it with the class. Details about the project can be found on the [project description page](./projects/deepdive_1.md). We'll use the remainder of our time in class today to brainstorm topics and start developing project proposals, which will be due by next class for review.
+Today we are kicking off the deep dive projects for the State Estimation unit. This is an opportunity for you to dig deep into a topic of your own interest and share it with the class. Details about the project can be found on the [project description page](../projects/deepdive_1.md). We'll use the remainder of our time in class today to brainstorm topics and start developing project proposals, which will be due by next class for review.
