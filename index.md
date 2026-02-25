@@ -84,7 +84,7 @@ Note: Subject to change as the semester unfolds!
 * [Day 7: Kalman Filtering II: Linearization and the Extended Kalman Filter](in-class/day07)
 * [Day 8: Kalman Filtering III: Extensions and Re-Cap](in-class/day08)
 * [Day 9: SLAM I: Overview and Intuition](in-class/day09)
-* [Day 10: Deep Dive 1 // SLAM II: Probabilistic Optimization](in-class/day10)
+* [Day 10: Deep Dive 1 // SLAM II: Details and Implementation](in-class/day10)
 * [Day 11: Deep Dive 1 // SLAM III: Extensions and Modern Approaches](in-class/day11)
 * [Day 12: Deep Dive 1 // Theory, Practicalities, and Implications](in-class/day12)
 * [Day 13: Deep Dive 1 Working Day](in-class/day13)
