@@ -89,21 +89,21 @@ Note: Subject to change as the semester unfolds!
 * [Day 12: Deep Dive 1 // Theory, Practicalities, and Implications](in-class/day12)
 * [Day 13: Deep Dive 1 Working Day](in-class/day13)
 * [Day 14: Deep Dive 1 Share-Outs](in-class/day14)
+* [Day 15: Deep Dive 1 Share-Outs](in-class/day15)
 
 ### Planning Under Uncertainty (Decision Processes and Beliefs)
-* [Day 15: Decision-Making Processes and Formalism](in-class/day15)
-* [Day 16: Markov Decision Processes and Value Iteration](in-class/day16)
-* [Day 17: Partially-Observable Markov Decision Processes and Policy Iteration](in-class/day17)
-* [Day 18: Planning Under Uncertainty I: Belief Spaces](in-class/day18)
-* [Day 19: Planning Under Uncertainty II: Search Methods](in-class/day19)
-* [Day 20: Deep Dive 2 // Planning Under Uncertainty III: Information-Theoretic Heuristics](in-class/day20)
-* [Day 21: Deep Dive 2 // Planning Under Uncertainty IV: Extensions and Modern Approaches](in-class/day21)
-* [Day 22: Deep Dive 2 // Theory, Practicalities, and Implications](in-class/day22)
-* [Day 23: Deep Dive 2 Share-Outs](in-class/day23)
+* [Day 16: Decision-Making Processes and Formalism](in-class/day16)
+* [Day 17: Markov Decision Processes and Value Iteration](in-class/day17)
+* [Day 18: Partially-Observable Markov Decision Processes and Policy Iteration](in-class/day18)
+* [Day 19: Planning Under Uncertainty I: Belief Spaces](in-class/day19)
+* [Day 20: Planning Under Uncertainty II: Search Methods](in-class/day20)
+* [Day 21: Deep Dive 2 // Planning Under Uncertainty III: Information-Theoretic Heuristics](in-class/day21)
+* [Day 22: Deep Dive 2 // Planning Under Uncertainty IV: Extensions and Modern Approaches](in-class/day22)
+* [Day 23: Deep Dive 2 // Theory, Practicalities, and Implications](in-class/day23)
+* [Day 24: Deep Dive 2 Share-Outs](in-class/day24)
 
 ### Defining Intelligent Robots and Examining Implications
-* [Day 24: Intelligent Robots and Embodied Intelligence: What, Why, How](in-class/day24)
-* [Day 25: Markets and Research for Intelligent Robots](in-class/day25)
+* [Day 25: Intelligent Robots and Embodied Intelligence: What, Why, How](in-class/day25)
 * [Day 26: Final Class: A Conceptual Roadmap for Probabilistic Robotics](in-class/day26)
 
 
