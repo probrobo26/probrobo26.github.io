@@ -11,7 +11,7 @@ toc_data:
 ---
 
 ## Today
-* Deep Dive: Presentations
+* Deep Dive: Worktime
 
 
 ## For Next Time
@@ -20,5 +20,5 @@ toc_data:
     * Written Materials Due Friday [Canvas Submission](https://canvas.olin.edu/courses/1002/assignments/18513)
 
 
-## Round 1 of Deep Dive Presentations
-Today we'll hear from folks in class about their projects! Please [fill in this form](TODO) for each presentation you engage with. Feedback will be provided to each presenter at the end of the day.
+## Deep Dive Project Worktime
+The class is yours to co-work and get support with your materials!

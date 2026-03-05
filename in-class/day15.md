@@ -20,5 +20,5 @@ toc_data:
     * Written Materials Due Friday [Canvas Submission](https://canvas.olin.edu/courses/1002/assignments/18513)
 
 
-## Round 2 of Deep Dive Presentations
+## Deep Dive Presentations
 Today we'll hear from folks in class about their projects! Please [fill in this form](TODO) for each presentation you engage with. Feedback will be provided to each presenter at the end of the day.
