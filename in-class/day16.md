@@ -65,10 +65,10 @@ Using the maps in front of you, you can simulate this scenario using the followi
 </p>
 
 **Exercise**: Play through this simulated scenario with a partner. Take note of the strategy that you adopt. 
-    * What _heuristics_ did you use to choose where to sample next?
-    * How did you leverage your observations and prior knowledge?
-    * When did you know that you knew enough to be confident where the maximum was?
-    * How was this similar or different from what other groups chose to do?
+* What _heuristics_ did you use to choose where to sample next?
+* How did you leverage your observations and prior knowledge?
+* When did you know that you knew enough to be confident where the maximum was?
+* How was this similar or different from what other groups chose to do?
 
 
 ## The Definition of a Decision Process
