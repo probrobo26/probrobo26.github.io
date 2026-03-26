@@ -25,7 +25,7 @@ Last time we introduced the paradigm of a Markov Decision Process (MDP), which i
 
 As a part of this definition, we define a reward function (or equivalently, a cost function), which embeds the robot task. Ultimately, we would like to select a series of actions that collect the most reward (or incur the least cost), _even when action-effect stochasticity is considered_. 
 
-Today, we'll learn a foundational algorithm for solving MDPs (u.e., finding a control policy) called _value iteration_. This is just one in a whole family of algorithms we will explore in this unit.
+Today, we'll learn a foundational algorithm for solving MDPs (i.e., finding a control policy) called _value iteration_. This is just one in a whole family of algorithms we will explore in this unit.
 
 ## Value Iteration
 Value iteration is a method for maximizing the "payoff" of a control policy that a robot executes according to some goal and cost (the reward function). 
@@ -78,7 +78,7 @@ An optimal control policy will effectively balance payoffs with costs for a give
 Let's first consider a greedy (one-step) optimal policy:
 
 $$
-\pi_1(x) = \argmax_u r(x,u)
+\pi_1(x) = \arg\max_u r(x,u)
 $$
 
 Quite simply, the best action to take is the one that will maximize the immediate reward that can be collected. We can define the _value_ of this policy as:
@@ -92,7 +92,7 @@ That is, the value is the expected immediate discounted reward.
 Now, we consider what it would mean to have a two-step planning horizon. In this scenario, the optimal policy should maximize the sum of both of these steps:
 
 $$
-\pi_2(x) = \argmax_u \Bigl[r(x,u) + \int V_1(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
+\pi_2(x) = \arg\max_u \Bigl[r(x,u) + \int V_1(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
 where the value of this policy is:
@@ -104,7 +104,7 @@ $$
 On inspection, we see that this is a recursive calculation: the two-step value is the immediate payoff of taking an action summed with the value of all possible next actions. With this form, we can consider the finite horizon case:
 
 $$
-\pi_T(x) = \argmax_u \Bigl[r(x,u) + \int V_{T-1}(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
+\pi_T(x) = \arg\max_u \Bigl[r(x,u) + \int V_{T-1}(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
 where the value of this policy is:
@@ -125,7 +125,7 @@ $$
 V_\infty(x) = \gamma \max_u \Bigl[r(x,u) + \int V_\infty(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
-This recursive computation of the value function and policy is known as the _Bellman equation_ (or equivalently, the _Bellman backup equation_). The intuition here is that for any given reward distribution, we can recursively "work backwards" from payoffs over a state and action space to assign a lifetime expected "value" of being in any one particular state and taking actions from there. The optimal policy will be the series of actions from any state that maximizes cumulative rewards.
+This recursive computation of the value function and policy is known as the _Bellman equation_ (or equivalently, the _Bellman backup equation_). The intuition here is that for any given reward distribution, we can recursively "work backwards" from payoffs over a state and action space to assign a lifetime expected value of being in any one particular state and taking actions from there. The optimal policy will be the series of actions from any state that maximizes cumulative rewards.
 
 
 ### Practical Algorithms
@@ -138,7 +138,7 @@ $$
 and then the optimal policy is selected:
 
 $$
-\pi(x) = \argmax_u \Bigl[r(x,u) + \int \hat{V}(x')\mathcal{P}(x' \vert u,x) dx'\Bigr]
+\pi(x) = \arg\max_u \Bigl[r(x,u) + \int \hat{V}(x')\mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
 In plain pseudocode, value iteration follows:
@@ -357,6 +357,10 @@ if __name__ == "__main__":
 </p>
 
 
+## Today's So What
+While fully-observable systems are not necessarily common in natural environments, MDPs and value iteration can well-describe constrained and controlled environments (e.g., warehouses, manufacturing lines, etc.) and can be used to great effect in these environments when robots don't always perform perfectly. 
+
+Importantly, value iteration is a way of taking what is otherwise a _sparse_ reward structure, and creating a reward distribution that can enable a robot to take strategic actions (even when it is functionally very far away from a goal). This idea -- of taking a sparse signal and transforming it into a more continuous signal -- is going to be a theme as we move into harder domains for planning: namely when we also add partial observability into the mix.
 
 
 ## Going Further
