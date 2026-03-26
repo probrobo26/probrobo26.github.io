@@ -92,37 +92,37 @@ That is, the value is the expected immediate discounted reward.
 Now, we consider what it would mean to have a two-step planning horizon. In this scenario, the optimal policy should maximize the sum of both of these steps:
 
 $$
-\pi_2(x) = \arg\max_u \Bigl[r(x,u) + \int V_1(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
+\pi_2(x) = \arg\max_u \Bigl[r(x,u) + \int V_1(x') \mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
 where the value of this policy is:
 
 $$
-V_2(x) = \gamma \max_u \Bigl[r(x,u) + \int V_1(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
+V_2(x) = \gamma \max_u \Bigl[r(x,u) + \int V_1(x') \mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
 On inspection, we see that this is a recursive calculation: the two-step value is the immediate payoff of taking an action summed with the value of all possible next actions. With this form, we can consider the finite horizon case:
 
 $$
-\pi_T(x) = \arg\max_u \Bigl[r(x,u) + \int V_{T-1}(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
+\pi_T(x) = \arg\max_u \Bigl[r(x,u) + \int V_{T-1}(x') \mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
 where the value of this policy is:
 
 $$
-V_T(x) = \gamma \max_u \Bigl[r(x,u) + \int V_{T-1}(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
+V_T(x) = \gamma \max_u \Bigl[r(x,u) + \int V_{T-1}(x') \mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
 And for the infinite case:
 
 $$
-\pi_\infty(x) = \arg\max_u \Bigl[r(x,u) + \int V_\infty(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
+\pi_\infty(x) = \arg\max_u \Bigl[r(x,u) + \int V_\infty(x') \mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
 where the value of this policy is:
 
 $$
-V_\infty(x) = \gamma \max_u \Bigl[r(x,u) + \int V_\infty(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
+V_\infty(x) = \gamma \max_u \Bigl[r(x,u) + \int V_\infty(x') \mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
 This recursive computation of the value function and policy is known as the _Bellman equation_ (or equivalently, the _Bellman backup equation_). The intuition here is that for any given reward distribution, we can recursively "work backwards" from payoffs over a state and action space to assign a lifetime expected value of being in any one particular state and taking actions from there. The optimal policy will be the series of actions from any state that maximizes cumulative rewards.
