@@ -116,7 +116,7 @@ $$
 And for the infinite case:
 
 $$
-\pi_\infty(x) = \argmax_u \Bigl[r(x,u) + \int V_\infty(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
+\pi_\infty(x) = \arg\max_u \Bigl[r(x,u) + \int V_\infty(x) \mathcal{P}(x' \vert u,x) dx'\Bigr]
 $$
 
 where the value of this policy is:
