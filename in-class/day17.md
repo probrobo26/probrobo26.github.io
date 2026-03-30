@@ -393,7 +393,7 @@ Consider the following grid-world:
 
 **Part 1: MDP Definition** Write out the MDP (4-tuple) that describes this grid-world scenario. You may select the initial payoff and cost amounts. Please also set an initial discount factor (you can choose!).
 
-**Part 2: Value Iteration** For the given grid-world and starting position of the robot, use value iteration to find the optimal policy with your starting discount factor. You can solve this by hand, or if you'd like, write a short script to solve the problem. If you would like to start with an initial code implementation, you might find today's notes a helpful place to start! What do you notice about the value distribution over the state space?
+**Part 2: Value Iteration** For the given grid-world, use value iteration to find the optimal policy with your starting discount factor. You can solve this by hand, or if you'd like, write a short script to solve the problem. If you would like to start with an initial code implementation, you might find today's notes a helpful place to start! What do you notice about the value distribution over the state space?
 
 **Part 3: Compute the Optimal Policy** For the value distribution you just found, find the optimal policy from each state. What do you notice about the optimal policy and the relationship to the value distribution?
 
