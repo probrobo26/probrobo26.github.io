@@ -151,6 +151,7 @@ $$
 $$
 
 where:
+
 $$
 \mathcal{S} \text{ are the states of the robot/environment}
 $$ 
