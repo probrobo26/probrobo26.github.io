@@ -30,7 +30,7 @@ In class on Thursday 4/16, the teaching team will briefly check-in with you to d
 ### In-Class Presentation / Demo (Due Thursday 4/23 at 1PM)
 We will be sharing our work with one another in-class on Thursday 4/23. Participation is required; if you anticipate being absent on this day, please inform the teaching team as soon as possible to work out an alternate schedule with you.
 
-Each person will have 12 minutes to present their project in a format that they choose (discussion, lecture, teaching activity, demonstration, technical presentation, etc.). There will then be 3 minutes for audience Q&A, followed by 3 minutes of transition period in which the next presenter will set-up and audience members will complete a feedback survey for the previous presenter.
+We will be presenting posters in two rounds; one half-hour open with the public, and another half-hour with just the members of the class (to see one another's work). Feedback forms will be made available to the public participants to fill in, and a separate set of feedback forms internal to the class will also be provided. Please plan to print and bring your poster to class; materials for mounting posters (magnets for the whiteboards) will be provided.
 
 Presentation materials can be submitted [to Canvas](https://canvas.olin.edu/courses/1002/assignments/18650) as a record for your in-class participation. Feedback survey results will be made available to presenters immediately after class.
 
@@ -67,13 +67,13 @@ For this deep dive, you should feel like you have some creative freedom to pursu
 * ...your ideas here!
 
 ### Possible Modalities
-Your artifact can take any form, but do remember that you'll be presenting your deep dive in class at the end of this project. Some possible forms of your artifact could include: a mini-lecture, a technical presentation, a hands-on activity, a rapid paper reading, a discussion, a demonstration of something you implemented. Here are a few ideas to get you thinking about what you might like to create:
+While you are expected to make a poster to share your work, you are welcome to format this visual artifact in whatever ways suit your project, and you may also being other artifacts of your learning to the demonstration day. In preparation for your poster presentations, here are a few ideas to get you thinking about what you might like to create to share:
 * Expanding the simulator assignment by implementing the optional exercises
-* Designing a teach-in that allows for interactive learning about information measures
-* Testing a series of modern approximate solvers in a simple toy world
+* Designing a poster that act as a mini "teach-in" that allows for interactive learning about information measures
+* Testing a series of modern approximate solvers in a simple toy world and dissecting the results
 * Building on your Deep Dive 1 project
-* Writing a brief synthesis paper on the use of POMDPs outside of mobile robotics
-* Developing a mini-lecture on a POMDP that you design 
+* Summarizing the use of POMDPs outside of mobile robotics
+* Proposing and presenting your own POMDP that you design 
 * ...your ideas here!
 
 
