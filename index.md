@@ -98,8 +98,8 @@ Note: Subject to change as the semester unfolds!
 * [Day 19: Planning Under Uncertainty I: Belief Spaces](in-class/day19)
 * [Day 20: Planning Under Uncertainty II: Information-Theoretic Heuristics](in-class/day20)
 * [Day 21: Deep Dive 2 // Planning Under Uncertainty III: Search and Planning](in-class/day21)
-* [Day 22: Deep Dive 2 // Planning Under Uncertainty IV: Extensions and Modern Approaches](in-class/day22)
-* [Day 23: Deep Dive 2 // Theory, Practicalities, and Implications](in-class/day23)
+* [Day 22: Deep Dive 2 // Planning Under Uncertainty IV: Reflection](in-class/day22)
+* [Day 23: Deep Dive 2 Working Session](in-class/day23)
 * [Day 24: Deep Dive 2 Share-Outs](in-class/day24)
 
 ### Defining Intelligent Robots and Examining Implications
