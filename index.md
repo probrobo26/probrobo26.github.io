@@ -104,6 +104,6 @@ Note: Subject to change as the semester unfolds!
 
 ### Defining Intelligent Robots and Examining Implications
 * [Day 25: Intelligent Robots and Embodied Intelligence: What, Why, How](in-class/day25)
-* [Day 26: Final Class: A Conceptual Roadmap for Probabilistic Robotics](in-class/day26)
+* [Day 26: Final Class: Probabilistic Robotics](in-class/day26)
 
 
